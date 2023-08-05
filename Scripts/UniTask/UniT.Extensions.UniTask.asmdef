@@ -1,0 +1,13 @@
+{
+  "name": "UniT.Extensions.UniTask",
+  "references": [
+    "UniTask"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.cysharp.unitask",
+      "expression": "",
+      "define": "UNIT_EXTENSIONS_UNITASK"
+    }
+  ]
+}

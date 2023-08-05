@@ -1,0 +1,13 @@
+{
+  "name": "com.frostbun.unit.extensions",
+  "displayName": "UniT Extensions",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "unity": "2023.5",
+  "author": {
+    "name": "frostbun",
+    "email": "manhnb1911@gmail.com",
+    "url": "https://github.com/frostbun"
+  }
+}
