@@ -12,7 +12,7 @@ namespace UniT.Extensions
 
         public static Sprite CreateSprite(this Texture2D texture, Vector2? pivot = null)
         {
-            return Sprite.Create(texture, new(0, 0, texture.width, texture.height), pivot ?? Vector2.zero);
+            return Sprite.Create(texture, new(0, 0, texture.width, texture.height), pivot ?? new(0.5f, 0.5f));
         }
     }
 }

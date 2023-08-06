@@ -14,16 +14,6 @@ namespace UniT.Extensions
             }
         }
 
-        public static (List<T>, List<T>) Split<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
-        {
-            return enumerable.Aggregate((new List<T>(), new List<T>()), (lists, item) =>
-            {
-                if (predicate(item)) lists.Item1.Add(item);
-                else lists.Item2.Add(item);
-                return lists;
-            });
-        }
-
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.OrderBy(_ => Guid.NewGuid());
@@ -71,6 +61,16 @@ namespace UniT.Extensions
                 if (index >= start && (index - start) % step == 0) yield return item;
                 ++index;
             }
+        }
+
+        public static (List<T>, List<T>) Split<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            return enumerable.Aggregate((new List<T>(), new List<T>()), (lists, item) =>
+            {
+                if (predicate(item)) lists.Item1.Add(item);
+                else lists.Item2.Add(item);
+                return lists;
+            });
         }
 
         public static T[,] To2DArray<T>(this T[][] source)

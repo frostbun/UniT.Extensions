@@ -1,5 +1,6 @@
 {
   "name": "UniT.Extensions.UniTask",
+  "rootNamespace": "UniT.Extensions",
   "references": [
     "UniTask"
   ],

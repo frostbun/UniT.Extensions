@@ -40,14 +40,17 @@ namespace UniT.Extensions
         public static IEnumerable<T[]> Zip<T>(params IEnumerable<T>[] enumerables)
         {
             var enumerators = enumerables.GetEnumerators();
-            var hasNexts    = enumerators.MoveNexts();
-            while (hasNexts.All(Item.IsTrue))
+            try
             {
-                yield return enumerators.GetCurrents();
-                hasNexts = enumerators.MoveNexts();
+                while (enumerators.MoveNexts().All(Item.IsTrue))
+                {
+                    yield return enumerators.GetCurrents();
+                }
             }
-
-            enumerators.Dispose();
+            finally
+            {
+                enumerators.Dispose();
+            }
         }
 
         public static IEnumerable<TResult> ZipLongest<TFirst, TSecond, TResult>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
@@ -58,7 +61,10 @@ namespace UniT.Extensions
             var       e2HasNext = e2.MoveNext();
             while (e1HasNext || e2HasNext)
             {
-                yield return resultSelector(GetCurrentOrDefault(e1, e1HasNext), GetCurrentOrDefault(e2, e2HasNext));
+                yield return resultSelector(
+                    GetCurrentOrDefault(e1, e1HasNext),
+                    GetCurrentOrDefault(e2, e2HasNext)
+                );
                 e1HasNext = e1.MoveNext();
                 e2HasNext = e2.MoveNext();
             }
@@ -74,7 +80,11 @@ namespace UniT.Extensions
             var       e3HasNext = e3.MoveNext();
             while (e1HasNext || e2HasNext || e3HasNext)
             {
-                yield return resultSelector(GetCurrentOrDefault(e1, e1HasNext), GetCurrentOrDefault(e2, e2HasNext), GetCurrentOrDefault(e3, e3HasNext));
+                yield return resultSelector(
+                    GetCurrentOrDefault(e1, e1HasNext),
+                    GetCurrentOrDefault(e2, e2HasNext),
+                    GetCurrentOrDefault(e3, e3HasNext)
+                );
                 e1HasNext = e1.MoveNext();
                 e2HasNext = e2.MoveNext();
                 e3HasNext = e3.MoveNext();
@@ -94,29 +104,19 @@ namespace UniT.Extensions
         public static IEnumerable<T[]> ZipLongest<T>(params IEnumerable<T>[] enumerables)
         {
             var enumerators = enumerables.GetEnumerators();
-            var hasNexts    = enumerators.MoveNexts();
-            while (hasNexts.Any(Item.IsTrue))
+            try
             {
-                yield return Zip(enumerators, hasNexts, GetCurrentOrDefault).ToArray();
-                hasNexts = enumerators.MoveNexts();
+                var hasNexts = enumerators.MoveNexts();
+                while (hasNexts.Any(Item.IsTrue))
+                {
+                    yield return Zip(enumerators, hasNexts, GetCurrentOrDefault).ToArray();
+                    hasNexts = enumerators.MoveNexts();
+                }
             }
-
-            enumerators.Dispose();
-        }
-
-        public static bool SequenceEqual<T>(IEnumerable<T> first, IEnumerable<T> second) where T : IEquatable<T>
-        {
-            return ZipLongest(first, second).Reverse().All((i1, i2) => i1.Equals(i2));
-        }
-
-        public static bool SequenceSmaller<T>(IEnumerable<T> first, IEnumerable<T> second) where T : IComparable<T>
-        {
-            return ZipLongest(first, second).Reverse().All((i1, i2) => i1.CompareTo(i2) < 0);
-        }
-
-        public static bool SequenceGreater<T>(IEnumerable<T> first, IEnumerable<T> second) where T : IComparable<T>
-        {
-            return ZipLongest(first, second).Reverse().All((i1, i2) => i1.CompareTo(i2) > 0);
+            finally
+            {
+                enumerators.Dispose();
+            }
         }
 
         public static IEnumerable<T[]> Product<T>(params IEnumerable<T>[] enumerables)
@@ -124,28 +124,26 @@ namespace UniT.Extensions
             var pool        = enumerables.Select(enumerable => enumerable.ToList()).ToArray();
             var length      = pool.Length;
             var enumerators = pool.GetEnumerators();
-            if (!enumerators.MoveNexts().All(Item.IsTrue))
+            try
             {
-                enumerators.Dispose();
-                yield break;
-            }
-
-            while (true)
-            {
-                yield return enumerators.GetCurrents();
-                var index = length - 1;
+                if (!enumerators.MoveNexts().All(Item.IsTrue)) yield break;
                 while (true)
                 {
-                    if (enumerators[index].MoveNext()) break;
-                    enumerators[index].Dispose();
-                    enumerators[index] = pool[index].GetEnumerator();
-                    enumerators[index].MoveNext();
-                    if (--index < 0)
+                    yield return enumerators.GetCurrents();
+                    var index = length - 1;
+                    while (true)
                     {
-                        enumerators.Dispose();
-                        yield break;
+                        if (enumerators[index].MoveNext()) break;
+                        enumerators[index].Dispose();
+                        enumerators[index] = pool[index].GetEnumerator();
+                        enumerators[index].MoveNext();
+                        if (--index < 0) yield break;
                     }
                 }
+            }
+            finally
+            {
+                enumerators.Dispose();
             }
         }
 
@@ -175,9 +173,13 @@ namespace UniT.Extensions
         }
 
         private static IEnumerator<T>[] GetEnumerators<T>(this IEnumerable<IEnumerable<T>> enumerables) => enumerables.Select(e => e.GetEnumerator()).ToArray();
-        private static bool[]           MoveNexts<T>(this IEnumerable<IEnumerator<T>> enumerators)      => enumerators.Select(e => e.MoveNext()).ToArray();
-        private static T[]              GetCurrents<T>(this IEnumerable<IEnumerator<T>> enumerators)    => enumerators.Select(e => e.Current).ToArray();
-        private static void             Dispose<T>(this IEnumerable<IEnumerator<T>> enumerators)        => enumerators.ForEach(enumerator => enumerator.Dispose());
-        private static T                GetCurrentOrDefault<T>(IEnumerator<T> enumerator, bool hasNext) => hasNext ? enumerator.Current : default;
+
+        private static bool[] MoveNexts<T>(this IEnumerator<T>[] enumerators) => enumerators.Select(e => e.MoveNext()).ToArray();
+
+        private static T[] GetCurrents<T>(this IEnumerator<T>[] enumerators) => enumerators.Select(e => e.Current).ToArray();
+
+        private static void Dispose<T>(this IEnumerator<T>[] enumerators) => enumerators.ForEach(enumerator => enumerator.Dispose());
+
+        private static T GetCurrentOrDefault<T>(IEnumerator<T> enumerator, bool hasNext) => hasNext ? enumerator.Current : default;
     }
 }

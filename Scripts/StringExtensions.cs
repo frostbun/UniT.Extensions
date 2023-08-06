@@ -27,7 +27,7 @@ namespace UniT.Extensions
 
         public static string WithColor(this string str, Color? color)
         {
-            return color is { } c ? $"<color=#{c.ToHex()}>{str}</color>" : str;
+            return color.HasValue ? $"<color=#{color.Value.ToHex()}>{str}</color>" : str;
         }
 
         public static string ToHex(this Color color)

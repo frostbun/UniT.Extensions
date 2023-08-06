@@ -46,6 +46,11 @@ namespace UniT.Extensions
             return enumerable.Any(tuple => predicate(tuple.Item1, tuple.Item2));
         }
 
+        public static Dictionary<TFirst, TSecond> ToDictionary<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> enumerable)
+        {
+            return enumerable.ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
+        }
+
         public static (List<TFirst>, List<TSecond>) Unzip<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> enumerable)
         {
             return enumerable.Aggregate((new List<TFirst>(), new List<TSecond>()), (lists, tuple) =>
@@ -54,11 +59,6 @@ namespace UniT.Extensions
                 lists.Item2.Add(tuple.Item2);
                 return lists;
             });
-        }
-
-        public static Dictionary<TFirst, TSecond> ToDictionary<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> enumerable)
-        {
-            return enumerable.ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
         }
     }
 }

@@ -1,3 +1,4 @@
 {
-  "name": "UniT.Extensions"
+  "name": "UniT.Extensions",
+  "rootNamespace": "UniT.Extensions"
 }
