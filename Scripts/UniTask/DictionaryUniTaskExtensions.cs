@@ -23,16 +23,18 @@ namespace UniT.Extensions
         {
             if (dictionary.ContainsKey(key)) return UniTask.FromResult(false);
             var @lock = (dictionary, key);
-            if (Locks.Contains(@lock)) return UniTask.WaitUntil(() => !Locks.Contains(@lock)).ContinueWith(() => false);
+            if (Locks.Contains(@lock))
+            {
+                return UniTask.WaitUntil(() => !Locks.Contains(@lock))
+                              .ContinueWith(() => dictionary.TryAdd(key, valueFactory));
+            }
             Locks.Add(@lock);
             return valueFactory().ContinueWith(value =>
             {
+                if (dictionary.ContainsKey(key)) throw new InvalidOperationException("Dictionary was modified while trying to add a new value asynchronously");
                 dictionary.Add(key, value);
                 return true;
-            }).Finally(() =>
-            {
-                Locks.Remove(@lock);
-            });
+            }).Finally(() => Locks.Remove(@lock));
         }
     }
 }
