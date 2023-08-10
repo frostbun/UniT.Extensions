@@ -63,12 +63,12 @@ namespace UniT.Extensions
             }
         }
 
-        public static (List<T>, List<T>) Split<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        public static (List<T> Matches, List<T> Unmatches) Split<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
-            return enumerable.Aggregate((new List<T>(), new List<T>()), (lists, item) =>
+            return enumerable.Aggregate((Matches: new List<T>(), Unmatches: new List<T>()), (lists, item) =>
             {
-                if (predicate(item)) lists.Item1.Add(item);
-                else lists.Item2.Add(item);
+                if (predicate(item)) lists.Matches.Add(item);
+                else lists.Unmatches.Add(item);
                 return lists;
             });
         }
