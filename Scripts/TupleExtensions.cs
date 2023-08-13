@@ -44,6 +44,12 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SafeForEach<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> enumerable, Action<TFirst, TSecond> action)
+        {
+            enumerable.SafeForEach(tuple => action(tuple.Item1, tuple.Item2));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool All<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> enumerable, Func<TFirst, TSecond, bool> predicate)
         {
             return enumerable.All(tuple => predicate(tuple.Item1, tuple.Item2));

@@ -54,86 +54,28 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int RemoveAll<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Func<TKey, TValue, bool> predicate)
+        public static void SafeForEach<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TKey, TValue> action)
         {
-            var count = 0;
-            foreach (var (key, value) in dictionary.Clone())
-            {
-                if (!predicate(key, value)) continue;
-                dictionary.Remove(key);
-                count++;
-            }
-            return count;
+            dictionary.SafeForEach(kv => action(kv.Key, kv.Value));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Dictionary<TKey, TValue> Clone<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
+        public static int RemoveAll<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Func<TKey, TValue, bool> predicate)
         {
-            return new(dictionary);
+            var count = 0;
+            dictionary.SafeForEach((key, value) =>
+            {
+                if (!predicate(key, value)) return;
+                dictionary.Remove(key);
+                count++;
+            });
+            return count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
             return new(dictionary);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Dictionary<TKey, TValue> ToDictionaryOneToOne<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
-        {
-            var dictionary = new Dictionary<TKey, TValue>();
-            foreach (var item in source)
-            {
-                dictionary.Add(keySelector(item), valueSelector(item));
-            }
-            return dictionary;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Dictionary<TKey, TValue> ToDictionaryOneToMany<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, IEnumerable<TValue>> valuesSelector)
-        {
-            var dictionary = new Dictionary<TKey, TValue>();
-            foreach (var item in source)
-            {
-                var key = keySelector(item);
-                foreach (var value in valuesSelector(item))
-                {
-                    dictionary.Add(key, value);
-                }
-            }
-            return dictionary;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Dictionary<TKey, TValue> ToDictionaryManyToOne<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TKey>> keysSelector, Func<TSource, TValue> valueSelector)
-        {
-            var dictionary = new Dictionary<TKey, TValue>();
-            foreach (var item in source)
-            {
-                var value = valueSelector(item);
-                foreach (var key in keysSelector(item))
-                {
-                    dictionary.Add(key, value);
-                }
-            }
-            return dictionary;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Dictionary<TKey, TValue> ToDictionaryManyToMany<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TKey>> keysSelector, Func<TSource, IEnumerable<TValue>> valuesSelector)
-        {
-            var dictionary = new Dictionary<TKey, TValue>();
-            foreach (var item in source)
-            {
-                foreach (var key in keysSelector(item))
-                {
-                    foreach (var value in valuesSelector(item))
-                    {
-                        dictionary.Add(key, value);
-                    }
-                }
-            }
-            return dictionary;
         }
     }
 }

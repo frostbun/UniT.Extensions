@@ -17,6 +17,12 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SafeForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
+        {
+            enumerable.ToArray().ForEach(action);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.OrderBy(_ => Guid.NewGuid());
@@ -35,6 +41,12 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<(int, T)> Enumerate<T>(this IEnumerable<T> enumerable, int start = 0)
+        {
+            return enumerable.Select(item => (start++, item));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> Cycle<T>(this IEnumerable<T> enumerable)
         {
             var cache = new List<T>();
@@ -43,31 +55,12 @@ namespace UniT.Extensions
                 yield return item;
                 cache.Add(item);
             }
-
             while (cache.Count > 0)
             {
                 foreach (var item in cache)
                 {
                     yield return item;
                 }
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<(int, T)> Enumerate<T>(this IEnumerable<T> enumerable, int start = 0)
-        {
-            return enumerable.Select(item => (start++, item));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<T> Slice<T>(this IEnumerable<T> enumerable, int start, int stop, int step = 1)
-        {
-            var index = 0;
-            foreach (var item in enumerable)
-            {
-                if (index >= stop) yield break;
-                if (index >= start && (index - start) % step == 0) yield return item;
-                ++index;
             }
         }
 
