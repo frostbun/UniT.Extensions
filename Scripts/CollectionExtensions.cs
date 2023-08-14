@@ -2,6 +2,7 @@ namespace UniT.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
 
@@ -49,6 +50,12 @@ namespace UniT.Extensions
         public static T DequeueOrDefault<T>(this Queue<T> queue, Func<T> valueFactory = null)
         {
             return queue.Count > 0 ? queue.Dequeue() : (valueFactory ?? (() => default))();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlyCollection<T> AsReadOnly<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.ToList().AsReadOnly();
         }
     }
 }
