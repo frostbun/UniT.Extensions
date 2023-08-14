@@ -3,7 +3,6 @@ namespace UniT.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.CompilerServices;
 
     public static class IterTools
     {
@@ -28,13 +27,11 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> Zip<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
             return Zip(first, second, (i1, i2) => (i1, i2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> Zip<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
             return Zip(first, second, third, (i1, i2, i3) => (i1, i2, i3));
@@ -94,13 +91,11 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> ZipLongest<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
             return ZipLongest(first, second, (i1, i2) => (i1, i2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> ZipLongest<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
             return ZipLongest(first, second, third, (i1, i2, i3) => (i1, i2, i3));
@@ -152,7 +147,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T[]> Product<T>(IEnumerable<T> enumerable, int repeat)
         {
             return Product(Repeat(enumerable, repeat).ToArray());
@@ -173,25 +167,19 @@ namespace UniT.Extensions
             while (count-- > 0) yield return valueFactory();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Repeat(Action action, int count)
         {
             while (count-- > 0) action();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static IEnumerator<T>[] GetEnumerators<T>(this IEnumerable<IEnumerable<T>> enumerables) => enumerables.Select(e => e.GetEnumerator()).ToArray();
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool[] MoveNexts<T>(this IEnumerator<T>[] enumerators) => enumerators.Select(e => e.MoveNext()).ToArray();
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static T[] GetCurrents<T>(this IEnumerator<T>[] enumerators) => enumerators.Select(e => e.Current).ToArray();
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void Dispose<T>(this IEnumerator<T>[] enumerators) => enumerators.ForEach(enumerator => enumerator.Dispose());
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static T GetCurrentOrDefault<T>(IEnumerator<T> enumerator, bool hasNext) => hasNext ? enumerator.Current : default;
     }
 }

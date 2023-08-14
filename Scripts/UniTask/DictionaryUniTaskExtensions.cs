@@ -3,20 +3,17 @@ namespace UniT.Extensions
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
     using Cysharp.Threading.Tasks;
 
     public static class DictionaryUniTaskExtensions
     {
         private static readonly HashSet<object> Locks = new();
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UniTask<TValue> GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
             return dictionary.TryGetValue(key, out var value) ? UniTask.FromResult(value) : valueFactory();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UniTask<TValue> GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
             return dictionary.TryAdd(key, valueFactory).ContinueWith(_ => dictionary[key]);

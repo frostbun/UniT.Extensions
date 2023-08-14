@@ -2,12 +2,10 @@
 namespace UniT.Extensions
 {
     using System;
-    using System.Runtime.CompilerServices;
     using Cysharp.Threading.Tasks;
 
     public static class UniTaskExtensions
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask Catch(this UniTask task, Action<Exception> handler)
         {
             try
@@ -20,7 +18,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask<T> Catch<T>(this UniTask<T> task, Func<Exception, T> handler)
         {
             try
@@ -33,7 +30,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask Catch<TException>(this UniTask task, Action<TException> handler) where TException : Exception
         {
             try
@@ -46,7 +42,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask<T> Catch<T, TException>(this UniTask<T> task, Func<TException, T> handler) where TException : Exception
         {
             try
@@ -59,7 +54,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask Catch(this UniTask task, Func<Exception, UniTask> handler)
         {
             try
@@ -72,7 +66,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask<T> Catch<T>(this UniTask<T> task, Func<Exception, UniTask<T>> handler)
         {
             try
@@ -85,7 +78,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask Catch<TException>(this UniTask task, Func<TException, UniTask> handler) where TException : Exception
         {
             try
@@ -98,7 +90,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask<T> Catch<T, TException>(this UniTask<T> task, Func<TException, UniTask<T>> handler) where TException : Exception
         {
             try
@@ -111,7 +102,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask Finally(this UniTask task, Action handler)
         {
             try
@@ -124,7 +114,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask<T> Finally<T>(this UniTask<T> task, Action handler)
         {
             try
@@ -137,7 +126,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask Finally(this UniTask task, Func<UniTask> handler)
         {
             try
@@ -150,7 +138,6 @@ namespace UniT.Extensions
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask<T> Finally<T>(this UniTask<T> task, Func<UniTask> handler)
         {
             try
