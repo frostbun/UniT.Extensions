@@ -14,6 +14,11 @@ namespace UniT.Extensions
             return dictionary.TryGetValue(key, out var value) ? UniTask.FromResult(value) : valueFactory();
         }
 
+        public static UniTask<TValue> RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
+        {
+            return dictionary.Remove(key, out var value) ? UniTask.FromResult(value) : valueFactory();
+        }
+
         public static UniTask<TValue> GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
             return dictionary.TryAdd(key, valueFactory).ContinueWith(_ => dictionary[key]);
