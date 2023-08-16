@@ -18,12 +18,16 @@ namespace UniT.Extensions
 
         public static T PeekOrDefault<T>(this Stack<T> stack, Func<T> valueFactory = null)
         {
-            return stack.Count > 0 ? stack.Peek() : (valueFactory ?? (() => default))();
+            return stack.Count > 0
+                ? stack.Peek()
+                : (valueFactory ?? (() => default))();
         }
 
         public static T PopOrDefault<T>(this Stack<T> stack, Func<T> valueFactory = null)
         {
-            return stack.Count > 0 ? stack.Pop() : (valueFactory ?? (() => default))();
+            return stack.Count > 0
+                ? stack.Pop()
+                : (valueFactory ?? (() => default))();
         }
 
         public static Queue<T> ToQueue<T>(this IEnumerable<T> enumerable)
@@ -37,12 +41,16 @@ namespace UniT.Extensions
 
         public static T PeekOrDefault<T>(this Queue<T> queue, Func<T> valueFactory = null)
         {
-            return queue.Count > 0 ? queue.Peek() : (valueFactory ?? (() => default))();
+            return queue.Count > 0
+                ? queue.Peek()
+                : (valueFactory ?? (() => default))();
         }
 
         public static T DequeueOrDefault<T>(this Queue<T> queue, Func<T> valueFactory = null)
         {
-            return queue.Count > 0 ? queue.Dequeue() : (valueFactory ?? (() => default))();
+            return queue.Count > 0
+                ? queue.Dequeue()
+                : (valueFactory ?? (() => default))();
         }
 
         public static ReadOnlyCollection<T> AsReadOnly<T>(this IEnumerable<T> enumerable)

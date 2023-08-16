@@ -46,9 +46,9 @@ namespace UniT.Extensions
         {
             var baseAsm = Assembly.GetAssembly(baseType);
             return AppDomain.CurrentDomain.GetAssemblies()
-                            .Where(asm => !asm.IsDynamic && (!sameAssembly || asm == baseAsm))
-                            .SelectMany(asm => asm.GetTypes())
-                            .Where(type => type.IsClass && !type.IsAbstract && baseType.IsAssignableFrom(type));
+                .Where(asm => !asm.IsDynamic && (!sameAssembly || asm == baseAsm))
+                .SelectMany(asm => asm.GetTypes())
+                .Where(type => type.IsClass && !type.IsAbstract && baseType.IsAssignableFrom(type));
         }
 
         public static void CopyTo(this object from, object to)

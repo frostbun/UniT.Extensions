@@ -9,12 +9,16 @@ namespace UniT.Extensions
     {
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory = null)
         {
-            return dictionary.TryGetValue(key, out var value) ? value : (valueFactory ?? (() => default))();
+            return dictionary.TryGetValue(key, out var value)
+                ? value
+                : (valueFactory ?? (() => default))();
         }
 
         public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory = null)
         {
-            return dictionary.Remove(key, out var value) ? value : (valueFactory ?? (() => default))();
+            return dictionary.Remove(key, out var value)
+                ? value
+                : (valueFactory ?? (() => default))();
         }
 
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)

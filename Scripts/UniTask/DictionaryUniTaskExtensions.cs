@@ -11,17 +11,22 @@ namespace UniT.Extensions
 
         public static UniTask<TValue> GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
-            return dictionary.TryGetValue(key, out var value) ? UniTask.FromResult(value) : valueFactory();
+            return dictionary.TryGetValue(key, out var value)
+                ? UniTask.FromResult(value)
+                : valueFactory();
         }
 
         public static UniTask<TValue> RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
-            return dictionary.Remove(key, out var value) ? UniTask.FromResult(value) : valueFactory();
+            return dictionary.Remove(key, out var value)
+                ? UniTask.FromResult(value)
+                : valueFactory();
         }
 
         public static UniTask<TValue> GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
-            return dictionary.TryAdd(key, valueFactory).ContinueWith(_ => dictionary[key]);
+            return dictionary.TryAdd(key, valueFactory)
+                .ContinueWith(_ => dictionary[key]);
         }
 
         public static UniTask<bool> TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
@@ -31,12 +36,13 @@ namespace UniT.Extensions
             if (Locks.Contains(@lock))
             {
                 return UniTask.WaitUntil(() => !Locks.Contains(@lock))
-                              .ContinueWith(() => dictionary.TryAdd(key, valueFactory));
+                    .ContinueWith(() => dictionary.TryAdd(key, valueFactory));
             }
             Locks.Add(@lock);
             return valueFactory().ContinueWith(value =>
             {
-                if (dictionary.ContainsKey(key)) throw new InvalidOperationException("Dictionary was modified while trying to add a new value asynchronously");
+                if (dictionary.ContainsKey(key))
+                    throw new InvalidOperationException("Dictionary was modified while trying to add a new value asynchronously");
                 dictionary.Add(key, value);
                 return true;
             }).Finally(() => Locks.Remove(@lock));

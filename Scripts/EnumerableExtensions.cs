@@ -80,7 +80,6 @@ namespace UniT.Extensions
                         result[i, j] = source[i][j];
                     }
                 }
-
                 return result;
             }
             catch (InvalidOperationException)
