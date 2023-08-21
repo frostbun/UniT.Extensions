@@ -34,7 +34,7 @@ namespace UniT.Extensions
             return enumerable.Shuffle().First();
         }
 
-        public static IEnumerable<(int, T)> Enumerate<T>(this IEnumerable<T> enumerable, int start = 0)
+        public static IEnumerable<(int Index, T Value)> Enumerate<T>(this IEnumerable<T> enumerable, int start = 0)
         {
             return enumerable.Select(item => (start++, item));
         }

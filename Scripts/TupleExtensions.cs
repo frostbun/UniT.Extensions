@@ -65,5 +65,10 @@ namespace UniT.Extensions
                 return lists;
             });
         }
+
+        public static (List<(TFirst, TSecond)> Matches, List<(TFirst, TSecond)> Unmatches) Split<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> enumerable, Func<TFirst, TSecond, bool> predicate)
+        {
+            return enumerable.Split(tuple => predicate(tuple.Item1, tuple.Item2));
+        }
     }
 }
