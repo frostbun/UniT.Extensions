@@ -7,6 +7,11 @@ namespace UniT.Extensions
 
     public static class CollectionExtensions
     {
+        public static void RemoveAt<T>(this IList<T> list, Index index)
+        {
+            list.RemoveAt(index.IsFromEnd ? list.Count - index.Value : index.Value);
+        }
+
         public static Stack<T> ToStack<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.Aggregate(new Stack<T>(), (stack, item) =>
