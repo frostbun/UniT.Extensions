@@ -12,14 +12,9 @@ namespace UniT.Extensions
             return type.GetFields(bindingFlags);
         }
 
-        public static PropertyInfo ToPropertyInfo(this FieldInfo fieldInfo)
+        public static bool IsBackingField(this FieldInfo field)
         {
-            return fieldInfo.DeclaringType?.GetProperty(fieldInfo.Name.ToPropertyName());
-        }
-
-        public static bool IsBackingField(this FieldInfo fieldInfo)
-        {
-            return fieldInfo.Name.IsBackingFieldName();
+            return field.Name.IsBackingFieldName();
         }
 
         public static bool IsBackingFieldName(this string str)
@@ -35,6 +30,11 @@ namespace UniT.Extensions
         public static string ToPropertyName(this string str)
         {
             return str.IsBackingFieldName() ? str[1..^16] : str;
+        }
+
+        public static PropertyInfo ToPropertyInfo(this FieldInfo field)
+        {
+            return field.DeclaringType?.GetProperty(field.Name.ToPropertyName());
         }
 
         public static bool DeriveFromGenericType(this Type type, Type genericType)
