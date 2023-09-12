@@ -12,6 +12,17 @@ namespace UniT.Extensions
             list.RemoveAt(index.IsFromEnd ? list.Count - index.Value : index.Value);
         }
 
+        public static void Clear<T>(this ICollection<T> collection, Action<T> action)
+        {
+            collection.ForEach(action);
+            collection.Clear();
+        }
+
+        public static ReadOnlyCollection<T> AsReadOnly<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.ToList().AsReadOnly();
+        }
+
         public static Stack<T> ToStack<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.Aggregate(new Stack<T>(), (stack, item) =>
@@ -56,11 +67,6 @@ namespace UniT.Extensions
             return queue.Count > 0
                 ? queue.Dequeue()
                 : (valueFactory ?? (() => default))();
-        }
-
-        public static ReadOnlyCollection<T> AsReadOnly<T>(this IEnumerable<T> enumerable)
-        {
-            return enumerable.ToList().AsReadOnly();
         }
     }
 }

@@ -66,9 +66,15 @@ namespace UniT.Extensions
             {
                 if (!predicate(key, value)) return;
                 dictionary.Remove(key);
-                count++;
+                ++count;
             });
             return count;
+        }
+
+        public static void Clear<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TKey, TValue> action)
+        {
+            dictionary.ForEach(action);
+            dictionary.Clear();
         }
 
         public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
