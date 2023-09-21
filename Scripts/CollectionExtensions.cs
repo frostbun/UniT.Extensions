@@ -68,5 +68,27 @@ namespace UniT.Extensions
                 ? queue.Dequeue()
                 : (valueFactory ?? (() => default))();
         }
+
+        public static T[,] To2DArray<T>(this T[][] source)
+        {
+            try
+            {
+                var dimension1 = source.Length;
+                var dimension2 = source.GroupBy(row => row.Length).Single().Key;
+                var result     = new T[dimension1, dimension2];
+                for (var i = 0; i < dimension1; ++i)
+                {
+                    for (var j = 0; j < dimension2; ++j)
+                    {
+                        result[i, j] = source[i][j];
+                    }
+                }
+                return result;
+            }
+            catch (InvalidOperationException)
+            {
+                throw new InvalidOperationException("The given jagged array is not rectangular");
+            }
+        }
     }
 }
