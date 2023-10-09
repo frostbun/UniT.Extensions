@@ -1,3 +1,4 @@
+#if UNIT_EXTENSIONS_UNITASK
 namespace UniT.Extensions
 {
     using System;
@@ -15,3 +16,4 @@ namespace UniT.Extensions
         }
     }
 }
+#endif
