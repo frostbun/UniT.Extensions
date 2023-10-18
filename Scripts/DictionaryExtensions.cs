@@ -7,18 +7,24 @@ namespace UniT.Extensions
 
     public static class DictionaryExtensions
     {
-        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory = null)
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            return dictionary.TryGetValue(key, out var value)
-                ? value
-                : (valueFactory ?? (() => default))();
+            return dictionary.TryGetValue(key, out var value) ? value : default;
         }
 
-        public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory = null)
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
         {
-            return dictionary.Remove(key, out var value)
-                ? value
-                : (valueFactory ?? (() => default))();
+            return dictionary.TryGetValue(key, out var value) ? value : valueFactory();
+        }
+
+        public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        {
+            return dictionary.Remove(key, out var value) ? value : default;
+        }
+
+        public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
+        {
+            return dictionary.Remove(key, out var value) ? value : valueFactory();
         }
 
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)

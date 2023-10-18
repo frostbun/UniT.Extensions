@@ -2,7 +2,6 @@ namespace UniT.Extensions
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
 
     public static class CollectionExtensions
@@ -18,55 +17,54 @@ namespace UniT.Extensions
             collection.Clear();
         }
 
-        public static ReadOnlyCollection<T> AsReadOnly<T>(this IEnumerable<T> enumerable)
-        {
-            return enumerable.ToList().AsReadOnly();
-        }
-
         public static Stack<T> ToStack<T>(this IEnumerable<T> enumerable)
         {
-            return enumerable.Aggregate(new Stack<T>(), (stack, item) =>
-            {
-                stack.Push(item);
-                return stack;
-            });
+            return new(enumerable);
         }
 
-        public static T PeekOrDefault<T>(this Stack<T> stack, Func<T> valueFactory = null)
+        public static T PeekOrDefault<T>(this Stack<T> stack)
         {
-            return stack.Count > 0
-                ? stack.Peek()
-                : (valueFactory ?? (() => default))();
+            return stack.Count > 0 ? stack.Peek() : default;
         }
 
-        public static T PopOrDefault<T>(this Stack<T> stack, Func<T> valueFactory = null)
+        public static T PeekOrDefault<T>(this Stack<T> stack, Func<T> valueFactory)
         {
-            return stack.Count > 0
-                ? stack.Pop()
-                : (valueFactory ?? (() => default))();
+            return stack.Count > 0 ? stack.Peek() : valueFactory();
+        }
+
+        public static T PopOrDefault<T>(this Stack<T> stack)
+        {
+            return stack.Count > 0 ? stack.Pop() : default;
+        }
+
+        public static T PopOrDefault<T>(this Stack<T> stack, Func<T> valueFactory)
+        {
+            return stack.Count > 0 ? stack.Pop() : valueFactory();
         }
 
         public static Queue<T> ToQueue<T>(this IEnumerable<T> enumerable)
         {
-            return enumerable.Aggregate(new Queue<T>(), (queue, item) =>
-            {
-                queue.Enqueue(item);
-                return queue;
-            });
+            return new(enumerable);
         }
 
-        public static T PeekOrDefault<T>(this Queue<T> queue, Func<T> valueFactory = null)
+        public static T PeekOrDefault<T>(this Queue<T> queue)
         {
-            return queue.Count > 0
-                ? queue.Peek()
-                : (valueFactory ?? (() => default))();
+            return queue.Count > 0 ? queue.Peek() : default;
         }
 
-        public static T DequeueOrDefault<T>(this Queue<T> queue, Func<T> valueFactory = null)
+        public static T PeekOrDefault<T>(this Queue<T> queue, Func<T> valueFactory)
         {
-            return queue.Count > 0
-                ? queue.Dequeue()
-                : (valueFactory ?? (() => default))();
+            return queue.Count > 0 ? queue.Peek() : valueFactory();
+        }
+
+        public static T DequeueOrDefault<T>(this Queue<T> queue)
+        {
+            return queue.Count > 0 ? queue.Dequeue() : default;
+        }
+
+        public static T DequeueOrDefault<T>(this Queue<T> queue, Func<T> valueFactory)
+        {
+            return queue.Count > 0 ? queue.Dequeue() : valueFactory();
         }
 
         public static T[,] To2DArray<T>(this T[][] source)

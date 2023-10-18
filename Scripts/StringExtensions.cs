@@ -5,14 +5,14 @@ namespace UniT.Extensions
 
     public static class StringExtensions
     {
-        public static bool IsNullOrWhitespace(this string str)
-        {
-            return string.IsNullOrWhiteSpace(str);
-        }
-
         public static bool IsNullOrEmpty(this string str)
         {
             return string.IsNullOrEmpty(str);
+        }
+
+        public static bool IsNullOrWhitespace(this string str)
+        {
+            return string.IsNullOrWhiteSpace(str);
         }
 
         public static string Wrap(this string str, string wrapper)
@@ -25,9 +25,9 @@ namespace UniT.Extensions
             return $"{prefix}{str}{suffix}";
         }
 
-        public static string WithColor(this string str, Color? color)
+        public static string WithColor(this string str, Color color)
         {
-            return color.HasValue ? $"<color=#{color.Value.ToHex()}>{str}</color>" : str;
+            return $"<color=#{color.ToHex()}>{str}</color>";
         }
 
         public static string ToHex(this Color color)
