@@ -50,9 +50,39 @@ namespace UniT.Extensions
             return dictionary.Select(kv => selector(kv.Key, kv.Value));
         }
 
+        public static IEnumerable<TResult> SelectMany<TKey, TValue, TResult>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, IEnumerable<TResult>> selector)
+        {
+            return dictionary.SelectMany(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static IEnumerable<IGrouping<TGroupKey, KeyValuePair<TKey, TValue>>> GroupBy<TKey, TValue, TGroupKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TGroupKey> keySelector)
+        {
+            return dictionary.GroupBy(kv => keySelector(kv.Key, kv.Value));
+        }
+
         public static TResult Aggregate<TKey, TValue, TResult>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, TResult seed, Func<TResult, TKey, TValue, TResult> func)
         {
             return dictionary.Aggregate(seed, (current, kv) => func(current, kv.Key, kv.Value));
+        }
+
+        public static TResult Min<TKey, TValue, TResult>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TResult> selector)
+        {
+            return dictionary.Min(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static TResult Max<TKey, TValue, TResult>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TResult> selector)
+        {
+            return dictionary.Max(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static bool Any<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, bool> predicate)
+        {
+            return dictionary.Any(kv => predicate(kv.Key, kv.Value));
+        }
+
+        public static bool All<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, bool> predicate)
+        {
+            return dictionary.All(kv => predicate(kv.Key, kv.Value));
         }
 
         public static void ForEach<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TKey, TValue> action)
