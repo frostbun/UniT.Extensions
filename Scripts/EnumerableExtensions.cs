@@ -6,6 +6,11 @@ namespace UniT.Extensions
 
     public static class EnumerableExtension
     {
+        public static IEnumerable<T> ToEnumerable<T>(this T item)
+        {
+            yield return item;
+        }
+
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (var item in enumerable)
