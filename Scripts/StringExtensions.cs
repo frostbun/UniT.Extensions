@@ -1,7 +1,9 @@
 namespace UniT.Extensions
 {
-    using Newtonsoft.Json;
     using UnityEngine;
+    #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
+    using Newtonsoft.Json;
+    #endif
 
     public static class StringExtensions
     {
@@ -32,12 +34,14 @@ namespace UniT.Extensions
 
         public static string ToHex(this Color color)
         {
-            return $"{(byte)(color.r * 255f):X2}{(byte)(color.g * 255f):X2}{(byte)(color.b * 255f):X2}";
+            return $"{(byte)(color.r * 255):X2}{(byte)(color.g * 255):X2}{(byte)(color.b * 255):X2}";
         }
 
+        #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
         public static string ToJson(this object obj)
         {
             return JsonConvert.SerializeObject(obj);
         }
+        #endif
     }
 }
