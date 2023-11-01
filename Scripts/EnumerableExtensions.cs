@@ -2,6 +2,7 @@ namespace UniT.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
     public static class EnumerableExtension
@@ -9,6 +10,11 @@ namespace UniT.Extensions
         public static IEnumerable<T> ToEnumerable<T>(this T item)
         {
             yield return item;
+        }
+
+        public static ReadOnlyCollection<T> ToReadOnlyCollection<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.ToList().AsReadOnly();
         }
 
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
