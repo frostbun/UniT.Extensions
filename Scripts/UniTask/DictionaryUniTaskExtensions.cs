@@ -9,29 +9,29 @@ namespace UniT.Extensions
     {
         private static readonly HashSet<object> Locks = new();
 
-        public static UniTask<TValue> GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
+        public static UniTask<TValue> GetOrDefaultAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
             return dictionary.TryGetValue(key, out var value) ? UniTask.FromResult(value) : valueFactory();
         }
 
-        public static UniTask<TValue> RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
+        public static UniTask<TValue> RemoveOrDefaultAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
             return dictionary.Remove(key, out var value) ? UniTask.FromResult(value) : valueFactory();
         }
 
-        public static UniTask<TValue> GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
+        public static UniTask<TValue> GetOrAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
-            return dictionary.TryAdd(key, valueFactory).ContinueWith(_ => dictionary[key]);
+            return dictionary.TryAddAsync(key, valueFactory).ContinueWith(_ => dictionary[key]);
         }
 
-        public static UniTask<bool> TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
+        public static UniTask<bool> TryAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
             if (dictionary.ContainsKey(key)) return UniTask.FromResult(false);
             var @lock = (dictionary, key);
             if (Locks.Contains(@lock))
             {
                 return UniTask.WaitUntil(() => !Locks.Contains(@lock))
-                    .ContinueWith(() => dictionary.TryAdd(key, valueFactory));
+                    .ContinueWith(() => dictionary.TryAddAsync(key, valueFactory));
             }
             Locks.Add(@lock);
             return valueFactory().ContinueWith(value =>
