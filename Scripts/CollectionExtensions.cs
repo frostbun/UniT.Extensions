@@ -3,9 +3,15 @@ namespace UniT.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Random = UnityEngine.Random;
 
     public static class CollectionExtensions
     {
+        public static T Choice<T>(this IList<T> list)
+        {
+            return list[Random.Range(0, list.Count)];
+        }
+
         public static void RemoveAt<T>(this IList<T> list, Index index)
         {
             list.RemoveAt(index.IsFromEnd ? list.Count - index.Value : index.Value);

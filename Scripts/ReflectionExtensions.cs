@@ -37,18 +37,26 @@ namespace UniT.Extensions
             return field.DeclaringType?.GetProperty(field.Name.ToPropertyName());
         }
 
-        public static bool DeriveFromGenericType(this Type type, Type genericType)
+        public static bool DeriveFrom(this Type type, Type baseType)
         {
-            return type.IsGenericType && genericType.IsAssignableFrom(type.GetGenericTypeDefinition());
+            return baseType.IsAssignableFrom(
+                baseType is { IsGenericType: true, ContainsGenericParameters: false }
+                    ? type.GetGenericTypeDefinition()
+                    : type
+            );
         }
 
-        public static IEnumerable<Type> GetDerivedTypes(this Type baseType, bool sameAssembly = false)
+        public static bool DeriveFrom<T>(this Type type)
         {
-            var baseAsm = Assembly.GetAssembly(baseType);
+            return type.DeriveFrom(typeof(T));
+        }
+
+        public static IEnumerable<Type> GetDerivedTypes(this Type baseType)
+        {
             return AppDomain.CurrentDomain.GetAssemblies()
-                .Where(asm => !asm.IsDynamic && (!sameAssembly || asm == baseAsm))
+                .Where(asm => !asm.IsDynamic)
                 .SelectMany(asm => asm.GetTypes())
-                .Where(type => type.IsClass && !type.IsAbstract && baseType.IsAssignableFrom(type));
+                .Where(type => !type.IsAbstract && baseType.IsAssignableFrom(type));
         }
 
         public static void CopyTo(this object from, object to)
