@@ -7,11 +7,6 @@ namespace UniT.Extensions
 
     public static class EnumerableExtension
     {
-        public static IEnumerable<T> ToEnumerable<T>(this T item)
-        {
-            yield return item;
-        }
-
         public static ReadOnlyCollection<T> ToReadOnlyCollection<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.ToList().AsReadOnly();
@@ -48,6 +43,16 @@ namespace UniT.Extensions
         public static IEnumerable<(int Index, T Value)> Enumerate<T>(this IEnumerable<T> enumerable, int start = 0)
         {
             return enumerable.Select(item => (start++, item));
+        }
+
+        public static IEnumerable<T> ToEnumerable<T>(this T item)
+        {
+            yield return item;
+        }
+
+        public static IEnumerable<T> Repeat<T>(this T item, int count)
+        {
+            while (count-- > 0) yield return item;
         }
 
         public static IEnumerable<T> Cycle<T>(this IEnumerable<T> enumerable)
