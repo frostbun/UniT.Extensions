@@ -65,6 +65,110 @@ namespace UniT.Extensions
             return dictionary.Aggregate(seed, (current, kv) => func(current, kv.Key, kv.Value));
         }
 
+        #region Sum
+
+        public static int Sum<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, int> selector)
+        {
+            return dictionary.Sum(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static long Sum<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, long> selector)
+        {
+            return dictionary.Sum(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static float Sum<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, float> selector)
+        {
+            return dictionary.Sum(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static double Sum<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, double> selector)
+        {
+            return dictionary.Sum(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static decimal Sum<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, decimal> selector)
+        {
+            return dictionary.Sum(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static int? Sum<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, int?> selector)
+        {
+            return dictionary.Sum(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static long? Sum<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, long?> selector)
+        {
+            return dictionary.Sum(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static float? Sum<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, float?> selector)
+        {
+            return dictionary.Sum(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static double? Sum<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, double?> selector)
+        {
+            return dictionary.Sum(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static decimal? Sum<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, decimal?> selector)
+        {
+            return dictionary.Sum(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static int Sum<TKey>(this IEnumerable<KeyValuePair<TKey, int>> dictionary)
+        {
+            return dictionary.Sum(kv => kv.Value);
+        }
+
+        public static long Sum<TKey>(this IEnumerable<KeyValuePair<TKey, long>> dictionary)
+        {
+            return dictionary.Sum(kv => kv.Value);
+        }
+
+        public static float Sum<TKey>(this IEnumerable<KeyValuePair<TKey, float>> dictionary)
+        {
+            return dictionary.Sum(kv => kv.Value);
+        }
+
+        public static double Sum<TKey>(this IEnumerable<KeyValuePair<TKey, double>> dictionary)
+        {
+            return dictionary.Sum(kv => kv.Value);
+        }
+
+        public static decimal Sum<TKey>(this IEnumerable<KeyValuePair<TKey, decimal>> dictionary)
+        {
+            return dictionary.Sum(kv => kv.Value);
+        }
+
+        public static int? Sum<TKey>(this IEnumerable<KeyValuePair<TKey, int?>> dictionary)
+        {
+            return dictionary.Sum(kv => kv.Value);
+        }
+
+        public static long? Sum<TKey>(this IEnumerable<KeyValuePair<TKey, long?>> dictionary)
+        {
+            return dictionary.Sum(kv => kv.Value);
+        }
+
+        public static float? Sum<TKey>(this IEnumerable<KeyValuePair<TKey, float?>> dictionary)
+        {
+            return dictionary.Sum(kv => kv.Value);
+        }
+
+        public static double? Sum<TKey>(this IEnumerable<KeyValuePair<TKey, double?>> dictionary)
+        {
+            return dictionary.Sum(kv => kv.Value);
+        }
+
+        public static decimal? Sum<TKey>(this IEnumerable<KeyValuePair<TKey, decimal?>> dictionary)
+        {
+            return dictionary.Sum(kv => kv.Value);
+        }
+
+        #endregion
+
         public static TResult Min<TKey, TValue, TResult>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TResult> selector)
         {
             return dictionary.Min(kv => selector(kv.Key, kv.Value));

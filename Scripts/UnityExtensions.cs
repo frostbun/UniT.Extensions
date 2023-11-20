@@ -10,6 +10,11 @@ namespace UniT.Extensions
             return obj;
         }
 
+        public static string ToHex(this Color color)
+        {
+            return $"{(byte)(color.r * 255):X2}{(byte)(color.g * 255):X2}{(byte)(color.b * 255):X2}";
+        }
+
         public static Sprite CreateSprite(this Texture2D texture, Vector2? pivot = null)
         {
             return Sprite.Create(texture, new(0, 0, texture.width, texture.height), pivot ?? new(.5f, .5f));
