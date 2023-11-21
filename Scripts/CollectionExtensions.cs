@@ -12,6 +12,22 @@ namespace UniT.Extensions
             return list[Random.Range(0, list.Count)];
         }
 
+        public static T Choice<T>(this ICollection<T> list, ICollection<int> weights)
+        {
+            var sumWeight = Random.Range(0, weights.Sum());
+            return IterTools.StrictZip(list, weights)
+                .First((_, weight) => (sumWeight -= weight) < 0)
+                .Item1;
+        }
+
+        public static T Choice<T>(this ICollection<T> list, ICollection<float> weights)
+        {
+            var sumWeight = Random.Range(0, weights.Sum());
+            return IterTools.StrictZip(list, weights)
+                .First((_, weight) => (sumWeight -= weight) < 0)
+                .Item1;
+        }
+
         public static void RemoveAt<T>(this IList<T> list, Index index)
         {
             list.RemoveAt(index.IsFromEnd ? list.Count - index.Value : index.Value);
