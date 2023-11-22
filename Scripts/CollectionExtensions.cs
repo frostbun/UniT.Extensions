@@ -2,6 +2,7 @@ namespace UniT.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using Random = UnityEngine.Random;
 
@@ -87,6 +88,11 @@ namespace UniT.Extensions
         public static T DequeueOrDefault<T>(this Queue<T> queue, Func<T> valueFactory)
         {
             return queue.Count > 0 ? queue.Dequeue() : valueFactory();
+        }
+
+        public static ReadOnlyCollection<T> AsReadOnly<T>(this T[] array)
+        {
+            return Array.AsReadOnly(array);
         }
 
         public static T[,] To2DArray<T>(this T[][] source)
