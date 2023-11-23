@@ -4,6 +4,7 @@ namespace UniT.Extensions
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     public static class EnumerableExtension
     {
@@ -48,6 +49,16 @@ namespace UniT.Extensions
         public static IEnumerable<T> ToEnumerable<T>(this T item)
         {
             yield return item;
+        }
+
+        public static IEnumerable<object> ToEnumerable(this ITuple tuple)
+        {
+            for (var i = 0; i < tuple.Length; ++i) yield return tuple[i];
+        }
+
+        public static IEnumerable<T> ToEnumerable<T>(this ITuple tuple)
+        {
+            for (var i = 0; i < tuple.Length; ++i) yield return (T)tuple[i];
         }
 
         public static IEnumerable<T> Repeat<T>(this T item, int count)

@@ -33,9 +33,15 @@ namespace UniT.Extensions
         }
 
         #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
+        private static readonly JsonSerializerSettings JsonSettings = new()
+        {
+            TypeNameHandling      = TypeNameHandling.Auto,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+        };
+
         public static string ToJson(this object obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj, JsonSettings);
         }
         #endif
     }
