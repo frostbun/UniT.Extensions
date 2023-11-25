@@ -1,5 +1,6 @@
 namespace UniT.Extensions
 {
+    using System.Collections.Generic;
     using UnityEngine;
     #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
     using Newtonsoft.Json;
@@ -30,6 +31,11 @@ namespace UniT.Extensions
         public static string WithColor(this string str, Color color)
         {
             return $"<color=#{color.ToHex()}>{str}</color>";
+        }
+
+        public static string ToArrayString<T>(this IEnumerable<T> enumerable)
+        {
+            return $"[ {string.Join(", ", enumerable)} ]";
         }
 
         #if UNIT_EXTENSIONS_NEWTONSOFT_JSON

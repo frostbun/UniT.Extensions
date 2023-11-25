@@ -5,6 +5,7 @@ namespace UniT.Extensions
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using Random = UnityEngine.Random;
 
     public static class EnumerableExtension
     {
@@ -39,6 +40,24 @@ namespace UniT.Extensions
         public static T Choice<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.Shuffle().First();
+        }
+
+        public static T Choice<T>(this IEnumerable<T> list, IEnumerable<int> weights)
+        {
+            weights = weights as ICollection<int> ?? weights.ToArray();
+            var sumWeight = Random.Range(0, weights.Sum());
+            return IterTools.StrictZip(list, weights)
+                .First((_, weight) => (sumWeight -= weight) < 0)
+                .Item1;
+        }
+
+        public static T Choice<T>(this IEnumerable<T> list, IEnumerable<float> weights)
+        {
+            weights = weights as ICollection<float> ?? weights.ToArray();
+            var sumWeight = Random.Range(0, weights.Sum());
+            return IterTools.StrictZip(list, weights)
+                .First((_, weight) => (sumWeight -= weight) < 0)
+                .Item1;
         }
 
         public static IEnumerable<(int Index, T Value)> Enumerate<T>(this IEnumerable<T> enumerable, int start = 0)
