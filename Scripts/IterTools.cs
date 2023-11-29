@@ -234,9 +234,14 @@ namespace UniT.Extensions
             return Product(enumerable.Repeat(repeat).ToArray());
         }
 
-        public static IEnumerable<int> Range(int start, int count)
+        public static IEnumerable<int> Range(int stop)
         {
-            while (count-- > 0) yield return start++;
+            return Range(0, stop);
+        }
+
+        public static IEnumerable<int> Range(int start, int stop)
+        {
+            while (start < stop) yield return start++;
         }
 
         public static IEnumerable<T> Repeat<T>(Func<T> itemFactory, int count)
