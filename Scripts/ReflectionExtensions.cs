@@ -29,7 +29,7 @@ namespace UniT.Extensions
 
         public static string ToPropertyName(this string str)
         {
-            return str.IsBackingFieldName() ? str[1..^16] : str;
+            return str.IsBackingFieldName() ? str.Substring(1, str.Length - 17) : str;
         }
 
         public static PropertyInfo ToPropertyInfo(this FieldInfo field)

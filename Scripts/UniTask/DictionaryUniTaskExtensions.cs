@@ -7,7 +7,7 @@ namespace UniT.Extensions
 
     public static class DictionaryUniTaskExtensions
     {
-        private static readonly HashSet<object> Locks = new();
+        private static readonly HashSet<object> Locks = new HashSet<object>();
 
         public static UniTask<TValue> GetOrDefaultAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {

@@ -8,14 +8,16 @@ namespace UniT.Extensions
 
     public static class CollectionExtensions
     {
-        public static T Choice<T>(this IList<T> list)
-        {
-            return list[Random.Range(0, list.Count)];
-        }
-
+        #if NET_STANDARD_2_1
         public static void RemoveAt<T>(this IList<T> list, Index index)
         {
             list.RemoveAt(index.IsFromEnd ? list.Count - index.Value : index.Value);
+        }
+        #endif
+
+        public static T Choice<T>(this IList<T> list)
+        {
+            return list[Random.Range(0, list.Count)];
         }
 
         public static void Clear<T>(this ICollection<T> collection, Action<T> action)
@@ -26,7 +28,7 @@ namespace UniT.Extensions
 
         public static Stack<T> ToStack<T>(this IEnumerable<T> enumerable)
         {
-            return new(enumerable);
+            return new Stack<T>(enumerable);
         }
 
         public static T PeekOrDefault<T>(this Stack<T> stack)
@@ -51,7 +53,7 @@ namespace UniT.Extensions
 
         public static Queue<T> ToQueue<T>(this IEnumerable<T> enumerable)
         {
-            return new(enumerable);
+            return new Queue<T>(enumerable);
         }
 
         public static T PeekOrDefault<T>(this Queue<T> queue)

@@ -7,24 +7,40 @@ namespace UniT.Extensions
 
     public static class DictionaryExtensions
     {
+        public static bool TryGet<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, out TValue value)
+        {
+            return dictionary.TryGetValue(key, out value);
+        }
+
+        public static bool TryRemove<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, out TValue value)
+        {
+            #if NET_STANDARD_2_1
+            return dictionary.Remove(key, out value);
+            #else
+            if (!dictionary.TryGet(key, out value)) return false;
+            dictionary.Remove(key);
+            return true;
+            #endif
+        }
+
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            return dictionary.TryGetValue(key, out var value) ? value : default;
+            return dictionary.TryGet(key, out var value) ? value : default;
         }
 
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
         {
-            return dictionary.TryGetValue(key, out var value) ? value : valueFactory();
+            return dictionary.TryGet(key, out var value) ? value : valueFactory();
         }
 
         public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            return dictionary.Remove(key, out var value) ? value : default;
+            return dictionary.TryRemove(key, out var value) ? value : default;
         }
 
         public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
         {
-            return dictionary.Remove(key, out var value) ? value : valueFactory();
+            return dictionary.TryRemove(key, out var value) ? value : valueFactory();
         }
 
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
@@ -219,7 +235,7 @@ namespace UniT.Extensions
 
         public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
-            return new(dictionary);
+            return new ReadOnlyDictionary<TKey, TValue>(dictionary);
         }
     }
 }

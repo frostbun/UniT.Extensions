@@ -39,7 +39,7 @@ namespace UniT.Extensions
         }
 
         #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
-        private static readonly JsonSerializerSettings JsonSettings = new()
+        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             TypeNameHandling      = TypeNameHandling.Auto,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,

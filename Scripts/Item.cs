@@ -10,6 +10,6 @@ namespace UniT.Extensions
 
         public static bool IsNull<T>(T item) where T : class => item is null;
 
-        public static bool IsNotNull<T>(T item) where T : class => item is not null;
+        public static bool IsNotNull<T>(T item) where T : class => item is { };
     }
 }
