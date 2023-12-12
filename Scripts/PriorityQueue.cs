@@ -5,7 +5,7 @@ namespace UniT.Extensions
 
     public sealed class PriorityQueue<TElement, TPriority>
     {
-        private readonly SortedList<TPriority, TElement> _items;
+        private readonly SortedList<TPriority, TElement> items;
 
         public PriorityQueue() : this(Comparer<TPriority>.Default)
         {
@@ -17,30 +17,30 @@ namespace UniT.Extensions
 
         public PriorityQueue(IComparer<TPriority> comparer)
         {
-            this._items = new SortedList<TPriority, TElement>(Comparer<TPriority>.Create((i1, i2) =>
+            this.items = new SortedList<TPriority, TElement>(Comparer<TPriority>.Create((i1, i2) =>
             {
                 var result = comparer.Compare(i1, i2);
                 return result != 0 ? result : 1;
             }));
         }
 
-        public int Count => this._items.Count;
+        public int Count => this.items.Count;
 
         public void Enqueue(TElement element, TPriority priority)
         {
-            this._items.Add(priority, element);
+            this.items.Add(priority, element);
         }
 
         public TElement Dequeue()
         {
-            var result = this._items.Values[this._items.Count - 1];
-            this._items.RemoveAt(this._items.Count - 1);
+            var result = this.items.Values[this.items.Count - 1];
+            this.items.RemoveAt(this.items.Count - 1);
             return result;
         }
 
         public TElement Peek()
         {
-            return this._items.Values[this._items.Count - 1];
+            return this.items.Values[this.items.Count - 1];
         }
     }
 }

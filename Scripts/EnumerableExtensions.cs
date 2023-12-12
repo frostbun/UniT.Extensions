@@ -50,20 +50,20 @@ namespace UniT.Extensions
             return enumerable.Shuffle().First();
         }
 
-        public static T Choice<T>(this IEnumerable<T> list, IEnumerable<int> weights)
+        public static T Choice<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights)
         {
             weights = weights as ICollection<int> ?? weights.ToArray();
             var sumWeight = Random.Range(0, weights.Sum());
-            return IterTools.StrictZip(list, weights)
+            return IterTools.StrictZip(enumerable, weights)
                 .First((_, weight) => (sumWeight -= weight) < 0)
                 .Item1;
         }
 
-        public static T Choice<T>(this IEnumerable<T> list, IEnumerable<float> weights)
+        public static T Choice<T>(this IEnumerable<T> enumerable, IEnumerable<float> weights)
         {
             weights = weights as ICollection<float> ?? weights.ToArray();
             var sumWeight = Random.Range(0, weights.Sum());
-            return IterTools.StrictZip(list, weights)
+            return IterTools.StrictZip(enumerable, weights)
                 .First((_, weight) => (sumWeight -= weight) < 0)
                 .Item1;
         }
@@ -110,12 +110,12 @@ namespace UniT.Extensions
             }
         }
 
-        public static (List<T> Matches, List<T> Unmatches) Split<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        public static (List<T> Matches, List<T> Mismatches) Split<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
-            return enumerable.Aggregate((Matches: new List<T>(), Unmatches: new List<T>()), (lists, item) =>
+            return enumerable.Aggregate((Matches: new List<T>(), Mismatches: new List<T>()), (lists, item) =>
             {
                 if (predicate(item)) lists.Matches.Add(item);
-                else lists.Unmatches.Add(item);
+                else lists.Mismatches.Add(item);
                 return lists;
             });
         }

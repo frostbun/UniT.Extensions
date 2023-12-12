@@ -102,5 +102,21 @@ namespace UniT.Extensions
                 throw new InvalidOperationException("The given jagged array is not rectangular");
             }
         }
+
+        public static T[][] ToJaggedArray<T>(this T[,] source)
+        {
+            var dimension1 = source.GetLength(0);
+            var dimension2 = source.GetLength(1);
+            var result     = new T[dimension1][];
+            for (var i = 0; i < dimension1; ++i)
+            {
+                result[i] = new T[dimension2];
+                for (var j = 0; j < dimension2; ++j)
+                {
+                    result[i][j] = source[i, j];
+                }
+            }
+            return result;
+        }
     }
 }

@@ -111,7 +111,7 @@ namespace UniT.Extensions
             });
         }
 
-        public static (List<(TFirst, TSecond)> Matches, List<(TFirst, TSecond)> Unmatches) Split<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
+        public static (List<(TFirst, TSecond)> Matches, List<(TFirst, TSecond)> Mismatches) Split<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
         {
             return tuples.Split(tuple => predicate(tuple.Item1, tuple.Item2));
         }
