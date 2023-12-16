@@ -19,6 +19,16 @@ namespace UniT.Extensions
             await enumerable.Select(action);
         }
 
+        public static UniTask SafeForEachAwaitAsync<T>(this IEnumerable<T> enumerable, Func<T, UniTask> action)
+        {
+            return enumerable.ToArray().ForEachAwaitAsync(action);
+        }
+
+        public static UniTask SafeForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, UniTask> action)
+        {
+            return enumerable.ToArray().ForEachAsync(action);
+        }
+
         public static async UniTask<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, UniTask<TResult>> selector)
         {
             return await enumerable.Select(selector);
