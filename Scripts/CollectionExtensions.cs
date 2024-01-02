@@ -8,7 +8,7 @@ namespace UniT.Extensions
 
     public static class CollectionExtensions
     {
-        #if NET_STANDARD_2_1
+        #if UNITY_2021_2_OR_NEWER
         public static void RemoveAt<T>(this IList<T> list, Index index)
         {
             list.RemoveAt(index.IsFromEnd ? list.Count - index.Value : index.Value);

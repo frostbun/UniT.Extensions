@@ -11,7 +11,7 @@ namespace UniT.Extensions
     {
         public static ReadOnlyCollection<T> ToReadOnlyCollection<T>(this IEnumerable<T> enumerable)
         {
-            return enumerable.ToList().AsReadOnly();
+            return enumerable.ToArray().AsReadOnly();
         }
 
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
@@ -114,7 +114,7 @@ namespace UniT.Extensions
     }
 }
 
-#if !NET_STANDARD_2_1
+#if !UNITY_2021_2_OR_NEWER
 namespace System.Linq
 {
     using System.Collections.Generic;

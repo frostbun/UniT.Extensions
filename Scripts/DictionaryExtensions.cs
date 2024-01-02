@@ -14,7 +14,7 @@ namespace UniT.Extensions
 
         public static bool TryRemove<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, out TValue value)
         {
-            #if NET_STANDARD_2_1
+            #if UNITY_2021_2_OR_NEWER
             return dictionary.Remove(key, out value);
             #else
             if (!dictionary.TryGet(key, out value)) return false;
