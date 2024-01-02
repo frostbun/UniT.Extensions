@@ -7,16 +7,8 @@ namespace UniT.Extensions
     using System.Runtime.CompilerServices;
     using Random = UnityEngine.Random;
 
-    public static class EnumerableExtension
+    public static class EnumerableExtensions
     {
-        #if !NET_STANDARD_2_1
-        public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> enumerable, int count)
-        {
-            enumerable = enumerable as ICollection<T> ?? enumerable.ToArray();
-            return enumerable.Skip(enumerable.Count() - count);
-        }
-        #endif
-
         public static ReadOnlyCollection<T> ToReadOnlyCollection<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.ToList().AsReadOnly();
@@ -121,3 +113,19 @@ namespace UniT.Extensions
         }
     }
 }
+
+#if !NET_STANDARD_2_1
+namespace System.Linq
+{
+    using System.Collections.Generic;
+
+    public static class EnumerableExtensions
+    {
+        public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> enumerable, int count)
+        {
+            enumerable = enumerable as ICollection<T> ?? enumerable.ToArray();
+            return enumerable.Skip(enumerable.Count() - count);
+        }
+    }
+}
+#endif

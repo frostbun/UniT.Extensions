@@ -5,6 +5,9 @@
     using System.Linq;
     using UnityEngine;
 
+    /// <summary>
+    ///     Only works with Odin Inspector.
+    /// </summary>
     [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
