@@ -42,6 +42,11 @@ namespace UniT.Extensions
             return enumerable.Shuffle().First();
         }
 
+        public static T ChoiceOrDefault<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.Shuffle().FirstOrDefault();
+        }
+
         public static T Choice<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights)
         {
             weights = weights as ICollection<int> ?? weights.ToArray();

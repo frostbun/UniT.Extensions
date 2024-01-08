@@ -17,7 +17,12 @@ namespace UniT.Extensions
 
         public static T Choice<T>(this IList<T> list)
         {
-            return list[Random.Range(0, list.Count)];
+            return list.Count > 0 ? list[Random.Range(0, list.Count)] : throw new InvalidOperationException("List empty");
+        }
+
+        public static T ChoiceOrDefault<T>(this IList<T> list)
+        {
+            return list.Count > 0 ? list[Random.Range(0, list.Count)] : default;
         }
 
         public static void Clear<T>(this ICollection<T> collection, Action<T> action)
