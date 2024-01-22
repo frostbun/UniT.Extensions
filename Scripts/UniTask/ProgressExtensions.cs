@@ -10,9 +10,9 @@ namespace UniT.Extensions
         public static IEnumerable<IProgress<float>> CreateSubProgresses(this IProgress<float> progress, int count)
         {
             var totalProgress = 0f;
-            return IterTools.Repeat(SubProgress, count);
+            return IterTools.Repeat(CreateSubProgress, count);
 
-            IProgress<float> SubProgress()
+            IProgress<float> CreateSubProgress()
             {
                 if (progress is null) return null;
                 var subProgress = 0f;

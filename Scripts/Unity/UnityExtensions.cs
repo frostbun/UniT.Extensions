@@ -20,6 +20,16 @@ namespace UniT.Extensions
             Object.Destroy(obj);
         }
 
+        public static void DestroyImmediate(this Object obj)
+        {
+            Object.DestroyImmediate(obj);
+        }
+
+        public static T GetComponentOrThrow<T>(this GameObject gameObject)
+        {
+            return gameObject.GetComponent<T>() ?? throw new MissingComponentException($"Component {typeof(T).Name} not found in GameObject {gameObject.name}");
+        }
+
         public static Sprite CreateSprite(this Texture2D texture, Vector2? pivot = null)
         {
             return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), pivot ?? new Vector2(.5f, .5f));
