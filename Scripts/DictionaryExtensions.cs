@@ -49,6 +49,11 @@ namespace UniT.Extensions
             return dictionary[key];
         }
 
+        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TValue : new()
+        {
+            return dictionary.GetOrAdd(key, () => new TValue());
+        }
+
         public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
         {
             if (dictionary.ContainsKey(key)) return false;
