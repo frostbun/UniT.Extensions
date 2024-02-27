@@ -1,7 +1,6 @@
 namespace UniT.Extensions
 {
     using System.Collections.Generic;
-    using UnityEngine;
     #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
     using Newtonsoft.Json;
     #endif
@@ -20,17 +19,12 @@ namespace UniT.Extensions
 
         public static string Wrap(this string str, string wrapper)
         {
-            return str.Wrap(wrapper, wrapper);
+            return wrapper + str + wrapper;
         }
 
         public static string Wrap(this string str, string prefix, string suffix)
         {
-            return $"{prefix}{str}{suffix}";
-        }
-
-        public static string WithColor(this string str, Color color)
-        {
-            return $"<color=#{color.ToHex()}>{str}</color>";
+            return prefix + str + suffix;
         }
 
         public static string ToArrayString<T>(this IEnumerable<T> enumerable)

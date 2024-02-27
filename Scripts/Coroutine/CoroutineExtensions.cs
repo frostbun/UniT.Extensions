@@ -3,6 +3,7 @@ namespace UniT.Extensions
 {
     using System;
     using System.Collections;
+    using UnityEngine;
 
     public static class CoroutineExtensions
     {
@@ -12,7 +13,19 @@ namespace UniT.Extensions
             callback();
         }
 
+        public static IEnumerator Then(this YieldInstruction coroutine, Action callback)
+        {
+            yield return coroutine;
+            callback();
+        }
+
         public static IEnumerator Then(this IEnumerator coroutine, Func<IEnumerator> callback)
+        {
+            yield return coroutine;
+            yield return callback();
+        }
+
+        public static IEnumerator Then(this YieldInstruction coroutine, Func<IEnumerator> callback)
         {
             yield return coroutine;
             yield return callback();
