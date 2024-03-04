@@ -31,6 +31,30 @@ namespace UniT.Extensions
             yield return callback();
         }
 
+        public static IEnumerator Then(this IEnumerator coroutine, IEnumerator callback)
+        {
+            yield return coroutine;
+            yield return callback;
+        }
+
+        public static IEnumerator Then(this YieldInstruction coroutine, IEnumerator callback)
+        {
+            yield return coroutine;
+            yield return callback;
+        }
+
+        public static IEnumerator Then(this IEnumerator coroutine, YieldInstruction callback)
+        {
+            yield return coroutine;
+            yield return callback;
+        }
+
+        public static IEnumerator Then(this YieldInstruction coroutine, YieldInstruction callback)
+        {
+            yield return coroutine;
+            yield return callback;
+        }
+
         public static IEnumerator Finally(this IEnumerator coroutine, Action handler)
         {
             try
