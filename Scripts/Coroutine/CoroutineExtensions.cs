@@ -1,4 +1,4 @@
-﻿#if !UNIT_UNITASK
+﻿#if !UNIT_EXTENSIONS_UNITASK
 namespace UniT.Extensions
 {
     using System;
