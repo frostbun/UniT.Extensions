@@ -32,14 +32,14 @@ namespace UniT.Extensions
 
         public static IEnumerator GetOrAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<Action<TValue>, IEnumerator> valueFactory, Action<TValue> callback)
         {
-            yield return dictionary.TryAddAsync(key, valueFactory, _ => callback(dictionary[key]));
+            return dictionary.TryAddAsync(key, valueFactory, _ => callback(dictionary[key]));
         }
 
-        public static IEnumerator TryAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<Action<TValue>, IEnumerator> valueFactory, Action<bool> callback)
+        public static IEnumerator TryAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<Action<TValue>, IEnumerator> valueFactory, Action<bool> callback = null)
         {
             if (dictionary.ContainsKey(key))
             {
-                callback(false);
+                callback?.Invoke(false);
                 yield break;
             }
             var @lock = (dictionary, key);
@@ -54,7 +54,7 @@ namespace UniT.Extensions
                 yield return valueFactory(value =>
                 {
                     if (!dictionary.TryAdd(key, value)) throw new InvalidOperationException("Dictionary was modified while trying to add a new value asynchronously");
-                    callback(true);
+                    callback?.Invoke(true);
                 });
             }
             finally

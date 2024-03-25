@@ -215,6 +215,11 @@ namespace UniT.Extensions
             dictionary.ForEach(kv => action(kv.Key, kv.Value));
         }
 
+        public static void ForEach<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TValue> action)
+        {
+            dictionary.ForEach(kv => action(kv.Value));
+        }
+
         public static void SafeForEach<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TKey, TValue> action)
         {
             dictionary.SafeForEach(kv => action(kv.Key, kv.Value));
@@ -233,6 +238,12 @@ namespace UniT.Extensions
         }
 
         public static void Clear<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TKey, TValue> action)
+        {
+            dictionary.ForEach(action);
+            dictionary.Clear();
+        }
+
+        public static void Clear<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TValue> action)
         {
             dictionary.ForEach(action);
             dictionary.Clear();
