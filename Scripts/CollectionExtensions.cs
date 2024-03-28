@@ -56,6 +56,12 @@ namespace UniT.Extensions
             return stack.Count > 0 ? stack.Pop() : valueFactory();
         }
 
+        public static void Clear<T>(this Stack<T> stack, Action<T> action)
+        {
+            stack.ForEach(action);
+            stack.Clear();
+        }
+
         public static Queue<T> ToQueue<T>(this IEnumerable<T> enumerable)
         {
             return new Queue<T>(enumerable);
@@ -79,6 +85,12 @@ namespace UniT.Extensions
         public static T DequeueOrDefault<T>(this Queue<T> queue, Func<T> valueFactory)
         {
             return queue.Count > 0 ? queue.Dequeue() : valueFactory();
+        }
+
+        public static void Clear<T>(this Queue<T> queue, Action<T> action)
+        {
+            queue.ForEach(action);
+            queue.Clear();
         }
 
         public static ReadOnlyCollection<T> AsReadOnly<T>(this T[] array)
