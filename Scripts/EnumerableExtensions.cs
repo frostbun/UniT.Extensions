@@ -90,6 +90,13 @@ namespace UniT.Extensions
             while (count-- > 0) yield return item;
         }
 
+        public static IEnumerable<IEnumerable<T>> ChunkBy<T>(this IEnumerable<T> enumerable, int chunkSize)
+        {
+            return enumerable.Enumerate()
+                .GroupBy((index, value) => index / chunkSize)
+                .Select(group => group.Select((index, value) => value));
+        }
+
         public static IEnumerable<T> Cycle<T>(this IEnumerable<T> enumerable)
         {
             var cache = new List<T>();
