@@ -5,6 +5,7 @@ namespace UniT.Extensions
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
     using Random = UnityEngine.Random;
 
     public static class EnumerableExtensions
@@ -20,6 +21,11 @@ namespace UniT.Extensions
             {
                 action(item);
             }
+        }
+
+        public static void ParallelForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
+        {
+            Parallel.ForEach(enumerable, action);
         }
 
         public static void SafeForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
