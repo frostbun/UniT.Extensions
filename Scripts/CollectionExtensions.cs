@@ -15,6 +15,11 @@ namespace UniT.Extensions
         }
         #endif
 
+        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
+        {
+            enumerable.ForEach(collection.Add);
+        }
+
         public static T Choice<T>(this IList<T> list)
         {
             return list.Count > 0 ? list[Random.Range(0, list.Count)] : throw new InvalidOperationException("List empty");
