@@ -61,6 +61,21 @@ namespace UniT.Extensions
             return tuples.OrderBy(tuple => keySelector(tuple.Item1, tuple.Item2));
         }
 
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescending<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        {
+            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenBy<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        {
+            return tuples.ThenBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescending<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        {
+            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
         public static TResult Aggregate<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, TResult seed, Func<TResult, TFirst, TSecond, TResult> func)
         {
             return tuples.Aggregate(seed, (current, tuple) => func(current, tuple.Item1, tuple.Item2));

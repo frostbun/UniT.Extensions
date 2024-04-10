@@ -81,6 +81,26 @@ namespace UniT.Extensions
             return dictionary.GroupBy(kv => keySelector(kv.Key, kv.Value));
         }
 
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderBy<TKey, TValue, TKeySelector>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TKeySelector> keySelector)
+        {
+            return dictionary.OrderBy(kv => keySelector(kv.Key, kv.Value));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByDescending<TKey, TValue, TKeySelector>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TKeySelector> keySelector)
+        {
+            return dictionary.OrderByDescending(kv => keySelector(kv.Key, kv.Value));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenBy<TKey, TValue, TKeySelector>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TKeySelector> keySelector)
+        {
+            return dictionary.ThenBy(kv => keySelector(kv.Key, kv.Value));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByDescending<TKey, TValue, TKeySelector>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TKeySelector> keySelector)
+        {
+            return dictionary.ThenByDescending(kv => keySelector(kv.Key, kv.Value));
+        }
+
         public static TResult Aggregate<TKey, TValue, TResult>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, TResult seed, Func<TResult, TKey, TValue, TResult> func)
         {
             return dictionary.Aggregate(seed, (current, kv) => func(current, kv.Key, kv.Value));
