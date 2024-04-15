@@ -33,6 +33,11 @@ namespace UniT.Extensions
             enumerable.ToArray().ForEach(action);
         }
 
+        public static int FirstIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            return enumerable.Enumerate().First((_, item) => predicate(item)).Item1;
+        }
+
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.OrderBy(_ => Guid.NewGuid());
@@ -99,8 +104,8 @@ namespace UniT.Extensions
         public static IEnumerable<IEnumerable<T>> ChunkBy<T>(this IEnumerable<T> enumerable, int chunkSize)
         {
             return enumerable.Enumerate()
-                .GroupBy((index, value) => index / chunkSize)
-                .Select(group => group.Select((index, value) => value));
+                .GroupBy((index, _) => index / chunkSize)
+                .Select(group => group.Select((_, value) => value));
         }
 
         public static IEnumerable<T> Cycle<T>(this IEnumerable<T> enumerable)
