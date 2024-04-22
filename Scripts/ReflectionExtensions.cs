@@ -7,9 +7,11 @@ namespace UniT.Extensions
 
     public static class ReflectionExtensions
     {
-        public static FieldInfo[] GetAllFields(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+        public static IEnumerable<FieldInfo> GetAllFields(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
         {
-            return type.GetFields(bindingFlags);
+            return type is null
+                ? Enumerable.Empty<FieldInfo>()
+                : type.GetFields(bindingFlags).Concat(GetAllFields(type.BaseType));
         }
 
         public static bool IsBackingField(this FieldInfo field)
@@ -56,13 +58,9 @@ namespace UniT.Extensions
 
         public static void CopyTo(this object from, object to)
         {
-            foreach (var fromField in from.GetType().GetAllFields())
-            {
-                var toField = to.GetType().GetField(fromField.Name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-                if (toField is null) return;
-                if (!toField.FieldType.IsAssignableFrom(fromField.FieldType)) return;
-                toField.SetValue(to, fromField.GetValue(from));
-            }
+            from.GetType().GetAllFields()
+                .Intersect(to.GetType().GetAllFields())
+                .ForEach(field => field.SetValue(to, field.GetValue(from)));
         }
     }
 }
