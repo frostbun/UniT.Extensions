@@ -3,6 +3,7 @@ namespace UniT.Extensions
 {
     using System;
     using System.Collections;
+    using System.Threading.Tasks;
     using UnityEngine;
 
     public static class CoroutineExtensions
@@ -70,6 +71,24 @@ namespace UniT.Extensions
         public static void Wait(this IEnumerator coroutine)
         {
             while (coroutine.MoveNext()) ;
+        }
+
+        public static IEnumerator ToCoroutine(this Task task, Action callback = null)
+        {
+            task.ConfigureAwait(false);
+            yield return new WaitUntil(() => task.IsCompleted);
+            if (task.IsFaulted) throw task.Exception!;
+            if (task.IsCanceled) yield break;
+            callback?.Invoke();
+        }
+
+        public static IEnumerator ToCoroutine<T>(this Task<T> task, Action<T> callback)
+        {
+            task.ConfigureAwait(false);
+            yield return new WaitUntil(() => task.IsCompleted);
+            if (task.IsFaulted) throw task.Exception!;
+            if (task.IsCanceled) yield break;
+            callback(task.Result);
         }
     }
 }
