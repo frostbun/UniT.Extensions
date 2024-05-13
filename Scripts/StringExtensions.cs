@@ -17,19 +17,19 @@ namespace UniT.Extensions
             return string.IsNullOrWhiteSpace(str);
         }
 
+        public static string Join<T>(this IEnumerable<T> enumerable, string separator)
+        {
+            return string.Join(separator, enumerable);
+        }
+
         public static string Wrap(this string str, string wrapper)
         {
-            return wrapper + str + wrapper;
+            return string.Concat(wrapper, str, wrapper);
         }
 
         public static string Wrap(this string str, string prefix, string suffix)
         {
-            return prefix + str + suffix;
-        }
-
-        public static string ToArrayString<T>(this IEnumerable<T> enumerable)
-        {
-            return $"[ {string.Join(", ", enumerable)} ]";
+            return string.Concat(prefix, str, suffix);
         }
 
         #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
