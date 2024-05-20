@@ -6,30 +6,6 @@ namespace UniT.Extensions
 
     public static class UniTaskExtensions
     {
-        public static async UniTask Catch(this UniTask task, Action<Exception> handler)
-        {
-            try
-            {
-                await task;
-            }
-            catch (Exception e)
-            {
-                handler(e);
-            }
-        }
-
-        public static async UniTask<T> Catch<T>(this UniTask<T> task, Func<Exception, T> handler)
-        {
-            try
-            {
-                return await task;
-            }
-            catch (Exception e)
-            {
-                return handler(e);
-            }
-        }
-
         public static async UniTask Catch<TException>(this UniTask task, Action<TException> handler) where TException : Exception
         {
             try
@@ -54,28 +30,24 @@ namespace UniT.Extensions
             }
         }
 
-        public static async UniTask Catch(this UniTask task, Func<Exception, UniTask> handler)
+        public static UniTask Catch(this UniTask task, Action<Exception> handler)
         {
-            try
-            {
-                await task;
-            }
-            catch (Exception e)
-            {
-                await handler(e);
-            }
+            return task.Catch<Exception>(handler);
         }
 
-        public static async UniTask<T> Catch<T>(this UniTask<T> task, Func<Exception, UniTask<T>> handler)
+        public static UniTask<T> Catch<T>(this UniTask<T> task, Func<Exception, T> handler)
         {
-            try
-            {
-                return await task;
-            }
-            catch (Exception e)
-            {
-                return await handler(e);
-            }
+            return task.Catch<T, Exception>(handler);
+        }
+
+        public static UniTask Catch(this UniTask task, Action handler)
+        {
+            return task.Catch(_ => handler());
+        }
+
+        public static UniTask<T> Catch<T>(this UniTask<T> task, Func<T> handler)
+        {
+            return task.Catch(_ => handler());
         }
 
         public static async UniTask Catch<TException>(this UniTask task, Func<TException, UniTask> handler) where TException : Exception
@@ -100,6 +72,26 @@ namespace UniT.Extensions
             {
                 return await handler(e);
             }
+        }
+
+        public static UniTask Catch(this UniTask task, Func<Exception, UniTask> handler)
+        {
+            return task.Catch<Exception>(handler);
+        }
+
+        public static UniTask<T> Catch<T>(this UniTask<T> task, Func<Exception, UniTask<T>> handler)
+        {
+            return task.Catch<T, Exception>(handler);
+        }
+
+        public static UniTask Catch(this UniTask task, Func<UniTask> handler)
+        {
+            return task.Catch(_ => handler());
+        }
+
+        public static UniTask<T> Catch<T>(this UniTask<T> task, Func<UniTask<T>> handler)
+        {
+            return task.Catch(_ => handler());
         }
 
         public static async UniTask Finally(this UniTask task, Action handler)

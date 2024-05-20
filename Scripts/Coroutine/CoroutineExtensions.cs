@@ -32,6 +32,18 @@ namespace UniT.Extensions
             yield return callback();
         }
 
+        public static IEnumerator Then(this IEnumerator coroutine, Func<YieldInstruction> callback)
+        {
+            yield return coroutine;
+            yield return callback();
+        }
+
+        public static IEnumerator Then(this YieldInstruction coroutine, Func<YieldInstruction> callback)
+        {
+            yield return coroutine;
+            yield return callback();
+        }
+
         public static IEnumerator Then(this IEnumerator coroutine, IEnumerator callback)
         {
             yield return coroutine;
@@ -54,6 +66,40 @@ namespace UniT.Extensions
         {
             yield return coroutine;
             yield return callback;
+        }
+
+        public static IEnumerator Catch<TException>(this IEnumerator coroutine, Action<TException> handler) where TException : Exception
+        {
+            try
+            {
+                while (true)
+                {
+                    try
+                    {
+                        if (!coroutine.MoveNext()) break;
+                    }
+                    catch (TException e)
+                    {
+                        handler(e);
+                        yield break;
+                    }
+                    yield return coroutine.Current;
+                }
+            }
+            finally
+            {
+                (coroutine as IDisposable)?.Dispose();
+            }
+        }
+
+        public static IEnumerator Catch(this IEnumerator coroutine, Action<Exception> handler)
+        {
+            return coroutine.Catch<Exception>(handler);
+        }
+
+        public static IEnumerator Catch(this IEnumerator coroutine, Action handler)
+        {
+            return coroutine.Catch(_ => handler());
         }
 
         public static IEnumerator Finally(this IEnumerator coroutine, Action handler)

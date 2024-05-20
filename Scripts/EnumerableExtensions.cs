@@ -38,6 +38,12 @@ namespace UniT.Extensions
             return enumerable.Enumerate().First((_, item) => predicate(item)).Item1;
         }
 
+        public static bool ContainsAll<T>(this IEnumerable<T> enumerable, IEnumerable<T> other)
+        {
+            var hashSet = enumerable as HashSet<T> ?? enumerable.ToHashSet();
+            return other.All(hashSet.Contains);
+        }
+
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.OrderBy(_ => Guid.NewGuid());
@@ -146,8 +152,8 @@ namespace System.Linq
     {
         public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> enumerable, int count)
         {
-            enumerable = enumerable as ICollection<T> ?? enumerable.ToArray();
-            return enumerable.Skip(enumerable.Count() - count);
+            var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
+            return collection.Skip(collection.Count - count);
         }
     }
 }

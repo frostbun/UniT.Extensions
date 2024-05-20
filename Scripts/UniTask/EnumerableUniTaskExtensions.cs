@@ -36,33 +36,33 @@ namespace UniT.Extensions
 
         public static UniTask ForEachAwaitAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>, CancellationToken, UniTask> action, IProgress<float> progress, CancellationToken cancellationToken)
         {
-            enumerable = enumerable as ICollection<T> ?? enumerable.ToArray();
+            var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
             return IterTools.StrictZip(
-                enumerable,
-                progress.CreateSubProgresses(enumerable.Count()),
-                cancellationToken.Repeat(enumerable.Count()),
+                collection,
+                progress.CreateSubProgresses(collection.Count),
+                cancellationToken.Repeat(collection.Count),
                 action
             ).ForEachAwaitAsync(Item.S);
         }
 
         public static UniTask ForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>, CancellationToken, UniTask> action, IProgress<float> progress, CancellationToken cancellationToken)
         {
-            enumerable = enumerable as ICollection<T> ?? enumerable.ToArray();
+            var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
             return IterTools.StrictZip(
-                enumerable,
-                progress.CreateSubProgresses(enumerable.Count()),
-                cancellationToken.Repeat(enumerable.Count()),
+                collection,
+                progress.CreateSubProgresses(collection.Count),
+                cancellationToken.Repeat(collection.Count),
                 action
             ).ForEachAsync(Item.S);
         }
 
         public static UniTask<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, IProgress<float>, CancellationToken, UniTask<TResult>> action, IProgress<float> progress, CancellationToken cancellationToken)
         {
-            enumerable = enumerable as ICollection<TSource> ?? enumerable.ToArray();
+            var collection = enumerable as ICollection<TSource> ?? enumerable.ToArray();
             return IterTools.StrictZip(
-                enumerable,
-                progress.CreateSubProgresses(enumerable.Count()),
-                cancellationToken.Repeat(enumerable.Count()),
+                collection,
+                progress.CreateSubProgresses(collection.Count),
+                cancellationToken.Repeat(collection.Count),
                 action
             ).SelectAsync(Item.S);
         }
