@@ -1,4 +1,5 @@
-﻿namespace UniT.Extensions
+﻿#nullable enable
+namespace UniT.Extensions
 {
     using System;
     using System.Globalization;
@@ -22,8 +23,14 @@
             return GetFirstDayOfWeek(dateTime, CultureInfo.InvariantCulture);
         }
 
-        public static DateTime GetFirstDayOfMonth(this DateTime dateTime) => new DateTime(dateTime.Year, dateTime.Month, 1);
+        public static DateTime GetFirstDayOfMonth(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, 1);
+        }
 
-        public static DateTime GetFirstDayOfYear(this DateTime dateTime) => new DateTime(dateTime.Year, 1, 1);
+        public static DateTime GetFirstDayOfYear(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, 1, 1);
+        }
     }
 }

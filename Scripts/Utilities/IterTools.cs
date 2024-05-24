@@ -1,3 +1,4 @@
+#nullable enable
 namespace UniT.Extensions
 {
     using System;
@@ -115,7 +116,7 @@ namespace UniT.Extensions
             }
         }
 
-        public static IEnumerable<TResult> ZipLongest<TFirst, TSecond, TResult>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
+        public static IEnumerable<TResult> ZipLongest<TFirst, TSecond, TResult>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst?, TSecond?, TResult> resultSelector)
         {
             using var e1         = first.GetEnumerator();
             using var e2         = second.GetEnumerator();
@@ -132,7 +133,7 @@ namespace UniT.Extensions
             }
         }
 
-        public static IEnumerable<TResult> ZipLongest<TFirst, TSecond, TThird, TResult>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, Func<TFirst, TSecond, TThird, TResult> resultSelector)
+        public static IEnumerable<TResult> ZipLongest<TFirst, TSecond, TThird, TResult>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, Func<TFirst?, TSecond?, TThird?, TResult> resultSelector)
         {
             using var e1         = first.GetEnumerator();
             using var e2         = second.GetEnumerator();
@@ -153,17 +154,17 @@ namespace UniT.Extensions
             }
         }
 
-        public static IEnumerable<(TFirst, TSecond)> ZipLongest<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
+        public static IEnumerable<(TFirst?, TSecond?)> ZipLongest<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
             return ZipLongest(first, second, (i1, i2) => (i1, i2));
         }
 
-        public static IEnumerable<(TFirst, TSecond, TThird)> ZipLongest<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
+        public static IEnumerable<(TFirst?, TSecond?, TThird?)> ZipLongest<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
             return ZipLongest(first, second, third, (i1, i2, i3) => (i1, i2, i3));
         }
 
-        public static IEnumerable<T[]> ZipLongest<T>(params IEnumerable<T>[] enumerables)
+        public static IEnumerable<T?[]> ZipLongest<T>(params IEnumerable<T>[] enumerables)
         {
             var enumerators = enumerables.GetEnumerators();
             try
@@ -262,6 +263,6 @@ namespace UniT.Extensions
 
         private static void Dispose<T>(this IEnumerator<T>[] enumerators) => enumerators.ForEach(e => e.Dispose());
 
-        private static T GetCurrentOrDefault<T>(IEnumerator<T> enumerator, bool hasValue) => hasValue ? enumerator.Current : default;
+        private static T? GetCurrentOrDefault<T>(IEnumerator<T> enumerator, bool hasValue) => hasValue ? enumerator.Current : default;
     }
 }

@@ -1,4 +1,5 @@
 #if UNIT_EXTENSIONS_UNITASK
+#nullable enable
 namespace UniT.Extensions
 {
     using System;
@@ -34,7 +35,7 @@ namespace UniT.Extensions
             return await enumerable.Select(selector);
         }
 
-        public static UniTask ForEachAwaitAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>, CancellationToken, UniTask> action, IProgress<float> progress, CancellationToken cancellationToken)
+        public static UniTask ForEachAwaitAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>?, CancellationToken, UniTask> action, IProgress<float>? progress, CancellationToken cancellationToken)
         {
             var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
             return IterTools.StrictZip(
@@ -45,7 +46,7 @@ namespace UniT.Extensions
             ).ForEachAwaitAsync(Item.S);
         }
 
-        public static UniTask ForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>, CancellationToken, UniTask> action, IProgress<float> progress, CancellationToken cancellationToken)
+        public static UniTask ForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>?, CancellationToken, UniTask> action, IProgress<float>? progress, CancellationToken cancellationToken)
         {
             var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
             return IterTools.StrictZip(
@@ -56,7 +57,7 @@ namespace UniT.Extensions
             ).ForEachAsync(Item.S);
         }
 
-        public static UniTask<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, IProgress<float>, CancellationToken, UniTask<TResult>> action, IProgress<float> progress, CancellationToken cancellationToken)
+        public static UniTask<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, IProgress<float>?, CancellationToken, UniTask<TResult>> action, IProgress<float>? progress, CancellationToken cancellationToken)
         {
             var collection = enumerable as ICollection<TSource> ?? enumerable.ToArray();
             return IterTools.StrictZip(

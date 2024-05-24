@@ -1,3 +1,4 @@
+#nullable enable
 namespace UniT.Extensions
 {
     using System;
@@ -11,7 +12,7 @@ namespace UniT.Extensions
             return tuples.First(tuple => predicate(tuple.Item1, tuple.Item2));
         }
 
-        public static (TFirst, TSecond) FirstOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
+        public static (TFirst, TSecond)? FirstOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
         {
             return tuples.FirstOrDefault(tuple => predicate(tuple.Item1, tuple.Item2));
         }
@@ -21,7 +22,7 @@ namespace UniT.Extensions
             return tuples.Last(tuple => predicate(tuple.Item1, tuple.Item2));
         }
 
-        public static (TFirst, TSecond) LastOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
+        public static (TFirst, TSecond)? LastOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
         {
             return tuples.LastOrDefault(tuple => predicate(tuple.Item1, tuple.Item2));
         }
@@ -31,7 +32,7 @@ namespace UniT.Extensions
             return tuples.Single(tuple => predicate(tuple.Item1, tuple.Item2));
         }
 
-        public static (TFirst, TSecond) SingleOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
+        public static (TFirst, TSecond)? SingleOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
         {
             return tuples.SingleOrDefault(tuple => predicate(tuple.Item1, tuple.Item2));
         }
@@ -81,12 +82,12 @@ namespace UniT.Extensions
             return tuples.Aggregate(seed, (current, tuple) => func(current, tuple.Item1, tuple.Item2));
         }
 
-        public static TResult Min<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
+        public static TResult? Min<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
         {
             return tuples.Min(tuple => selector(tuple.Item1, tuple.Item2));
         }
 
-        public static TResult Max<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
+        public static TResult? Max<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
         {
             return tuples.Max(tuple => selector(tuple.Item1, tuple.Item2));
         }
@@ -111,7 +112,7 @@ namespace UniT.Extensions
             tuples.SafeForEach(tuple => action(tuple.Item1, tuple.Item2));
         }
 
-        public static Dictionary<TFirst, TSecond> ToDictionary<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        public static Dictionary<TFirst, TSecond> ToDictionary<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples) where TFirst : notnull
         {
             return tuples.ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
         }

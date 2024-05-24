@@ -1,18 +1,20 @@
+#nullable enable
 namespace UniT.Extensions
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
     using Newtonsoft.Json;
     #endif
 
     public static class StringExtensions
     {
-        public static bool IsNullOrEmpty(this string str)
+        public static bool IsNullOrEmpty([NotNullWhen(false)] this string? str)
         {
             return string.IsNullOrEmpty(str);
         }
 
-        public static bool IsNullOrWhitespace(this string str)
+        public static bool IsNullOrWhitespace([NotNullWhen(false)] this string? str)
         {
             return string.IsNullOrWhiteSpace(str);
         }

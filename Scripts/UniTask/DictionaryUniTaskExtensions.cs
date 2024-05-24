@@ -1,4 +1,5 @@
 #if UNIT_EXTENSIONS_UNITASK
+#nullable enable
 namespace UniT.Extensions
 {
     using System;

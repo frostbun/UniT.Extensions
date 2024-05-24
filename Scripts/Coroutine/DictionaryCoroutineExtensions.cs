@@ -1,4 +1,5 @@
 ﻿#if !UNIT_EXTENSIONS_UNITASK
+#nullable enable
 namespace UniT.Extensions
 {
     using System;
@@ -35,7 +36,7 @@ namespace UniT.Extensions
             return dictionary.TryAddAsync(key, valueFactory, _ => callback(dictionary[key]));
         }
 
-        public static IEnumerator TryAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<Action<TValue>, IEnumerator> valueFactory, Action<bool> callback = null)
+        public static IEnumerator TryAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<Action<TValue>, IEnumerator> valueFactory, Action<bool>? callback = null)
         {
             if (dictionary.ContainsKey(key))
             {

@@ -1,3 +1,4 @@
+#nullable enable
 namespace UniT.Extensions
 {
     using System;
@@ -25,9 +26,14 @@ namespace UniT.Extensions
             return list.Count > 0 ? list[Random.Range(0, list.Count)] : throw new InvalidOperationException("List empty");
         }
 
-        public static T ChoiceOrDefault<T>(this IList<T> list)
+        public static T? ChoiceOrDefault<T>(this IList<T> list)
         {
             return list.Count > 0 ? list[Random.Range(0, list.Count)] : default;
+        }
+
+        public static T ChoiceOrDefault<T>(this IList<T> list, Func<T> valueFactory)
+        {
+            return list.Count > 0 ? list[Random.Range(0, list.Count)] : valueFactory();
         }
 
         public static void Clear<T>(this ICollection<T> collection, Action<T> action)
@@ -41,7 +47,7 @@ namespace UniT.Extensions
             return new Stack<T>(enumerable);
         }
 
-        public static T PeekOrDefault<T>(this Stack<T> stack)
+        public static T? PeekOrDefault<T>(this Stack<T> stack)
         {
             return stack.Count > 0 ? stack.Peek() : default;
         }
@@ -51,7 +57,7 @@ namespace UniT.Extensions
             return stack.Count > 0 ? stack.Peek() : valueFactory();
         }
 
-        public static T PopOrDefault<T>(this Stack<T> stack)
+        public static T? PopOrDefault<T>(this Stack<T> stack)
         {
             return stack.Count > 0 ? stack.Pop() : default;
         }
@@ -72,7 +78,7 @@ namespace UniT.Extensions
             return new Queue<T>(enumerable);
         }
 
-        public static T PeekOrDefault<T>(this Queue<T> queue)
+        public static T? PeekOrDefault<T>(this Queue<T> queue)
         {
             return queue.Count > 0 ? queue.Peek() : default;
         }
@@ -82,7 +88,7 @@ namespace UniT.Extensions
             return queue.Count > 0 ? queue.Peek() : valueFactory();
         }
 
-        public static T DequeueOrDefault<T>(this Queue<T> queue)
+        public static T? DequeueOrDefault<T>(this Queue<T> queue)
         {
             return queue.Count > 0 ? queue.Dequeue() : default;
         }

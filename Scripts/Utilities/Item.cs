@@ -1,3 +1,4 @@
+#nullable enable
 namespace UniT.Extensions
 {
     public static class Item
@@ -8,8 +9,8 @@ namespace UniT.Extensions
 
         public static bool IsFalse(bool item) => !item;
 
-        public static bool IsNull<T>(T item) where T : class => item is null;
+        public static bool IsNull<T>(T? item) where T : class => item is null;
 
-        public static bool IsNotNull<T>(T item) where T : class => item is { };
+        public static bool IsNotNull<T>(T? item) where T : class => item is { };
     }
 }

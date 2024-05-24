@@ -1,4 +1,5 @@
 ﻿#if UNIT_EXTENSIONS_UNITASK
+#nullable enable
 namespace UniT.Extensions
 {
     using System;
@@ -7,12 +8,12 @@ namespace UniT.Extensions
 
     public static class ProgressExtensions
     {
-        public static IEnumerable<IProgress<float>> CreateSubProgresses(this IProgress<float> progress, int count)
+        public static IEnumerable<IProgress<float>?> CreateSubProgresses(this IProgress<float>? progress, int count)
         {
             var totalProgress = 0f;
             return IterTools.Repeat(CreateSubProgress, count);
 
-            IProgress<float> CreateSubProgress()
+            IProgress<float>? CreateSubProgress()
             {
                 if (progress is null) return null;
                 var subProgress = 0f;

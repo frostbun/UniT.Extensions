@@ -1,10 +1,11 @@
+#nullable enable
 namespace UniT.Extensions
 {
     using UnityEngine;
 
     public static class UnityExtensions
     {
-        public static T Instantiate<T>(this T prefab, Vector3 position = default, Quaternion rotation = default, Transform parent = null) where T : Object
+        public static T Instantiate<T>(this T prefab, Vector3 position = default, Quaternion rotation = default, Transform? parent = null) where T : Object
         {
             return Object.Instantiate(prefab, position, rotation, parent);
         }

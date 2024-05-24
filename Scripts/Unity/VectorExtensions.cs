@@ -1,4 +1,5 @@
-﻿namespace UniT.Extensions
+﻿#nullable enable
+namespace UniT.Extensions
 {
     using UnityEngine;
 

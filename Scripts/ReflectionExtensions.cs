@@ -1,3 +1,4 @@
+#nullable enable
 namespace UniT.Extensions
 {
     using System;
@@ -9,9 +10,20 @@ namespace UniT.Extensions
     {
         public static IEnumerable<FieldInfo> GetAllFields(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
         {
-            return type is null
-                ? Enumerable.Empty<FieldInfo>()
-                : type.GetFields(bindingFlags).Concat(GetAllFields(type.BaseType));
+            return type.GetFields(bindingFlags)
+                .Concat(type.BaseType is { } baseType
+                    ? GetAllFields(baseType, bindingFlags)
+                    : Enumerable.Empty<FieldInfo>()
+                );
+        }
+
+        public static IEnumerable<PropertyInfo> GetAllProperties(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+        {
+            return type.GetProperties(bindingFlags)
+                .Concat(type.BaseType is { } baseType
+                    ? GetAllProperties(baseType, bindingFlags)
+                    : Enumerable.Empty<PropertyInfo>()
+                );
         }
 
         public static bool IsBackingField(this FieldInfo field)
@@ -34,7 +46,7 @@ namespace UniT.Extensions
             return str.IsBackingFieldName() ? str.Substring(1, str.Length - 17) : str;
         }
 
-        public static PropertyInfo ToPropertyInfo(this FieldInfo field)
+        public static PropertyInfo? ToPropertyInfo(this FieldInfo field)
         {
             return field.DeclaringType?.GetProperty(field.Name.ToPropertyName());
         }

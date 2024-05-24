@@ -1,3 +1,4 @@
+#nullable enable
 namespace UniT.Extensions
 {
     using System;
@@ -59,9 +60,14 @@ namespace UniT.Extensions
             return enumerable.Shuffle().First();
         }
 
-        public static T ChoiceOrDefault<T>(this IEnumerable<T> enumerable)
+        public static T? ChoiceOrDefault<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.Shuffle().FirstOrDefault();
+        }
+
+        public static T ChoiceOrDefault<T>(this IEnumerable<T> enumerable, Func<T> valueFactory)
+        {
+            return enumerable.Shuffle().FirstOrDefault() ?? valueFactory();
         }
 
         public static T Choice<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights)
@@ -92,12 +98,12 @@ namespace UniT.Extensions
             yield return item;
         }
 
-        public static IEnumerable<object> ToEnumerable(this ITuple tuple)
+        public static IEnumerable<object?> ToEnumerable(this ITuple tuple)
         {
             for (var i = 0; i < tuple.Length; ++i) yield return tuple[i];
         }
 
-        public static IEnumerable<T> ToEnumerable<T>(this ITuple tuple)
+        public static IEnumerable<T?> ToEnumerable<T>(this ITuple tuple)
         {
             for (var i = 0; i < tuple.Length; ++i) yield return (T)tuple[i];
         }

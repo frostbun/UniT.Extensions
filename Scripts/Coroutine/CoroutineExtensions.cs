@@ -1,4 +1,5 @@
 ﻿#if !UNIT_EXTENSIONS_UNITASK
+#nullable enable
 namespace UniT.Extensions
 {
     using System;
@@ -119,7 +120,7 @@ namespace UniT.Extensions
             while (coroutine.MoveNext()) ;
         }
 
-        public static IEnumerator ToCoroutine(this Task task, Action callback = null)
+        public static IEnumerator ToCoroutine(this Task task, Action? callback = null)
         {
             task.ConfigureAwait(false);
             yield return new WaitUntil(() => task.IsCompleted);
