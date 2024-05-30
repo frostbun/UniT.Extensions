@@ -34,6 +34,26 @@ namespace UniT.Extensions
             return string.Concat(prefix, str, suffix);
         }
 
+        public static string? NotEmptyOrNull(this string? str)
+        {
+            return string.IsNullOrEmpty(str) ? null : str;
+        }
+
+        public static string? NotWhitespaceOrNull(this string? str)
+        {
+            return string.IsNullOrWhiteSpace(str) ? null : str;
+        }
+
+        public static string? NullIfEmpty(this string str)
+        {
+            return string.IsNullOrEmpty(str) ? null : str;
+        }
+
+        public static string? NullIfWhitespace(this string str)
+        {
+            return string.IsNullOrWhiteSpace(str) ? null : str;
+        }
+
         #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
