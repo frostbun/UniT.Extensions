@@ -5,7 +5,6 @@ namespace UniT.Extensions
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Random = UnityEngine.Random;
 
     public static class CollectionExtensions
     {
@@ -21,19 +20,19 @@ namespace UniT.Extensions
             enumerable.ForEach(collection.Add);
         }
 
-        public static T Choice<T>(this IList<T> list)
+        public static T Random<T>(this IList<T> list)
         {
-            return list.Count > 0 ? list[Random.Range(0, list.Count)] : throw new InvalidOperationException("List empty");
+            return list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : throw new InvalidOperationException("List empty");
         }
 
-        public static T? ChoiceOrDefault<T>(this IList<T> list)
+        public static T? RandomOrDefault<T>(this IList<T> list)
         {
-            return list.Count > 0 ? list[Random.Range(0, list.Count)] : default;
+            return list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : default;
         }
 
-        public static T ChoiceOrDefault<T>(this IList<T> list, Func<T> valueFactory)
+        public static T RandomOrDefault<T>(this IList<T> list, Func<T> valueFactory)
         {
-            return list.Count > 0 ? list[Random.Range(0, list.Count)] : valueFactory();
+            return list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : valueFactory();
         }
 
         public static void Clear<T>(this ICollection<T> collection, Action<T> action)
