@@ -34,24 +34,19 @@ namespace UniT.Extensions
             return string.Concat(prefix, str, suffix);
         }
 
-        public static string? NotEmptyOrNull(this string? str)
+        public static string? NullIfEmpty(this string? str)
         {
             return string.IsNullOrEmpty(str) ? null : str;
         }
 
-        public static string? NotWhitespaceOrNull(this string? str)
+        public static string? NullIfWhitespace(this string? str)
         {
             return string.IsNullOrWhiteSpace(str) ? null : str;
         }
 
-        public static string? NullIfEmpty(this string str)
+        public static string EmptyIfNull(this string? str)
         {
-            return string.IsNullOrEmpty(str) ? null : str;
-        }
-
-        public static string? NullIfWhitespace(this string str)
-        {
-            return string.IsNullOrWhiteSpace(str) ? null : str;
+            return str ?? string.Empty;
         }
 
         #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
