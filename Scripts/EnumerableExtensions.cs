@@ -5,7 +5,6 @@ namespace UniT.Extensions
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
     public static class EnumerableExtensions
@@ -93,21 +92,6 @@ namespace UniT.Extensions
         public static IEnumerable<(int Index, T Value)> Enumerate<T>(this IEnumerable<T> enumerable, int start = 0)
         {
             return enumerable.Select(item => (start++, item));
-        }
-
-        public static IEnumerable<T> ToEnumerable<T>(this T item)
-        {
-            yield return item;
-        }
-
-        public static IEnumerable<object?> ToEnumerable(this ITuple tuple)
-        {
-            for (var i = 0; i < tuple.Length; ++i) yield return tuple[i];
-        }
-
-        public static IEnumerable<T?> ToEnumerable<T>(this ITuple tuple)
-        {
-            for (var i = 0; i < tuple.Length; ++i) yield return (T)tuple[i];
         }
 
         public static IEnumerable<T> Repeat<T>(this T item, int count)
