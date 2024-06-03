@@ -76,7 +76,7 @@ namespace UniT.Extensions
         {
             weights = weights as ICollection<int> ?? weights.ToArray();
             var sumWeight = UnityEngine.Random.Range(0, weights.Sum());
-            return IterTools.StrictZip(enumerable, weights)
+            return IterTools.Zip(enumerable, weights)
                 .First((_, weight) => (sumWeight -= weight) < 0)
                 .Item1;
         }
@@ -85,7 +85,7 @@ namespace UniT.Extensions
         {
             weights = weights as ICollection<float> ?? weights.ToArray();
             var sumWeight = UnityEngine.Random.Range(0, weights.Sum());
-            return IterTools.StrictZip(enumerable, weights)
+            return IterTools.Zip(enumerable, weights)
                 .First((_, weight) => (sumWeight -= weight) < 0)
                 .Item1;
         }

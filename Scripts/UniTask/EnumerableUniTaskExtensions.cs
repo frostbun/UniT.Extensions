@@ -38,7 +38,7 @@ namespace UniT.Extensions
         public static UniTask ForEachAwaitAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>?, CancellationToken, UniTask> action, IProgress<float>? progress, CancellationToken cancellationToken)
         {
             var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
-            return IterTools.StrictZip(
+            return IterTools.Zip(
                 collection,
                 progress.CreateSubProgresses(collection.Count),
                 cancellationToken.Repeat(collection.Count),
@@ -49,7 +49,7 @@ namespace UniT.Extensions
         public static UniTask ForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>?, CancellationToken, UniTask> action, IProgress<float>? progress, CancellationToken cancellationToken)
         {
             var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
-            return IterTools.StrictZip(
+            return IterTools.Zip(
                 collection,
                 progress.CreateSubProgresses(collection.Count),
                 cancellationToken.Repeat(collection.Count),
@@ -60,7 +60,7 @@ namespace UniT.Extensions
         public static UniTask<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, IProgress<float>?, CancellationToken, UniTask<TResult>> action, IProgress<float>? progress, CancellationToken cancellationToken)
         {
             var collection = enumerable as ICollection<TSource> ?? enumerable.ToArray();
-            return IterTools.StrictZip(
+            return IterTools.Zip(
                 collection,
                 progress.CreateSubProgresses(collection.Count),
                 cancellationToken.Repeat(collection.Count),
