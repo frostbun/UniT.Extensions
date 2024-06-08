@@ -3,7 +3,7 @@ namespace UniT.Extensions
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
+    #if UNIT_EXTENSIONS_JSON
     using Newtonsoft.Json;
     #endif
 
@@ -49,7 +49,7 @@ namespace UniT.Extensions
             return str ?? string.Empty;
         }
 
-        #if UNIT_EXTENSIONS_NEWTONSOFT_JSON
+        #if UNIT_EXTENSIONS_JSON
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             TypeNameHandling      = TypeNameHandling.Auto,

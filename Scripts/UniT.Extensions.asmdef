@@ -8,7 +8,7 @@
     {
       "name": "com.unity.nuget.newtonsoft-json",
       "expression": "",
-      "define": "UNIT_EXTENSIONS_NEWTONSOFT_JSON"
+      "define": "UNIT_EXTENSIONS_JSON"
     },
     {
       "name": "com.cysharp.unitask",

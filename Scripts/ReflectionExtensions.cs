@@ -51,13 +51,9 @@ namespace UniT.Extensions
             return field.DeclaringType?.GetProperty(field.Name.ToPropertyName());
         }
 
-        public static bool DerivesFrom(this Type type, Type baseType)
+        public static bool IsGenericTypeOf(this Type type, Type baseType)
         {
-            return baseType.IsAssignableFrom(
-                type.IsGenericType && baseType.ContainsGenericParameters
-                    ? type.GetGenericTypeDefinition()
-                    : type
-            );
+            return type.IsGenericType && type.GetGenericTypeDefinition() == baseType;
         }
 
         public static IEnumerable<Type> GetDerivedTypes(this Type baseType)
