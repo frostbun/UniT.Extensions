@@ -2,10 +2,17 @@
 namespace UniT.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public static class ParallelEnumerableExtensions
     {
+        public static void ParallelForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
+        {
+            Parallel.ForEach(enumerable, action);
+        }
+
         public static int FirstIndex<T>(this ParallelQuery<T> enumerable, Func<T, bool> predicate)
         {
             return enumerable.Enumerate().First((_, item) => predicate(item)).Item1;

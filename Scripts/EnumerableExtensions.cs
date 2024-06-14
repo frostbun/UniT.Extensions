@@ -5,7 +5,6 @@ namespace UniT.Extensions
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public static class EnumerableExtensions
     {
@@ -20,11 +19,6 @@ namespace UniT.Extensions
             {
                 action(item);
             }
-        }
-
-        public static void ParallelForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
-        {
-            Parallel.ForEach(enumerable, action);
         }
 
         public static void SafeForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
