@@ -49,38 +49,53 @@ namespace UniT.Extensions
 
         public static T Random<T>(this IEnumerable<T> enumerable)
         {
-            var list = enumerable as IList<T> ?? enumerable.ToArray();
-            return list.Random();
+            return enumerable.ToArray().Random();
         }
 
         public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable)
         {
-            var list = enumerable as IList<T> ?? enumerable.ToArray();
-            return list.RandomOrDefault();
+            return enumerable.ToArray().RandomOrDefault();
         }
 
         public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, Func<T> valueFactory)
         {
-            var list = enumerable as IList<T> ?? enumerable.ToArray();
-            return list.RandomOrDefault(valueFactory);
+            return enumerable.ToArray().RandomOrDefault(valueFactory);
+        }
+
+        public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights, int totalWeight)
+        {
+            var randomWeight = UnityEngine.Random.Range(0, totalWeight);
+            return IterTools.Zip(enumerable, weights)
+                .First((_, weight) => (randomWeight -= weight) < 0)
+                .Item1;
+        }
+
+        public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<float> weights, float totalWeight)
+        {
+            var randomWeight = UnityEngine.Random.Range(0, totalWeight);
+            return IterTools.Zip(enumerable, weights)
+                .First((_, weight) => (randomWeight -= weight) < 0)
+                .Item1;
+        }
+
+        public static T Random<T>(this IEnumerable<T> enumerable, ICollection<int> weights)
+        {
+            return enumerable.Random(weights, weights.Sum());
+        }
+
+        public static T Random<T>(this IEnumerable<T> enumerable, ICollection<float> weights)
+        {
+            return enumerable.Random(weights, weights.Sum());
         }
 
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights)
         {
-            weights = weights as ICollection<int> ?? weights.ToArray();
-            var sumWeight = UnityEngine.Random.Range(0, weights.Sum());
-            return IterTools.Zip(enumerable, weights)
-                .First((_, weight) => (sumWeight -= weight) < 0)
-                .Item1;
+            return enumerable.Random(weights.ToArray());
         }
 
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<float> weights)
         {
-            weights = weights as ICollection<float> ?? weights.ToArray();
-            var sumWeight = UnityEngine.Random.Range(0, weights.Sum());
-            return IterTools.Zip(enumerable, weights)
-                .First((_, weight) => (sumWeight -= weight) < 0)
-                .Item1;
+            return enumerable.Random(weights.ToArray());
         }
 
         public static IEnumerable<(int Index, T Value)> Enumerate<T>(this IEnumerable<T> enumerable, int start = 0)

@@ -19,6 +19,11 @@ namespace UniT.Extensions
             return string.IsNullOrWhiteSpace(str);
         }
 
+        public static string Join<T>(this IEnumerable<T> enumerable, char separator)
+        {
+            return string.Join(separator, enumerable);
+        }
+
         public static string Join<T>(this IEnumerable<T> enumerable, string separator)
         {
             return string.Join(separator, enumerable);
