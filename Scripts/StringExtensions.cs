@@ -4,6 +4,7 @@ namespace UniT.Extensions
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     #if UNIT_EXTENSIONS_JSON
+    using System.Globalization;
     using Newtonsoft.Json;
     #endif
 
@@ -57,8 +58,10 @@ namespace UniT.Extensions
         #if UNIT_EXTENSIONS_JSON
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
-            TypeNameHandling      = TypeNameHandling.Auto,
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Culture                = CultureInfo.InvariantCulture,
+            TypeNameHandling       = TypeNameHandling.Auto,
+            ReferenceLoopHandling  = ReferenceLoopHandling.Ignore,
+            ObjectCreationHandling = ObjectCreationHandling.Replace,
         };
 
         public static string ToJson(this object obj)
