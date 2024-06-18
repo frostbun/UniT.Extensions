@@ -5,14 +5,12 @@ namespace UniT.Extensions
 
     public static class TransformExtensions
     {
-        public static bool Overlaps(this RectTransform t1, RectTransform t2)
+        public static bool Overlaps(this RectTransform transform1, RectTransform transform2)
         {
-            var p1    = t1.position;
-            var p2    = t2.position;
-            var r1    = t1.rect;
-            var r2    = t2.rect;
-            var rect1 = new Rect(p1.x, p1.y, r1.width, r1.height);
-            var rect2 = new Rect(p2.x, p2.y, r2.width, r2.height);
+            var rect1 = transform1.rect;
+            var rect2 = transform2.rect;
+            rect1.position += (Vector2)transform1.position;
+            rect2.position += (Vector2)transform2.position;
             return rect1.Overlaps(rect2);
         }
     }
