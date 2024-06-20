@@ -2,7 +2,7 @@
 namespace UniT.Extensions
 {
     using UnityEngine;
-    #if !UNIT_EXTENSIONS_UNITASK
+    #if !UNIT_UNITASK
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace UniT.Extensions
 
     public class BetterMonoBehavior : MonoBehaviour
     {
-        #if !UNIT_EXTENSIONS_UNITASK
+        #if !UNIT_UNITASK
         private readonly HashSet<IEnumerator> runningCoroutines = new HashSet<IEnumerator>();
 
         public new void StartCoroutine(IEnumerator coroutine)

@@ -1,4 +1,4 @@
-﻿#if !UNIT_EXTENSIONS_UNITASK
+﻿#if !UNIT_UNITASK
 #nullable enable
 namespace UniT.Extensions
 {
