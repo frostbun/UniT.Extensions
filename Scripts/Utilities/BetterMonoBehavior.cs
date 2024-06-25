@@ -2,7 +2,9 @@
 namespace UniT.Extensions
 {
     using UnityEngine;
-    #if !UNIT_UNITASK
+    #if UNIT_UNITASK
+    using System.Threading;
+    #else
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -11,7 +13,21 @@ namespace UniT.Extensions
 
     public class BetterMonoBehavior : MonoBehaviour
     {
-        #if !UNIT_UNITASK
+        #if UNIT_UNITASK
+        private CancellationTokenSource? disableCts;
+
+        public CancellationToken GetCancellationTokenOnDisable()
+        {
+            return (this.disableCts ??= new CancellationTokenSource()).Token;
+        }
+
+        protected virtual void OnDisable()
+        {
+            this.disableCts?.Cancel();
+            this.disableCts?.Dispose();
+            this.disableCts = null;
+        }
+        #else
         private readonly HashSet<IEnumerator> runningCoroutines = new HashSet<IEnumerator>();
 
         public new void StartCoroutine(IEnumerator coroutine)
