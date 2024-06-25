@@ -8,6 +8,14 @@ namespace UniT.Extensions
 
     public static class ReflectionExtensions
     {
+        public static ConstructorInfo GetSingleConstructor(this Type type)
+        {
+            var constructors = type.GetConstructors();
+            if (constructors.Length == 0) throw new InvalidOperationException($"No constructor found for {type.Name}");
+            if (constructors.Length > 1) throw new InvalidOperationException($"Multiple constructors found for {type.Name}");
+            return constructors[0];
+        }
+
         public static IEnumerable<FieldInfo> GetAllFields(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
         {
             return type.GetFields(bindingFlags)
