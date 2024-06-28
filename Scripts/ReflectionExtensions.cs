@@ -10,10 +10,12 @@ namespace UniT.Extensions
     {
         public static ConstructorInfo GetSingleConstructor(this Type type)
         {
-            var constructors = type.GetConstructors();
-            if (constructors.Length == 0) throw new InvalidOperationException($"No constructor found for {type.Name}");
-            if (constructors.Length > 1) throw new InvalidOperationException($"Multiple constructors found for {type.Name}");
-            return constructors[0];
+            return type.GetConstructors() switch
+            {
+                { Length: 0 }    => throw new InvalidOperationException($"No constructor found for {type.Name}"),
+                { Length: > 1 }  => throw new InvalidOperationException($"Multiple constructors found for {type.Name}"),
+                { } constructors => constructors[0],
+            };
         }
 
         public static IEnumerable<FieldInfo> GetAllFields(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
@@ -32,6 +34,21 @@ namespace UniT.Extensions
                     ? GetAllProperties(baseType, bindingFlags)
                     : Enumerable.Empty<PropertyInfo>()
                 );
+        }
+
+        public static IEnumerable<Type> GetDerivedTypes(this Type baseType)
+        {
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .Where(asm => !asm.IsDynamic)
+                .SelectMany(asm => asm.GetTypes())
+                .Where(type => !type.IsAbstract && baseType.IsAssignableFrom(type));
+        }
+
+        public static void CopyTo(this object from, object to)
+        {
+            from.GetType().GetAllFields()
+                .Intersect(to.GetType().GetAllFields())
+                .ForEach(field => field.SetValue(to, field.GetValue(from)));
         }
 
         public static bool IsBackingField(this FieldInfo field)
@@ -54,29 +71,19 @@ namespace UniT.Extensions
             return str.IsBackingFieldName() ? str.Substring(1, str.Length - 17) : str;
         }
 
-        public static PropertyInfo? ToPropertyInfo(this FieldInfo field)
+        public static FieldInfo? ToBackingFieldInfo(this PropertyInfo property)
         {
-            return field.DeclaringType?.GetProperty(field.Name.ToPropertyName());
+            return property.DeclaringType?.GetField(property.Name.ToBackingFieldName());
+        }
+
+        public static PropertyInfo? ToPropertyInfo(this FieldInfo backingField)
+        {
+            return backingField.DeclaringType?.GetProperty(backingField.Name.ToPropertyName());
         }
 
         public static bool IsGenericTypeOf(this Type type, Type baseType)
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == baseType;
-        }
-
-        public static IEnumerable<Type> GetDerivedTypes(this Type baseType)
-        {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .Where(asm => !asm.IsDynamic)
-                .SelectMany(asm => asm.GetTypes())
-                .Where(type => !type.IsAbstract && baseType.IsAssignableFrom(type));
-        }
-
-        public static void CopyTo(this object from, object to)
-        {
-            from.GetType().GetAllFields()
-                .Intersect(to.GetType().GetAllFields())
-                .ForEach(field => field.SetValue(to, field.GetValue(from)));
         }
     }
 }

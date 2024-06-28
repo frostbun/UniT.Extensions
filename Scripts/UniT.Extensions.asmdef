@@ -6,14 +6,14 @@
   ],
   "versionDefines": [
     {
-      "name": "com.unity.nuget.newtonsoft-json",
-      "expression": "",
-      "define": "UNIT_JSON"
-    },
-    {
       "name": "com.cysharp.unitask",
       "expression": "",
       "define": "UNIT_UNITASK"
+    },
+    {
+      "name": "com.unity.nuget.newtonsoft-json",
+      "expression": "",
+      "define": "UNIT_JSON"
     }
   ]
 }
