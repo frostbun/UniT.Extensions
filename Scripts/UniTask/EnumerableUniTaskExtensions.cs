@@ -57,14 +57,14 @@ namespace UniT.Extensions
             ).ForEachAsync(Item.S);
         }
 
-        public static UniTask<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, IProgress<float>?, CancellationToken, UniTask<TResult>> action, IProgress<float>? progress, CancellationToken cancellationToken)
+        public static UniTask<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, IProgress<float>?, CancellationToken, UniTask<TResult>> selector, IProgress<float>? progress, CancellationToken cancellationToken)
         {
             var collection = enumerable as ICollection<TSource> ?? enumerable.ToArray();
             return IterTools.Zip(
                 collection,
                 progress.CreateSubProgresses(collection.Count),
                 cancellationToken.Repeat(collection.Count),
-                action
+                selector
             ).SelectAsync(Item.S);
         }
 
