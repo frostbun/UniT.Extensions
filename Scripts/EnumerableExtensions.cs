@@ -26,6 +26,11 @@ namespace UniT.Extensions
             enumerable.ToArray().ForEach(action);
         }
 
+        public static IEnumerable<T> Each<T>(this IEnumerable<T> enumerable, int each, int start = 0)
+        {
+            return enumerable.Skip(start).Where((_, index) => index % each is 0);
+        }
+
         public static int FirstIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             return enumerable.Enumerate().First((_, item) => predicate(item)).Item1;

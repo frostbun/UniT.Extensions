@@ -15,6 +15,14 @@ namespace UniT.Extensions
         }
         #endif
 
+        public static IEnumerable<T> Each<T>(this IList<T> list, int each, int start = 0)
+        {
+            for (var i = start; i < list.Count; i += each)
+            {
+                yield return list[i];
+            }
+        }
+
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
         {
             enumerable.ForEach(collection.Add);
