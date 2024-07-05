@@ -121,6 +121,17 @@ namespace UniT.Extensions
             while (count-- > 0) yield return item;
         }
 
+        public static IEnumerable<(T, T)> Pairwise<T>(this IEnumerable<T> enumerable)
+        {
+            using var enumerator = enumerable.GetEnumerator();
+            if (!enumerator.MoveNext()) yield break;
+            var previous = enumerator.Current;
+            while (enumerator.MoveNext())
+            {
+                yield return (previous, previous = enumerator.Current);
+            }
+        }
+
         public static IEnumerable<T> Accumulate<T>(this IEnumerable<T> enumerable, Func<T, T, T> accumulator)
         {
             using var enumerator = enumerable.GetEnumerator();
