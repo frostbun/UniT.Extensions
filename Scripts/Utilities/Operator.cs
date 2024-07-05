@@ -5,7 +5,7 @@ namespace UniT.Extensions
     {
         #region int
 
-        public static int Sum(int a, int b) => a + b;
+        public static int Add(int a, int b) => a + b;
 
         public static int Subtract(int a, int b) => a - b;
 
@@ -25,11 +25,13 @@ namespace UniT.Extensions
 
         public static int Max(int a, int b) => a > b ? a : b;
 
+        public static int Difference(int a, int b) => a > b ? a - b : b - a;
+
         #endregion
 
         #region long
 
-        public static long Sum(long a, long b) => a + b;
+        public static long Add(long a, long b) => a + b;
 
         public static long Subtract(long a, long b) => a - b;
 
@@ -49,11 +51,13 @@ namespace UniT.Extensions
 
         public static long Max(long a, long b) => a > b ? a : b;
 
+        public static long Difference(long a, long b) => a > b ? a - b : b - a;
+
         #endregion
 
         #region uint
 
-        public static uint Sum(uint a, uint b) => a + b;
+        public static uint Add(uint a, uint b) => a + b;
 
         public static uint Subtract(uint a, uint b) => a - b;
 
@@ -73,11 +77,13 @@ namespace UniT.Extensions
 
         public static uint Max(uint a, uint b) => a > b ? a : b;
 
+        public static uint Difference(uint a, uint b) => a > b ? a - b : b - a;
+
         #endregion
 
         #region ulong
 
-        public static ulong Sum(ulong a, ulong b) => a + b;
+        public static ulong Add(ulong a, ulong b) => a + b;
 
         public static ulong Subtract(ulong a, ulong b) => a - b;
 
@@ -97,11 +103,13 @@ namespace UniT.Extensions
 
         public static ulong Max(ulong a, ulong b) => a > b ? a : b;
 
+        public static ulong Difference(ulong a, ulong b) => a > b ? a - b : b - a;
+
         #endregion
 
         #region float
 
-        public static float Sum(float a, float b) => a + b;
+        public static float Add(float a, float b) => a + b;
 
         public static float Subtract(float a, float b) => a - b;
 
@@ -115,11 +123,13 @@ namespace UniT.Extensions
 
         public static float Max(float a, float b) => a > b ? a : b;
 
+        public static float Difference(float a, float b) => a > b ? a - b : b - a;
+
         #endregion
 
         #region double
 
-        public static double Sum(double a, double b) => a + b;
+        public static double Add(double a, double b) => a + b;
 
         public static double Subtract(double a, double b) => a - b;
 
@@ -133,11 +143,13 @@ namespace UniT.Extensions
 
         public static double Max(double a, double b) => a > b ? a : b;
 
+        public static double Difference(double a, double b) => a > b ? a - b : b - a;
+
         #endregion
 
         #region decimal
 
-        public static decimal Sum(decimal a, decimal b) => a + b;
+        public static decimal Add(decimal a, decimal b) => a + b;
 
         public static decimal Subtract(decimal a, decimal b) => a - b;
 
@@ -150,6 +162,8 @@ namespace UniT.Extensions
         public static decimal Min(decimal a, decimal b) => a < b ? a : b;
 
         public static decimal Max(decimal a, decimal b) => a > b ? a : b;
+
+        public static decimal Difference(decimal a, decimal b) => a > b ? a - b : b - a;
 
         #endregion
 
