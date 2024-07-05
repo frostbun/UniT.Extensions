@@ -17,7 +17,7 @@ namespace UniT.Extensions
 
         public static UniTask<TValue> RemoveOrDefaultAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
-            return dictionary.TryRemove(key, out var value) ? UniTask.FromResult(value) : valueFactory();
+            return dictionary.Remove(key, out var value) ? UniTask.FromResult(value) : valueFactory();
         }
 
         public static UniTask<TValue> GetOrAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)

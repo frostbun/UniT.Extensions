@@ -34,11 +34,6 @@ namespace UniT.Extensions
             enumerable.ToArray().ForEach(action);
         }
 
-        public static IEnumerable<T> Each<T>(this IEnumerable<T> enumerable, int each, int start = 0)
-        {
-            return enumerable.Skip(start).Where((_, index) => index % each is 0);
-        }
-
         public static int FirstIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             return enumerable.Enumerate().First((_, item) => predicate(item)).Item1;
@@ -116,9 +111,26 @@ namespace UniT.Extensions
             return enumerable.Select(item => (start++, item));
         }
 
+        public static IEnumerable<T> Each<T>(this IEnumerable<T> enumerable, int step)
+        {
+            return enumerable.Where((_, index) => index % step is 0);
+        }
+
         public static IEnumerable<T> Repeat<T>(this T item, int count)
         {
             while (count-- > 0) yield return item;
+        }
+
+        public static IEnumerable<T> Accumulate<T>(this IEnumerable<T> enumerable, Func<T, T, T> accumulator)
+        {
+            using var enumerator = enumerable.GetEnumerator();
+            if (!enumerator.MoveNext()) yield break;
+            var current = enumerator.Current;
+            yield return current;
+            while (enumerator.MoveNext())
+            {
+                yield return current = accumulator(current, enumerator.Current);
+            }
         }
 
         public static IEnumerable<IEnumerable<T>> ChunkBy<T>(this IEnumerable<T> enumerable, int chunkSize)
@@ -156,19 +168,3 @@ namespace UniT.Extensions
         }
     }
 }
-
-#if !UNITY_2021_2_OR_NEWER
-namespace System.Linq
-{
-    using System.Collections.Generic;
-
-    public static class EnumerableExtensions
-    {
-        public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> enumerable, int count)
-        {
-            var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
-            return collection.Skip(collection.Count - count);
-        }
-    }
-}
-#endif

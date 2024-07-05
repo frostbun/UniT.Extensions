@@ -8,19 +8,29 @@ namespace UniT.Extensions
 
     public static class CollectionExtensions
     {
-        #if UNITY_2021_2_OR_NEWER
+        public static int GetIndex<T>(this IList<T> list, Index index)
+        {
+            return index.IsFromEnd ? list.Count - index.Value : index.Value;
+        }
+
         public static void RemoveAt<T>(this IList<T> list, Index index)
         {
-            list.RemoveAt(index.IsFromEnd ? list.Count - index.Value : index.Value);
+            list.RemoveAt(list.GetIndex(index));
         }
-        #endif
 
-        public static IEnumerable<T> Each<T>(this IList<T> list, int each, int start = 0)
+        public static IEnumerable<T> Slice<T>(this IList<T> list, Range range, int step = 1)
         {
-            for (var i = start; i < list.Count; i += each)
+            var start = list.GetIndex(range.Start);
+            var stop  = list.GetIndex(range.End);
+            for (var i = start; i < stop; i += step)
             {
                 yield return list[i];
             }
+        }
+
+        public static IEnumerable<T> Each<T>(this IList<T> list, int step)
+        {
+            return list.Slice(.., step);
         }
 
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)

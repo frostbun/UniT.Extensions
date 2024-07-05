@@ -4,45 +4,29 @@ namespace UniT.Extensions
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     public static class DictionaryExtensions
     {
-        public static bool TryGet<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, [MaybeNullWhen(false)] out TValue value)
-        {
-            return dictionary.TryGetValue(key, out value);
-        }
-
-        public static bool TryRemove<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, [MaybeNullWhen(false)] out TValue value)
-        {
-            #if UNITY_2021_2_OR_NEWER
-            return dictionary.Remove(key, out value);
-            #else
-            if (!dictionary.TryGet(key, out value)) return false;
-            dictionary.Remove(key);
-            return true;
-            #endif
-        }
-
         public static TValue? GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            return dictionary.TryGet(key, out var value) ? value : default;
+            return dictionary.TryGetValue(key, out var value) ? value : default;
         }
 
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
         {
-            return dictionary.TryGet(key, out var value) ? value : valueFactory();
+            return dictionary.TryGetValue(key, out var value) ? value : valueFactory();
         }
 
         public static TValue? RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            return dictionary.TryRemove(key, out var value) ? value : default;
+            dictionary.Remove(key, out var value);
+            return value;
         }
 
         public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
         {
-            return dictionary.TryRemove(key, out var value) ? value : valueFactory();
+            return dictionary.Remove(key, out var value) ? value : valueFactory();
         }
 
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
