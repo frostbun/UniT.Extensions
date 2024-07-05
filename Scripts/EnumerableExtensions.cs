@@ -133,6 +133,11 @@ namespace UniT.Extensions
             }
         }
 
+        public static IEnumerable<T> Accumulate<T>(this IEnumerable<T> enumerable, T seed, Func<T, T, T> accumulator)
+        {
+            return enumerable.Select(item => seed = accumulator(seed, item));
+        }
+
         public static IEnumerable<IEnumerable<T>> ChunkBy<T>(this IEnumerable<T> enumerable, int chunkSize)
         {
             return enumerable.Enumerate()

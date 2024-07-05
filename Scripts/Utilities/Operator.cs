@@ -21,6 +21,10 @@ namespace UniT.Extensions
 
         public static int Xor(int a, int b) => a ^ b;
 
+        public static int Min(int a, int b) => a < b ? a : b;
+
+        public static int Max(int a, int b) => a > b ? a : b;
+
         #endregion
 
         #region long
@@ -40,6 +44,10 @@ namespace UniT.Extensions
         public static long Or(long a, long b) => a | b;
 
         public static long Xor(long a, long b) => a ^ b;
+
+        public static long Min(long a, long b) => a < b ? a : b;
+
+        public static long Max(long a, long b) => a > b ? a : b;
 
         #endregion
 
@@ -61,6 +69,10 @@ namespace UniT.Extensions
 
         public static uint Xor(uint a, uint b) => a ^ b;
 
+        public static uint Min(uint a, uint b) => a < b ? a : b;
+
+        public static uint Max(uint a, uint b) => a > b ? a : b;
+
         #endregion
 
         #region ulong
@@ -81,6 +93,10 @@ namespace UniT.Extensions
 
         public static ulong Xor(ulong a, ulong b) => a ^ b;
 
+        public static ulong Min(ulong a, ulong b) => a < b ? a : b;
+
+        public static ulong Max(ulong a, ulong b) => a > b ? a : b;
+
         #endregion
 
         #region float
@@ -94,6 +110,10 @@ namespace UniT.Extensions
         public static float Divide(float a, float b) => a / b;
 
         public static float Modulo(float a, float b) => a % b;
+
+        public static float Min(float a, float b) => a < b ? a : b;
+
+        public static float Max(float a, float b) => a > b ? a : b;
 
         #endregion
 
@@ -109,6 +129,10 @@ namespace UniT.Extensions
 
         public static double Modulo(double a, double b) => a % b;
 
+        public static double Min(double a, double b) => a < b ? a : b;
+
+        public static double Max(double a, double b) => a > b ? a : b;
+
         #endregion
 
         #region decimal
@@ -122,6 +146,10 @@ namespace UniT.Extensions
         public static decimal Divide(decimal a, decimal b) => a / b;
 
         public static decimal Modulo(decimal a, decimal b) => a % b;
+
+        public static decimal Min(decimal a, decimal b) => a < b ? a : b;
+
+        public static decimal Max(decimal a, decimal b) => a > b ? a : b;
 
         #endregion
 
