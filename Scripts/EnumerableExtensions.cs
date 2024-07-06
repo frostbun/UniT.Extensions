@@ -8,9 +8,24 @@ namespace UniT.Extensions
 
     public static class EnumerableExtensions
     {
-        public static ReadOnlyCollection<T> ToReadOnlyCollection<T>(this IEnumerable<T> enumerable)
+        public static T MinBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector)
         {
-            return enumerable.ToArray().AsReadOnly();
+            var dictionary = new Dictionary<TKey, T>();
+            foreach (var item in enumerable)
+            {
+                dictionary.TryAdd(keySelector(item), item);
+            }
+            return dictionary[dictionary.Keys.Min()];
+        }
+
+        public static T MaxBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector)
+        {
+            var dictionary = new Dictionary<TKey, T>();
+            foreach (var item in enumerable)
+            {
+                dictionary.TryAdd(keySelector(item), item);
+            }
+            return dictionary[dictionary.Keys.Max()];
         }
 
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
@@ -18,18 +33,7 @@ namespace UniT.Extensions
             foreach (var item in enumerable) action(item);
         }
 
-        public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T, int> action)
-        {
-            var index = 0;
-            foreach (var item in enumerable) action(item, index++);
-        }
-
         public static void SafeForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
-        {
-            enumerable.ToArray().ForEach(action);
-        }
-
-        public static void SafeForEach<T>(this IEnumerable<T> enumerable, Action<T, int> action)
         {
             enumerable.ToArray().ForEach(action);
         }
@@ -144,7 +148,7 @@ namespace UniT.Extensions
             }
         }
 
-        public static IEnumerable<T> Accumulate<T>(this IEnumerable<T> enumerable, T seed, Func<T, T, T> accumulator)
+        public static IEnumerable<TAccumulate> Accumulate<T, TAccumulate>(this IEnumerable<T> enumerable, TAccumulate seed, Func<TAccumulate, T, TAccumulate> accumulator)
         {
             return enumerable.Select(item => seed = accumulator(seed, item));
         }
@@ -181,6 +185,11 @@ namespace UniT.Extensions
                 else lists.Mismatches.Add(item);
                 return lists;
             });
+        }
+
+        public static ReadOnlyCollection<T> ToReadOnlyCollection<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.ToArray().AsReadOnly();
         }
     }
 }

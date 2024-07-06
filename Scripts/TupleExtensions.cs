@@ -12,9 +12,19 @@ namespace UniT.Extensions
             return tuples.First(tuple => predicate(tuple.Item1, tuple.Item2));
         }
 
-        public static (TFirst, TSecond)? FirstOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
+        public static (TFirst, TSecond, TThird) First<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
+        {
+            return tuples.First(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static (TFirst, TSecond) FirstOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
         {
             return tuples.FirstOrDefault(tuple => predicate(tuple.Item1, tuple.Item2));
+        }
+
+        public static (TFirst, TSecond, TThird) FirstOrDefault<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
+        {
+            return tuples.FirstOrDefault(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
         public static (TFirst, TSecond) Last<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
@@ -22,9 +32,19 @@ namespace UniT.Extensions
             return tuples.Last(tuple => predicate(tuple.Item1, tuple.Item2));
         }
 
-        public static (TFirst, TSecond)? LastOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
+        public static (TFirst, TSecond, TThird) Last<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
+        {
+            return tuples.Last(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static (TFirst, TSecond) LastOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
         {
             return tuples.LastOrDefault(tuple => predicate(tuple.Item1, tuple.Item2));
+        }
+
+        public static (TFirst, TSecond, TThird) LastOrDefault<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
+        {
+            return tuples.LastOrDefault(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
         public static (TFirst, TSecond) Single<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
@@ -32,9 +52,19 @@ namespace UniT.Extensions
             return tuples.Single(tuple => predicate(tuple.Item1, tuple.Item2));
         }
 
-        public static (TFirst, TSecond)? SingleOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
+        public static (TFirst, TSecond, TThird) Single<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
+        {
+            return tuples.Single(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static (TFirst, TSecond) SingleOrDefault<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
         {
             return tuples.SingleOrDefault(tuple => predicate(tuple.Item1, tuple.Item2));
+        }
+
+        public static (TFirst, TSecond, TThird) SingleOrDefault<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
+        {
+            return tuples.SingleOrDefault(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
         public static IEnumerable<(TFirst, TSecond)> Where<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
@@ -42,9 +72,19 @@ namespace UniT.Extensions
             return tuples.Where(tuple => predicate(tuple.Item1, tuple.Item2));
         }
 
+        public static IEnumerable<(TFirst, TSecond, TThird)> Where<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
+        {
+            return tuples.Where(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
         public static IEnumerable<TResult> Select<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
         {
             return tuples.Select(tuple => selector(tuple.Item1, tuple.Item2));
+        }
+
+        public static IEnumerable<TResult> Select<TFirst, TSecond, TThird, TResult>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TResult> selector)
+        {
+            return tuples.Select(tuple => selector(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
         public static IEnumerable<TResult> SelectMany<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, IEnumerable<TResult>> selector)
@@ -52,44 +92,59 @@ namespace UniT.Extensions
             return tuples.SelectMany(tuple => selector(tuple.Item1, tuple.Item2));
         }
 
-        public static IEnumerable<IGrouping<TKey, (TFirst, TSecond)>> GroupBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        public static IEnumerable<TResult> SelectMany<TFirst, TSecond, TThird, TResult>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, IEnumerable<TResult>> selector)
         {
-            return tuples.GroupBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+            return tuples.SelectMany(tuple => selector(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
-        {
-            return tuples.OrderBy(tuple => keySelector(tuple.Item1, tuple.Item2));
-        }
-
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescending<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
-        {
-            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1, tuple.Item2));
-        }
-
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenBy<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
-        {
-            return tuples.ThenBy(tuple => keySelector(tuple.Item1, tuple.Item2));
-        }
-
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescending<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
-        {
-            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1, tuple.Item2));
-        }
-
-        public static TResult Aggregate<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, TResult seed, Func<TResult, TFirst, TSecond, TResult> func)
+        public static TAccumulate Aggregate<TFirst, TSecond, TAccumulate>(this IEnumerable<(TFirst, TSecond)> tuples, TAccumulate seed, Func<TAccumulate, TFirst, TSecond, TAccumulate> func)
         {
             return tuples.Aggregate(seed, (current, tuple) => func(current, tuple.Item1, tuple.Item2));
         }
 
-        public static TResult? Min<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
+        public static TAccumulate Aggregate<TFirst, TSecond, TThird, TAccumulate>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, TAccumulate seed, Func<TAccumulate, TFirst, TSecond, TThird, TAccumulate> func)
+        {
+            return tuples.Aggregate(seed, (current, tuple) => func(current, tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static TResult Min<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
         {
             return tuples.Min(tuple => selector(tuple.Item1, tuple.Item2));
         }
 
-        public static TResult? Max<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
+        public static TResult Min<TFirst, TSecond, TThird, TResult>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TResult> selector)
+        {
+            return tuples.Min(tuple => selector(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static TResult Max<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
         {
             return tuples.Max(tuple => selector(tuple.Item1, tuple.Item2));
+        }
+
+        public static TResult Max<TFirst, TSecond, TThird, TResult>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TResult> selector)
+        {
+            return tuples.Max(tuple => selector(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static (TFirst, TSecond) MinBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        {
+            return tuples.MinBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static (TFirst, TSecond, TThird) MinBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        {
+            return tuples.MinBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static (TFirst, TSecond) MaxBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        {
+            return tuples.MaxBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static (TFirst, TSecond, TThird) MaxBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        {
+            return tuples.MaxBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
         public static bool Any<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
@@ -97,9 +152,19 @@ namespace UniT.Extensions
             return tuples.Any(tuple => predicate(tuple.Item1, tuple.Item2));
         }
 
+        public static bool Any<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
+        {
+            return tuples.Any(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
         public static bool All<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
         {
             return tuples.All(tuple => predicate(tuple.Item1, tuple.Item2));
+        }
+
+        public static bool All<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
+        {
+            return tuples.All(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
         public static void ForEach<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Action<TFirst, TSecond> action)
@@ -107,14 +172,69 @@ namespace UniT.Extensions
             tuples.ForEach(tuple => action(tuple.Item1, tuple.Item2));
         }
 
+        public static void ForEach<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Action<TFirst, TSecond, TThird> action)
+        {
+            tuples.ForEach(tuple => action(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
         public static void SafeForEach<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Action<TFirst, TSecond> action)
         {
             tuples.SafeForEach(tuple => action(tuple.Item1, tuple.Item2));
         }
 
-        public static Dictionary<TFirst, TSecond> ToDictionary<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples) where TFirst : notnull
+        public static void SafeForEach<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Action<TFirst, TSecond, TThird> action)
         {
-            return tuples.ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
+            tuples.SafeForEach(tuple => action(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static IEnumerable<IGrouping<TKey, (TFirst, TSecond)>> GroupBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        {
+            return tuples.GroupBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static IEnumerable<IGrouping<TKey, (TFirst, TSecond, TThird)>> GroupBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        {
+            return tuples.GroupBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        {
+            return tuples.OrderBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        {
+            return tuples.OrderBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescending<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        {
+            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescending<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        {
+            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenBy<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        {
+            return tuples.ThenBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenBy<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        {
+            return tuples.ThenBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescending<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        {
+            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescending<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        {
+            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
         public static (List<TFirst>, List<TSecond>) Unzip<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
@@ -127,9 +247,30 @@ namespace UniT.Extensions
             });
         }
 
+        public static (List<TFirst>, List<TSecond>, List<TThird>) Unzip<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        {
+            return tuples.Aggregate((new List<TFirst>(), new List<TSecond>(), new List<TThird>()), (lists, tuple) =>
+            {
+                lists.Item1.Add(tuple.Item1);
+                lists.Item2.Add(tuple.Item2);
+                lists.Item3.Add(tuple.Item3);
+                return lists;
+            });
+        }
+
         public static (List<(TFirst, TSecond)> Matches, List<(TFirst, TSecond)> Mismatches) Split<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
         {
             return tuples.Split(tuple => predicate(tuple.Item1, tuple.Item2));
+        }
+
+        public static (List<(TFirst, TSecond, TThird)> Matches, List<(TFirst, TSecond, TThird)> Mismatches) Split<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
+        {
+            return tuples.Split(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static Dictionary<TFirst, TSecond> ToDictionary<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples) where TFirst : notnull
+        {
+            return tuples.ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
         }
     }
 }
