@@ -159,6 +159,63 @@ namespace UniT.Extensions
             return Product(first, second, third, (i1, i2, i3) => (i1, i2, i3));
         }
 
+        public static IEnumerable<IEnumerable<T>> Permutations<T>(IEnumerable<T> enumerables, int count)
+        {
+            var items = enumerables as IList<T> ?? enumerables.ToArray();
+            if (count is 0)
+            {
+                yield return Enumerable.Empty<T>();
+                yield break;
+            }
+            foreach (var (index, item) in items.Enumerate())
+            {
+                foreach (var result in Permutations(items.Take(index).Concat(items.Skip(index + 1)), count - 1))
+                {
+                    yield return result.Prepend(item);
+                }
+            }
+        }
+
+        public static IEnumerable<IEnumerable<T>> Permutations<T>(IEnumerable<T> enumerables)
+        {
+            var items = enumerables as IList<T> ?? enumerables.ToArray();
+            return Permutations(items, items.Count);
+        }
+
+        public static IEnumerable<IEnumerable<T>> Combinations<T>(IEnumerable<T> enumerables, int count)
+        {
+            var items = enumerables as IList<T> ?? enumerables.ToArray();
+            if (count is 0)
+            {
+                yield return Enumerable.Empty<T>();
+                yield break;
+            }
+            foreach (var (index, item) in items.Enumerate())
+            {
+                foreach (var result in Combinations(items.Skip(index + 1), count - 1))
+                {
+                    yield return result.Prepend(item);
+                }
+            }
+        }
+
+        public static IEnumerable<IEnumerable<T>> CombinationsWithReplacement<T>(IEnumerable<T> enumerables, int count)
+        {
+            var items = enumerables as IList<T> ?? enumerables.ToArray();
+            if (count is 0)
+            {
+                yield return Enumerable.Empty<T>();
+                yield break;
+            }
+            foreach (var (index, item) in items.Enumerate())
+            {
+                foreach (var result in CombinationsWithReplacement(items.Skip(index), count - 1))
+                {
+                    yield return result.Prepend(item);
+                }
+            }
+        }
+
         public static IEnumerable<int> Range(int start, int stop)
         {
             while (start < stop) yield return start++;
