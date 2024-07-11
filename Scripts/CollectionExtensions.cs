@@ -38,6 +38,11 @@ namespace UniT.Extensions
             enumerable.ForEach(collection.Add);
         }
 
+        public static void RemoveRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
+        {
+            enumerable.ForEach(item => collection.Remove(item));
+        }
+
         public static T Random<T>(this IList<T> list)
         {
             return list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : throw new InvalidOperationException("List empty");

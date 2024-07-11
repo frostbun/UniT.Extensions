@@ -23,7 +23,7 @@ namespace UniT.Extensions
 
         public static IEnumerator RemoveOrDefaultAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<Action<TValue>, IEnumerator> valueFactory, Action<TValue> callback)
         {
-            if (dictionary.TryRemove(key, out var value))
+            if (dictionary.Remove(key, out var value))
             {
                 callback(value);
                 yield break;

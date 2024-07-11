@@ -268,6 +268,26 @@ namespace UniT.Extensions
             return tuples.Split(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
+        public static Dictionary<TKey, (TFirst, TSecond)> ToDictionary<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector) where TKey : notnull
+        {
+            return tuples.ToDictionary(tuple => keySelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static Dictionary<TKey, TValue> ToDictionary<TFirst, TSecond, TKey, TValue>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector, Func<TFirst, TSecond, TValue> valueSelector) where TKey : notnull
+        {
+            return tuples.ToDictionary(tuple => keySelector(tuple.Item1, tuple.Item2), tuple => valueSelector(tuple.Item1, tuple.Item2));
+        }
+
+        public static Dictionary<TKey, (TFirst, TSecond, TThird)> ToDictionary<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector) where TKey : notnull
+        {
+            return tuples.ToDictionary(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static Dictionary<TKey, TValue> ToDictionary<TFirst, TSecond, TThird, TKey, TValue>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector, Func<TFirst, TSecond, TThird, TValue> valueSelector) where TKey : notnull
+        {
+            return tuples.ToDictionary(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3), tuple => valueSelector(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
         public static Dictionary<TFirst, TSecond> ToDictionary<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples) where TFirst : notnull
         {
             return tuples.ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);

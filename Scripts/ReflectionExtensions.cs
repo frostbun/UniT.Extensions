@@ -21,8 +21,8 @@ namespace UniT.Extensions
         public static IEnumerable<FieldInfo> GetAllFields(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
         {
             return type.GetFields(bindingFlags)
-                .Concat(type.BaseType is { } baseType
-                    ? GetAllFields(baseType, bindingFlags)
+                .Concat(type.BaseType is { }
+                    ? GetAllFields(type.BaseType, bindingFlags)
                     : Enumerable.Empty<FieldInfo>()
                 );
         }
@@ -30,8 +30,8 @@ namespace UniT.Extensions
         public static IEnumerable<PropertyInfo> GetAllProperties(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
         {
             return type.GetProperties(bindingFlags)
-                .Concat(type.BaseType is { } baseType
-                    ? GetAllProperties(baseType, bindingFlags)
+                .Concat(type.BaseType is { }
+                    ? GetAllProperties(type.BaseType, bindingFlags)
                     : Enumerable.Empty<PropertyInfo>()
                 );
         }
