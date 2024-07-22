@@ -18,14 +18,22 @@ namespace UniT.Extensions
             list.RemoveAt(list.GetIndex(index));
         }
 
-        public static IEnumerable<T> Slice<T>(this IList<T> list, Range range, int step = 1)
+        public static IEnumerable<T> Slice<T>(this IList<T> list, int start, int end, int step = 1)
         {
-            var start = list.GetIndex(range.Start);
-            var stop  = list.GetIndex(range.End);
-            for (var i = start; i < stop; i += step)
+            for (var i = start; i < end; i += step)
             {
                 yield return list[i];
             }
+        }
+
+        public static IEnumerable<T> Slice<T>(this IList<T> list, Index start, Index end, int step = 1)
+        {
+            return list.Slice(list.GetIndex(start), list.GetIndex(end), step);
+        }
+
+        public static IEnumerable<T> Slice<T>(this IList<T> list, Range range, int step = 1)
+        {
+            return list.Slice(range.Start, range.End, step);
         }
 
         public static IEnumerable<T> Each<T>(this IList<T> list, int step)
@@ -48,9 +56,9 @@ namespace UniT.Extensions
             return list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : throw new InvalidOperationException("List empty");
         }
 
-        public static T? RandomOrDefault<T>(this IList<T> list)
+        public static T? RandomOrDefault<T>(this IList<T> list, T? defaultValue = default)
         {
-            return list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : default;
+            return list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : defaultValue;
         }
 
         public static T RandomOrDefault<T>(this IList<T> list, Func<T> valueFactory)
@@ -69,9 +77,9 @@ namespace UniT.Extensions
             return new Stack<T>(enumerable);
         }
 
-        public static T? PeekOrDefault<T>(this Stack<T> stack)
+        public static T? PeekOrDefault<T>(this Stack<T> stack, T? defaultValue = default)
         {
-            return stack.Count > 0 ? stack.Peek() : default;
+            return stack.Count > 0 ? stack.Peek() : defaultValue;
         }
 
         public static T PeekOrDefault<T>(this Stack<T> stack, Func<T> valueFactory)
@@ -79,9 +87,9 @@ namespace UniT.Extensions
             return stack.Count > 0 ? stack.Peek() : valueFactory();
         }
 
-        public static T? PopOrDefault<T>(this Stack<T> stack)
+        public static T? PopOrDefault<T>(this Stack<T> stack, T? defaultValue = default)
         {
-            return stack.Count > 0 ? stack.Pop() : default;
+            return stack.Count > 0 ? stack.Pop() : defaultValue;
         }
 
         public static T PopOrDefault<T>(this Stack<T> stack, Func<T> valueFactory)
@@ -100,9 +108,9 @@ namespace UniT.Extensions
             return new Queue<T>(enumerable);
         }
 
-        public static T? PeekOrDefault<T>(this Queue<T> queue)
+        public static T? PeekOrDefault<T>(this Queue<T> queue, T? defaultValue = default)
         {
-            return queue.Count > 0 ? queue.Peek() : default;
+            return queue.Count > 0 ? queue.Peek() : defaultValue;
         }
 
         public static T PeekOrDefault<T>(this Queue<T> queue, Func<T> valueFactory)
@@ -110,9 +118,9 @@ namespace UniT.Extensions
             return queue.Count > 0 ? queue.Peek() : valueFactory();
         }
 
-        public static T? DequeueOrDefault<T>(this Queue<T> queue)
+        public static T? DequeueOrDefault<T>(this Queue<T> queue, T? defaultValue = default)
         {
-            return queue.Count > 0 ? queue.Dequeue() : default;
+            return queue.Count > 0 ? queue.Dequeue() : defaultValue;
         }
 
         public static T DequeueOrDefault<T>(this Queue<T> queue, Func<T> valueFactory)

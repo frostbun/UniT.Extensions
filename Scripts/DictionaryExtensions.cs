@@ -32,9 +32,9 @@ namespace UniT.Extensions
             dictionary.Clear();
         }
 
-        public static TValue? GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        public static TValue? GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue? defaultValue = default)
         {
-            return dictionary.TryGetValue(key, out var value) ? value : default;
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
         }
 
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
@@ -42,10 +42,9 @@ namespace UniT.Extensions
             return dictionary.TryGetValue(key, out var value) ? value : valueFactory();
         }
 
-        public static TValue? RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        public static TValue? RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue? defaultValue = default)
         {
-            dictionary.Remove(key, out var value);
-            return value;
+            return dictionary.Remove(key, out var value) ? value : defaultValue;
         }
 
         public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)

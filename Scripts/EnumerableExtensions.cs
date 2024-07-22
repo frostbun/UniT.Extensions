@@ -64,9 +64,9 @@ namespace UniT.Extensions
             return enumerable.ToArray().Random();
         }
 
-        public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable)
+        public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable, T? defaultValue = default)
         {
-            return enumerable.ToArray().RandomOrDefault();
+            return enumerable.ToArray().RandomOrDefault(defaultValue);
         }
 
         public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, Func<T> valueFactory)
