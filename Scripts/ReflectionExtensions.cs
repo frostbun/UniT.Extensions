@@ -40,8 +40,17 @@ namespace UniT.Extensions
         {
             return AppDomain.CurrentDomain.GetAssemblies()
                 .Where(asm => !asm.IsDynamic)
-                .SelectMany(asm => asm.GetTypes())
-                .Where(type => !type.IsAbstract && baseType.IsAssignableFrom(type));
+                .SelectMany(baseType.GetDerivedTypes);
+        }
+
+        public static IEnumerable<Type> GetDerivedTypes(this Type baseType, Assembly assembly)
+        {
+            return assembly.GetTypes().Where(type => !type.IsAbstract && baseType.IsAssignableFrom(type));
+        }
+
+        public static bool IsGenericTypeOf(this Type type, Type baseType)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == baseType;
         }
 
         public static void CopyTo(this object from, object to)
@@ -79,11 +88,6 @@ namespace UniT.Extensions
         public static PropertyInfo? ToPropertyInfo(this FieldInfo backingField)
         {
             return backingField.DeclaringType?.GetProperty(backingField.Name.ToPropertyName());
-        }
-
-        public static bool IsGenericTypeOf(this Type type, Type baseType)
-        {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == baseType;
         }
     }
 }
