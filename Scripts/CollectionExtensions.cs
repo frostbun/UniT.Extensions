@@ -26,9 +26,19 @@ namespace UniT.Extensions
             }
         }
 
+        public static IEnumerable<T> Slice<T>(this IList<T> list, int start)
+        {
+            return list.Slice(start, list.Count);
+        }
+
         public static IEnumerable<T> Slice<T>(this IList<T> list, Index start, Index end, int step = 1)
         {
             return list.Slice(list.GetIndex(start), list.GetIndex(end), step);
+        }
+
+        public static IEnumerable<T> Slice<T>(this IList<T> list, Index start)
+        {
+            return list.Slice(list.GetIndex(start), list.Count);
         }
 
         public static IEnumerable<T> Slice<T>(this IList<T> list, Range range, int step = 1)
