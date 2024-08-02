@@ -18,6 +18,14 @@ namespace UniT.Extensions
             };
         }
 
+        public static Func<object> GetEmptyConstructor(this Type type)
+        {
+            var constructor = type.GetConstructors().SingleOrDefault(constructor => constructor.GetParameters().All(parameter => parameter.HasDefaultValue))
+                ?? type.GetSingleConstructor();
+            var parameters = constructor.GetParameters().Select(parameter => parameter.HasDefaultValue ? parameter.DefaultValue : null).ToArray();
+            return () => constructor.Invoke(parameters);
+        }
+
         public static IEnumerable<FieldInfo> GetAllFields(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
         {
             return type.GetFields(bindingFlags)
