@@ -20,7 +20,7 @@ namespace UniT.Extensions
 
         public static Func<object> GetEmptyConstructor(this Type type)
         {
-            var constructor = type.GetConstructors().SingleOrDefault(constructor => constructor.GetParameters().All(parameter => parameter.HasDefaultValue))
+            var constructor = type.GetConstructors().FirstOrDefault(constructor => constructor.GetParameters().All(parameter => parameter.HasDefaultValue))
                 ?? type.GetSingleConstructor();
             var parameters = constructor.GetParameters().Select(parameter => parameter.HasDefaultValue ? parameter.DefaultValue : null).ToArray();
             return () => constructor.Invoke(parameters);
@@ -28,20 +28,12 @@ namespace UniT.Extensions
 
         public static IEnumerable<FieldInfo> GetAllFields(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
         {
-            return type.GetFields(bindingFlags)
-                .Concat(type.BaseType is { }
-                    ? GetAllFields(type.BaseType, bindingFlags)
-                    : Enumerable.Empty<FieldInfo>()
-                );
+            return type.GetFields(bindingFlags).Concat(type.BaseType?.GetAllFields(bindingFlags) ?? Enumerable.Empty<FieldInfo>());
         }
 
         public static IEnumerable<PropertyInfo> GetAllProperties(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
         {
-            return type.GetProperties(bindingFlags)
-                .Concat(type.BaseType is { }
-                    ? GetAllProperties(type.BaseType, bindingFlags)
-                    : Enumerable.Empty<PropertyInfo>()
-                );
+            return type.GetProperties(bindingFlags).Concat(type.BaseType?.GetAllProperties(bindingFlags) ?? Enumerable.Empty<PropertyInfo>());
         }
 
         public static IEnumerable<Type> GetDerivedTypes(this Type baseType)
