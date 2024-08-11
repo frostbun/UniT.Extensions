@@ -28,12 +28,12 @@ namespace UniT.Extensions
 
         public static IEnumerable<FieldInfo> GetAllFields(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
         {
-            return type.GetFields(bindingFlags).Concat(type.BaseType?.GetAllFields(bindingFlags) ?? Enumerable.Empty<FieldInfo>());
+            return (type.BaseType?.GetAllFields(bindingFlags) ?? Enumerable.Empty<FieldInfo>()).Concat(type.GetFields(bindingFlags));
         }
 
         public static IEnumerable<PropertyInfo> GetAllProperties(this Type type, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
         {
-            return type.GetProperties(bindingFlags).Concat(type.BaseType?.GetAllProperties(bindingFlags) ?? Enumerable.Empty<PropertyInfo>());
+            return (type.BaseType?.GetAllProperties(bindingFlags) ?? Enumerable.Empty<PropertyInfo>()).Concat(type.GetProperties(bindingFlags));
         }
 
         public static IEnumerable<Type> GetDerivedTypes(this Type baseType)
