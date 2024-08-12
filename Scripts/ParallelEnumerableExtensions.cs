@@ -18,6 +18,11 @@ namespace UniT.Extensions
             return enumerable.Enumerate().First((_, item) => predicate(item)).Item1;
         }
 
+        public static int LastIndex<T>(this ParallelQuery<T> enumerable, Func<T, bool> predicate)
+        {
+            return enumerable.Enumerate().Last((_, item) => predicate(item)).Item1;
+        }
+
         public static ParallelQuery<T> Shuffle<T>(this ParallelQuery<T> enumerable)
         {
             return enumerable.OrderBy(_ => Guid.NewGuid());

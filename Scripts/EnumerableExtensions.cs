@@ -43,6 +43,11 @@ namespace UniT.Extensions
             return enumerable.Enumerate().First((_, item) => predicate(item)).Item1;
         }
 
+        public static int LastIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            return enumerable.Enumerate().Last((_, item) => predicate(item)).Item1;
+        }
+
         public static bool ContainsAll<T>(this IEnumerable<T> enumerable, IEnumerable<T> other)
         {
             var hashSet = enumerable as HashSet<T> ?? enumerable.ToHashSet();
