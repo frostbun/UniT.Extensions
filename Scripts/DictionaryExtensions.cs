@@ -8,7 +8,7 @@ namespace UniT.Extensions
 
     public static class DictionaryExtensions
     {
-        public static int RemoveAll<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Func<TKey, TValue, bool> predicate)
+        public static int RemoveWhere<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Func<TKey, TValue, bool> predicate)
         {
             var count = 0;
             dictionary.SafeForEach((key, value) =>

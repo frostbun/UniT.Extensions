@@ -28,6 +28,11 @@ namespace UniT.Extensions
             return dictionary[dictionary.Keys.Max()];
         }
 
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> enumerable, T item)
+        {
+            return enumerable.Except(new[] { item });
+        }
+
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (var item in enumerable) action(item);
