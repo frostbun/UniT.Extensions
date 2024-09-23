@@ -15,18 +15,7 @@ namespace UniT.Extensions
             foreach (var item in enumerable) await action(item);
         }
 
-        public static async UniTask ForEachAwaitAsync<T>(this IEnumerable<T> enumerable, Func<T, int, UniTask> action)
-        {
-            var index = 0;
-            foreach (var item in enumerable) await action(item, index++);
-        }
-
         public static async UniTask ForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, UniTask> action)
-        {
-            await enumerable.Select(action);
-        }
-
-        public static async UniTask ForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, int, UniTask> action)
         {
             await enumerable.Select(action);
         }
@@ -36,17 +25,7 @@ namespace UniT.Extensions
             return enumerable.ToArray().ForEachAwaitAsync(action);
         }
 
-        public static UniTask SafeForEachAwaitAsync<T>(this IEnumerable<T> enumerable, Func<T, int, UniTask> action)
-        {
-            return enumerable.ToArray().ForEachAwaitAsync(action);
-        }
-
         public static UniTask SafeForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, UniTask> action)
-        {
-            return enumerable.ToArray().ForEachAsync(action);
-        }
-
-        public static UniTask SafeForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, int, UniTask> action)
         {
             return enumerable.ToArray().ForEachAsync(action);
         }

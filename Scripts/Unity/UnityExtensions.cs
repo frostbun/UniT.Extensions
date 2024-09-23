@@ -5,9 +5,24 @@ namespace UniT.Extensions
 
     public static class UnityExtensions
     {
-        public static T Instantiate<T>(this T prefab, Vector3 position = default, Quaternion rotation = default, Transform? parent = null) where T : Object
+        public static T Instantiate<T>(this T prefab) where T : Object
+        {
+            return Object.Instantiate(prefab);
+        }
+
+        public static T Instantiate<T>(this T prefab, Vector3 position, Quaternion rotation) where T : Object
+        {
+            return Object.Instantiate(prefab, position, rotation);
+        }
+
+        public static T Instantiate<T>(this T prefab, Vector3 position, Quaternion rotation, Transform parent) where T : Object
         {
             return Object.Instantiate(prefab, position, rotation, parent);
+        }
+
+        public static T Instantiate<T>(this T prefab, Transform parent, bool worldPositionStays = false) where T : Object
+        {
+            return Object.Instantiate(prefab, parent, worldPositionStays);
         }
 
         public static T DontDestroyOnLoad<T>(this T obj) where T : Object

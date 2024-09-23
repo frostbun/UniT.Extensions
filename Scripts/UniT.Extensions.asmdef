@@ -2,9 +2,15 @@
   "name": "UniT.Extensions",
   "rootNamespace": "UniT.Extensions",
   "references": [
+    "VContainer",
     "UniTask"
   ],
   "versionDefines": [
+    {
+      "name": "jp.hadashikick.vcontainer",
+      "expression": "",
+      "define": "UNIT_VCONTAINER"
+    },
     {
       "name": "com.cysharp.unitask",
       "expression": "",

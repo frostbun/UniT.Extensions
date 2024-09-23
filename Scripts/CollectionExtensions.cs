@@ -8,47 +8,9 @@ namespace UniT.Extensions
 
     public static class CollectionExtensions
     {
-        public static int GetIndex<T>(this IList<T> list, Index index)
-        {
-            return index.IsFromEnd ? list.Count - index.Value : index.Value;
-        }
-
         public static void RemoveAt<T>(this IList<T> list, Index index)
         {
-            list.RemoveAt(list.GetIndex(index));
-        }
-
-        public static IEnumerable<T> Slice<T>(this IList<T> list, int start, int end, int step = 1)
-        {
-            for (var i = start; i < end; i += step)
-            {
-                yield return list[i];
-            }
-        }
-
-        public static IEnumerable<T> Slice<T>(this IList<T> list, int start)
-        {
-            return list.Slice(start, list.Count);
-        }
-
-        public static IEnumerable<T> Slice<T>(this IList<T> list, Index start, Index end, int step = 1)
-        {
-            return list.Slice(list.GetIndex(start), list.GetIndex(end), step);
-        }
-
-        public static IEnumerable<T> Slice<T>(this IList<T> list, Index start)
-        {
-            return list.Slice(list.GetIndex(start), list.Count);
-        }
-
-        public static IEnumerable<T> Slice<T>(this IList<T> list, Range range, int step = 1)
-        {
-            return list.Slice(range.Start, range.End, step);
-        }
-
-        public static IEnumerable<T> Each<T>(this IList<T> list, int step)
-        {
-            return list.Slice(.., step);
+            list.RemoveAt(index.IsFromEnd ? list.Count - index.Value : index.Value);
         }
 
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
@@ -59,21 +21,6 @@ namespace UniT.Extensions
         public static void RemoveRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
         {
             enumerable.ForEach(item => collection.Remove(item));
-        }
-
-        public static T Random<T>(this IList<T> list)
-        {
-            return list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : throw new InvalidOperationException("List empty");
-        }
-
-        public static T? RandomOrDefault<T>(this IList<T> list, T? defaultValue = default)
-        {
-            return list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : defaultValue;
-        }
-
-        public static T RandomOrDefault<T>(this IList<T> list, Func<T> valueFactory)
-        {
-            return list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : valueFactory();
         }
 
         public static void Clear<T>(this ICollection<T> collection, Action<T> action)

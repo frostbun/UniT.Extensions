@@ -71,17 +71,32 @@ namespace UniT.Extensions
 
         public static T Random<T>(this IEnumerable<T> enumerable)
         {
-            return enumerable.ToArray().Random();
+            return enumerable switch
+            {
+                IList<T> list         => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : throw new InvalidOperationException("Sequence contains no elements"),
+                IReadOnlyList<T> list => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : throw new InvalidOperationException("Sequence contains no elements"),
+                _                     => enumerable.ToArray().Random(),
+            };
         }
 
         public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable, T? defaultValue = default)
         {
-            return enumerable.ToArray().RandomOrDefault(defaultValue);
+            return enumerable switch
+            {
+                IList<T> list         => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : defaultValue,
+                IReadOnlyList<T> list => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : defaultValue,
+                _                     => enumerable.ToArray().RandomOrDefault(defaultValue),
+            };
         }
 
         public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, Func<T> valueFactory)
         {
-            return enumerable.ToArray().RandomOrDefault(valueFactory);
+            return enumerable switch
+            {
+                IList<T> list         => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : valueFactory(),
+                IReadOnlyList<T> list => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : valueFactory(),
+                _                     => enumerable.ToArray().RandomOrDefault(valueFactory),
+            };
         }
 
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights, int totalWeight)
@@ -100,24 +115,28 @@ namespace UniT.Extensions
                 .Item1;
         }
 
-        public static T Random<T>(this IEnumerable<T> enumerable, ICollection<int> weights)
-        {
-            return enumerable.Random(weights, weights.Sum());
-        }
-
-        public static T Random<T>(this IEnumerable<T> enumerable, ICollection<float> weights)
-        {
-            return enumerable.Random(weights, weights.Sum());
-        }
-
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights)
         {
-            return enumerable.Random(weights.ToArray());
+            weights = weights switch
+            {
+                ICollection<int> or IReadOnlyCollection<int> => weights,
+                _                                            => weights.ToArray(),
+            };
+            // ReSharper disable PossibleMultipleEnumeration
+            return enumerable.Random(weights, weights.Sum());
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<float> weights)
         {
-            return enumerable.Random(weights.ToArray());
+            weights = weights switch
+            {
+                ICollection<float> or IReadOnlyCollection<float> => weights,
+                _                                                => weights.ToArray(),
+            };
+            // ReSharper disable PossibleMultipleEnumeration
+            return enumerable.Random(weights, weights.Sum());
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public static IEnumerable<(int Index, T Value)> Enumerate<T>(this IEnumerable<T> enumerable, int start = 0)
