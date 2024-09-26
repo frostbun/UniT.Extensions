@@ -4,6 +4,7 @@ namespace VContainer
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using UniT.Extensions;
     using UnityEngine;
     using VContainer.Internal;
@@ -37,14 +38,24 @@ namespace VContainer
             builder.AutoResolve(typeof(T));
         }
 
-        public static object Instantiate(this IObjectResolver container, Type type, IReadOnlyList<IInjectParameter>? parameters = null)
+        public static object Instantiate(this IObjectResolver container, Type type, IReadOnlyList<IInjectParameter> parameters)
         {
             return InjectorCache.GetOrBuild(type).CreateInstance(container, parameters);
         }
 
-        public static T Instantiate<T>(this IObjectResolver container, IReadOnlyList<IInjectParameter>? parameters = null)
+        public static T Instantiate<T>(this IObjectResolver container, IReadOnlyList<IInjectParameter> parameters)
         {
             return (T)container.Instantiate(typeof(T), parameters);
+        }
+
+        public static object Instantiate(this IObjectResolver container, Type type, params object[] @params)
+        {
+            return container.Instantiate(type, (IReadOnlyList<IInjectParameter>)@params.Select(param => new Parameter(param)).ToArray());
+        }
+
+        public static T Instantiate<T>(this IObjectResolver container, params object[] @params)
+        {
+            return (T)container.Instantiate(typeof(T), @params);
         }
     }
 
