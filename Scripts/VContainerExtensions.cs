@@ -5,7 +5,6 @@ namespace VContainer
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using UniT.Extensions;
     using UnityEngine;
     using VContainer.Internal;
     using VContainer.Unity;
@@ -15,7 +14,7 @@ namespace VContainer
     {
         public static RegistrationBuilder RegisterResource<T>(this IContainerBuilder builder, string path, Lifetime lifetime) where T : Object
         {
-            return builder.Register(_ => Resources.Load<T>(path).Instantiate(), lifetime);
+            return builder.Register(_ => Resources.Load<T>(path), lifetime);
         }
 
         public static ComponentRegistrationBuilder RegisterComponentInNewPrefabResource<T>(this IContainerBuilder builder, string path, Lifetime lifetime) where T : Component

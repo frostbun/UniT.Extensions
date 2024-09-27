@@ -11,19 +11,25 @@ namespace UniT.Extensions
             return Object.Instantiate(prefab);
         }
 
-        public static T Instantiate<T>(this T prefab, Vector3 position, Quaternion rotation) where T : Object
-        {
-            return Object.Instantiate(prefab, position, rotation);
-        }
-
-        public static T Instantiate<T>(this T prefab, Vector3 position, Quaternion rotation, Transform parent) where T : Object
+        public static GameObject Instantiate(this GameObject prefab, Vector3 position = default, Quaternion rotation = default, Transform? parent = null)
         {
             return Object.Instantiate(prefab, position, rotation, parent);
         }
 
-        public static T Instantiate<T>(this T prefab, Transform parent, bool worldPositionStays = false) where T : Object
+        public static GameObject Instantiate(this GameObject prefab, Transform parent, bool instantiateInWorldSpace = false)
         {
-            return Object.Instantiate(prefab, parent, worldPositionStays);
+            return Object.Instantiate(prefab, parent, instantiateInWorldSpace);
+        }
+
+        // ReSharper disable once MethodOverloadWithOptionalParameter
+        public static T Instantiate<T>(this T prefab, Vector3 position = default, Quaternion rotation = default, Transform? parent = null) where T : Component
+        {
+            return Object.Instantiate(prefab, position, rotation, parent);
+        }
+
+        public static T Instantiate<T>(this T prefab, Transform parent, bool instantiateInWorldSpace = false) where T : Component
+        {
+            return Object.Instantiate(prefab, parent, instantiateInWorldSpace);
         }
 
         public static T DontDestroyOnLoad<T>(this T obj) where T : Object
