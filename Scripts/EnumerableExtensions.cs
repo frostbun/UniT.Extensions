@@ -48,9 +48,32 @@ namespace UniT.Extensions
             return enumerable.Enumerate().First((_, item) => predicate(item)).Item1;
         }
 
+        public static int FirstIndexOrDefault<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            var index = -1;
+            foreach (var item in enumerable)
+            {
+                ++index;
+                if (predicate(item)) return index;
+            }
+            return index;
+        }
+
         public static int LastIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             return enumerable.Enumerate().Last((_, item) => predicate(item)).Item1;
+        }
+
+        public static int LastIndexOrDefault<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            var index     = -1;
+            var lastIndex = -1;
+            foreach (var item in enumerable)
+            {
+                ++index;
+                if (predicate(item)) lastIndex = index;
+            }
+            return lastIndex;
         }
 
         public static bool ContainsAll<T>(this IEnumerable<T> enumerable, IEnumerable<T> other)
@@ -214,6 +237,11 @@ namespace UniT.Extensions
                 else lists.Mismatches.Add(item);
                 return lists;
             });
+        }
+
+        public static IEnumerable<T?> AsNullable<T>(this IEnumerable<T> enumerable) where T : notnull
+        {
+            return enumerable;
         }
 
         public static ReadOnlyCollection<T> ToReadOnlyCollection<T>(this IEnumerable<T> enumerable)
