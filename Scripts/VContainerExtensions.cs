@@ -47,12 +47,12 @@ namespace VContainer
             return (T)container.Instantiate(typeof(T), parameters);
         }
 
-        public static object Instantiate(this IObjectResolver container, Type type, params object[] @params)
+        public static object Instantiate(this IObjectResolver container, Type type, params object?[] @params)
         {
             return container.Instantiate(type, (IReadOnlyList<IInjectParameter>)@params.Select(param => new Parameter(param)).ToArray());
         }
 
-        public static T Instantiate<T>(this IObjectResolver container, params object[] @params)
+        public static T Instantiate<T>(this IObjectResolver container, params object?[] @params)
         {
             return (T)container.Instantiate(typeof(T), @params);
         }
@@ -60,13 +60,13 @@ namespace VContainer
 
     public sealed class Parameter : IInjectParameter
     {
-        private readonly object value;
+        private readonly object? value;
 
-        public Parameter(object value) => this.value = value;
+        public Parameter(object? value) => this.value = value;
 
         bool IInjectParameter.Match(Type parameterType, string _) => parameterType.IsInstanceOfType(this.value);
 
-        object IInjectParameter.GetValue(IObjectResolver _) => this.value;
+        object? IInjectParameter.GetValue(IObjectResolver _) => this.value;
     }
 }
 #endif
