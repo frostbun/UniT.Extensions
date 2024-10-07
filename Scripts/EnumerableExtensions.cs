@@ -56,7 +56,7 @@ namespace UniT.Extensions
                 ++index;
                 if (predicate(item)) return index;
             }
-            return index;
+            return -1;
         }
 
         public static int LastIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
