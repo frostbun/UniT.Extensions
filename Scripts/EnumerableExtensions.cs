@@ -239,11 +239,6 @@ namespace UniT.Extensions
             });
         }
 
-        public static IEnumerable<T?> AsNullable<T>(this IEnumerable<T> enumerable) where T : notnull
-        {
-            return enumerable;
-        }
-
         public static ReadOnlyCollection<T> ToReadOnlyCollection<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.ToArray().AsReadOnly();
