@@ -154,6 +154,22 @@ namespace UniT.Extensions
             return component.gameObject.GetOrAddComponent<T>();
         }
 
+        public static string GetPathInHierarchy(this Transform transform)
+        {
+            var path = transform.name;
+            while (transform.parent is { })
+            {
+                transform = transform.parent;
+                path      = $"{transform.name}/{path}";
+            }
+            return path;
+        }
+
+        public static string GetPathInHierarchy(this Component component)
+        {
+            return component.transform.GetPathInHierarchy();
+        }
+
         public static Sprite CreateSprite(this Texture2D texture, Vector2? pivot = null)
         {
             return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), pivot ?? new Vector2(.5f, .5f));
