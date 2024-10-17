@@ -8,9 +8,29 @@ namespace UniT.Extensions
 
     public static class CollectionExtensions
     {
+        public static int GetRealIndex<T>(this IList<T> list, Index index)
+        {
+            return index.IsFromEnd ? list.Count - index.Value : index.Value;
+        }
+
         public static void RemoveAt<T>(this IList<T> list, Index index)
         {
-            list.RemoveAt(index.IsFromEnd ? list.Count - index.Value : index.Value);
+            list.RemoveAt(list.GetRealIndex(index));
+        }
+
+        public static void RemoveRange<T>(this IList<T> list, int start, int stop)
+        {
+            while (stop-- > start) list.RemoveAt(stop);
+        }
+
+        public static void RemoveRange<T>(this IList<T> list, Index start, Index stop)
+        {
+            list.RemoveRange(list.GetRealIndex(start), list.GetRealIndex(stop));
+        }
+
+        public static void RemoveRange<T>(this IList<T> list, Range range)
+        {
+            list.RemoveRange(range.Start, range.End);
         }
 
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
