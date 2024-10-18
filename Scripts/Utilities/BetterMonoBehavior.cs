@@ -45,16 +45,15 @@ namespace UniT.Extensions
 
         public IEnumerator GatherCoroutines(params IEnumerator[] coroutines)
         {
-            try
+            var count     = coroutines.Length;
+            var exception = default(Exception);
+            coroutines.ForEach(coroutine => this.StartCoroutine(coroutine.Catch(e => exception = exception is null ? e : throw e).Finally(() => --count)));
+            while (count > 0)
             {
-                var count = coroutines.Length;
-                coroutines.ForEach(coroutine => this.StartCoroutine(coroutine.Then(() => --count)));
-                yield return new WaitUntil(() => count is 0);
+                if (exception is { }) throw exception;
+                yield return null;
             }
-            finally
-            {
-                coroutines.ForEach(this.StopCoroutine);
-            }
+            if (exception is { }) throw exception;
         }
 
         public IEnumerator GatherCoroutines(IEnumerable<IEnumerator> coroutines)

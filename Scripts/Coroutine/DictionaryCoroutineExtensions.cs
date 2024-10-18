@@ -38,25 +38,17 @@ namespace UniT.Extensions
 
         public static IEnumerator TryAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<Action<TValue>, IEnumerator> valueFactory, Action<bool>? callback = null)
         {
+            var @lock = (dictionary, key);
+            yield return new WaitUntil(() => !Locks.Contains(@lock));
             if (dictionary.ContainsKey(key))
             {
                 callback?.Invoke(false);
                 yield break;
             }
-            var @lock = (dictionary, key);
-            if (!Locks.Add(@lock))
-            {
-                yield return new WaitUntil(() => !Locks.Contains(@lock));
-                yield return dictionary.TryAddAsync(key, valueFactory, callback);
-                yield break;
-            }
+            Locks.Add(@lock);
             try
             {
-                yield return valueFactory(value =>
-                {
-                    if (!dictionary.TryAdd(key, value)) throw new InvalidOperationException("Dictionary was modified while trying to add a new value asynchronously");
-                    callback?.Invoke(true);
-                });
+                yield return valueFactory(value => callback?.Invoke(dictionary.TryAdd(key, value)));
             }
             finally
             {

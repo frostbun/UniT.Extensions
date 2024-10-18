@@ -71,26 +71,25 @@ namespace UniT.Extensions
 
         public static IEnumerator Catch<TException>(this IEnumerator coroutine, Action<TException> handler) where TException : Exception
         {
-            try
+            while (true)
             {
-                while (true)
+                try
                 {
-                    try
-                    {
-                        if (!coroutine.MoveNext()) break;
-                    }
-                    catch (TException e)
-                    {
-                        handler(e);
-                        yield break;
-                    }
-                    yield return coroutine.Current;
+                    if (!coroutine.MoveNext()) yield break;
                 }
+                catch (TException e)
+                {
+                    (coroutine as IDisposable)?.Dispose();
+                    handler(e);
+                    yield break;
+                }
+                yield return coroutine.Current;
             }
-            finally
-            {
-                (coroutine as IDisposable)?.Dispose();
-            }
+        }
+
+        public static IEnumerator Catch<TException>(this IEnumerator coroutine, Action handler) where TException : Exception
+        {
+            return coroutine.Catch<TException>(_ => handler());
         }
 
         public static IEnumerator Catch(this IEnumerator coroutine, Action<Exception> handler)
@@ -107,7 +106,7 @@ namespace UniT.Extensions
         {
             try
             {
-                yield return coroutine;
+                while (coroutine.MoveNext()) yield return coroutine.Current;
             }
             finally
             {

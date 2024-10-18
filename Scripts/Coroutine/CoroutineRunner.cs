@@ -12,7 +12,16 @@ namespace UniT.Extensions
 
     public static class CoroutineRunner
     {
-        private static readonly BetterMonoBehavior Runner = new GameObject(nameof(CoroutineRunner)).AddComponent<BetterMonoBehavior>().DontDestroyOnLoad();
+        private static BetterMonoBehavior? runner;
+
+        private static BetterMonoBehavior Runner
+        {
+            get
+            {
+                if (runner == null) runner = new GameObject(nameof(CoroutineRunner)).AddComponent<BetterMonoBehavior>().DontDestroyOnLoad();
+                return runner;
+            }
+        }
 
         public static void Start(this IEnumerator coroutine) => Runner.StartCoroutine(coroutine);
 

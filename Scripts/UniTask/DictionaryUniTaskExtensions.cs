@@ -25,20 +25,20 @@ namespace UniT.Extensions
             return dictionary.TryAddAsync(key, valueFactory).ContinueWith(_ => dictionary[key]);
         }
 
-        public static UniTask<bool> TryAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
+        public static async UniTask<bool> TryAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
-            if (dictionary.ContainsKey(key)) return UniTask.FromResult(false);
             var @lock = (dictionary, key);
-            if (!Locks.Add(@lock))
+            await UniTask.WaitUntil(Locks, state => !state.Contains(@lock));
+            if (dictionary.ContainsKey(key)) return false;
+            Locks.Add(@lock);
+            try
             {
-                return UniTask.WaitUntil(() => !Locks.Contains(@lock))
-                    .ContinueWith(() => dictionary.TryAddAsync(key, valueFactory));
+                return dictionary.TryAdd(key, await valueFactory());
             }
-            return valueFactory().ContinueWith(value =>
+            finally
             {
-                if (!dictionary.TryAdd(key, value)) throw new InvalidOperationException("Dictionary was modified while trying to add a new value asynchronously");
-                return true;
-            }).Finally(() => Locks.Remove(@lock));
+                Locks.Remove(@lock);
+            }
         }
     }
 }
