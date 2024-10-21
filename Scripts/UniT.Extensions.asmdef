@@ -2,6 +2,7 @@
   "name": "UniT.Extensions",
   "rootNamespace": "UniT.Extensions",
   "references": [
+    "Unity.ResourceManager",
     "VContainer",
     "UniTask"
   ],
@@ -20,6 +21,11 @@
       "name": "com.unity.nuget.newtonsoft-json",
       "expression": "",
       "define": "UNIT_JSON"
+    },
+    {
+      "name": "com.unity.addressables",
+      "expression": "",
+      "define": "UNIT_ADDRESSABLES"
     }
   ]
 }

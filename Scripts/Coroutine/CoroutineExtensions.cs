@@ -6,6 +6,9 @@ namespace UniT.Extensions
     using System.Collections;
     using System.Threading.Tasks;
     using UnityEngine;
+    #if UNIT_ADDRESSABLES
+    using UnityEngine.ResourceManagement.AsyncOperations;
+    #endif
 
     public static class CoroutineExtensions
     {
@@ -136,6 +139,38 @@ namespace UniT.Extensions
             if (task.IsCanceled) yield break;
             callback(task.Result);
         }
+
+        public static IEnumerator ToCoroutine(this AsyncOperation asyncOperation, Action? callback = null, IProgress<float>? progress = null)
+        {
+            while (!asyncOperation.isDone)
+            {
+                progress?.Report(asyncOperation.progress);
+                yield return null;
+            }
+            callback?.Invoke();
+        }
+
+        #if UNIT_ADDRESSABLES
+        public static IEnumerator ToCoroutine(this AsyncOperationHandle asyncOperation, Action? callback = null, IProgress<float>? progress = null)
+        {
+            while (!asyncOperation.IsDone)
+            {
+                progress?.Report(asyncOperation.PercentComplete);
+                yield return null;
+            }
+            callback?.Invoke();
+        }
+
+        public static IEnumerator ToCoroutine<T>(this AsyncOperationHandle<T> asyncOperation, Action<T> callback, IProgress<float>? progress = null)
+        {
+            while (!asyncOperation.IsDone)
+            {
+                progress?.Report(asyncOperation.PercentComplete);
+                yield return null;
+            }
+            callback(asyncOperation.Result);
+        }
+        #endif
     }
 }
 #endif
