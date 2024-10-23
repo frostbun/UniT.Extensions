@@ -185,6 +185,11 @@ namespace UniT.Extensions
             return dictionary.ThenByDescending(kv => keySelector(kv.Key, kv.Value));
         }
 
+        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.ToDictionary(kv => kv.Key, kv => kv.Value);
+        }
+
         public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
             return new ReadOnlyDictionary<TKey, TValue>(dictionary);
