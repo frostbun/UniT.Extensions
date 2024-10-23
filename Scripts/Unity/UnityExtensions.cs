@@ -156,13 +156,14 @@ namespace UniT.Extensions
 
         public static string GetPathInHierarchy(this Transform transform)
         {
-            var path = transform.name;
-            while (transform.parent is { })
-            {
-                transform = transform.parent;
-                path      = $"{transform.name}/{path}";
-            }
-            return path;
+            return transform.parent is null
+                ? transform.name
+                : $"{transform.parent.GetPathInHierarchy()}/{transform.name}";
+        }
+
+        public static string GetPathInHierarchy(this GameObject gameObject)
+        {
+            return gameObject.transform.GetPathInHierarchy();
         }
 
         public static string GetPathInHierarchy(this Component component)

@@ -4,17 +4,20 @@ namespace UniT.Extensions
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using UnityEngine;
 
     [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
-        [SerializeField] private KeyValuePair[] values = Array.Empty<KeyValuePair>();
+        [SerializeField] private List<KeyValuePair> values = new List<KeyValuePair>();
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
-            this.values = this.Select(kv => new KeyValuePair(kv.Key, kv.Value)).ToArray();
+            this.values.Clear();
+            foreach (var kv in this)
+            {
+                this.values.Add(new KeyValuePair(kv.Key, kv.Value));
+            }
         }
 
         void ISerializationCallbackReceiver.OnAfterDeserialize()
