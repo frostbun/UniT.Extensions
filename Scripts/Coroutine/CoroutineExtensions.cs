@@ -117,11 +117,6 @@ namespace UniT.Extensions
             }
         }
 
-        public static void Wait(this IEnumerator coroutine)
-        {
-            while (coroutine.MoveNext()) ;
-        }
-
         public static IEnumerator ToCoroutine(this Task task, Action? callback = null)
         {
             task.ConfigureAwait(false);
