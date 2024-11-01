@@ -28,7 +28,7 @@ namespace UniT.Extensions
         public static async UniTask<bool> TryAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<UniTask<TValue>> valueFactory)
         {
             var @lock = (dictionary, key);
-            await UniTask.WaitUntil(Locks, state => !state.Contains(@lock));
+            if (Locks.Contains(@lock)) await UniTask.WaitUntil(Locks, state => !state.Contains(@lock));
             if (dictionary.ContainsKey(key)) return false;
             Locks.Add(@lock);
             try

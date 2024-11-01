@@ -120,7 +120,7 @@ namespace UniT.Extensions
         public static IEnumerator ToCoroutine(this Task task, Action? callback = null)
         {
             task.ConfigureAwait(false);
-            yield return new WaitUntil(() => task.IsCompleted);
+            if (!task.IsCompleted) yield return new WaitUntil(() => task.IsCompleted);
             if (task.IsFaulted) throw task.Exception!;
             if (task.IsCanceled) yield break;
             callback?.Invoke();
@@ -129,7 +129,7 @@ namespace UniT.Extensions
         public static IEnumerator ToCoroutine<T>(this Task<T> task, Action<T> callback)
         {
             task.ConfigureAwait(false);
-            yield return new WaitUntil(() => task.IsCompleted);
+            if (!task.IsCompleted) yield return new WaitUntil(() => task.IsCompleted);
             if (task.IsFaulted) throw task.Exception!;
             if (task.IsCanceled) yield break;
             callback(task.Result);
