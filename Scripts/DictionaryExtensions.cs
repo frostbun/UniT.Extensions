@@ -70,6 +70,11 @@ namespace UniT.Extensions
             return true;
         }
 
+        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TValue : new()
+        {
+            return dictionary.TryAdd(key, () => new TValue());
+        }
+
         public static KeyValuePair<TKey, TValue> First<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, bool> predicate)
         {
             return dictionary.First(kv => predicate(kv.Key, kv.Value));
