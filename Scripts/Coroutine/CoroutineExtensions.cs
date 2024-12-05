@@ -148,22 +148,36 @@ namespace UniT.Extensions
         #if UNIT_ADDRESSABLES
         public static IEnumerator ToCoroutine(this AsyncOperationHandle asyncOperation, Action? callback = null, IProgress<float>? progress = null)
         {
-            while (!asyncOperation.IsDone)
+            try
             {
-                progress?.Report(asyncOperation.PercentComplete);
-                yield return null;
+                while (!asyncOperation.IsDone)
+                {
+                    progress?.Report(asyncOperation.PercentComplete);
+                    yield return null;
+                }
+                callback?.Invoke();
             }
-            callback?.Invoke();
+            finally
+            {
+                if (!asyncOperation.IsDone) asyncOperation.Release();
+            }
         }
 
         public static IEnumerator ToCoroutine<T>(this AsyncOperationHandle<T> asyncOperation, Action<T> callback, IProgress<float>? progress = null)
         {
-            while (!asyncOperation.IsDone)
+            try
             {
-                progress?.Report(asyncOperation.PercentComplete);
-                yield return null;
+                while (!asyncOperation.IsDone)
+                {
+                    progress?.Report(asyncOperation.PercentComplete);
+                    yield return null;
+                }
+                callback(asyncOperation.Result);
             }
-            callback(asyncOperation.Result);
+            finally
+            {
+                if (!asyncOperation.IsDone) asyncOperation.Release();
+            }
         }
         #endif
     }
