@@ -144,14 +144,14 @@ namespace UniT.Extensions
             return component.gameObject.TryAddComponent<T>();
         }
 
-        public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component
+        public static T GetComponentOrAdd<T>(this GameObject gameObject) where T : Component
         {
             return gameObject.GetComponent<T>() ?? gameObject.AddComponent<T>();
         }
 
-        public static T GetOrAddComponent<T>(this Component component) where T : Component
+        public static T GetComponentOrAdd<T>(this Component component) where T : Component
         {
-            return component.gameObject.GetOrAddComponent<T>();
+            return component.gameObject.GetComponentOrAdd<T>();
         }
 
         public static string GetPathInHierarchy(this Transform transform)

@@ -102,7 +102,17 @@ namespace UniT.Extensions
             };
         }
 
-        public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable, T? defaultValue = default)
+        public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable switch
+            {
+                IList<T> list         => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : default,
+                IReadOnlyList<T> list => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : default,
+                _                     => enumerable.ToArray().RandomOrDefault(),
+            };
+        }
+
+        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, T defaultValue)
         {
             return enumerable switch
             {
@@ -233,8 +243,10 @@ namespace UniT.Extensions
         {
             return enumerable.Aggregate((Matches: new List<T>(), Mismatches: new List<T>()), (lists, item) =>
             {
-                if (predicate(item)) lists.Matches.Add(item);
-                else lists.Mismatches.Add(item);
+                if (predicate(item))
+                    lists.Matches.Add(item);
+                else
+                    lists.Mismatches.Add(item);
                 return lists;
             });
         }
