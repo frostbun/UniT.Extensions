@@ -19,7 +19,7 @@ namespace UniT.Extensions
                 e1HasValue = e1.MoveNext();
                 e2HasValue = e2.MoveNext();
             }
-            if (e1HasValue || e2HasValue) throw new InvalidOperationException("The number of items is different. If this is intentional, use ZipShortest or ZipLongest instead.");
+            if (e1HasValue || e2HasValue) throw new InvalidOperationException("The number of items are different. If this is intentional, use ZipShortest or ZipLongest instead.");
         }
 
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TResult>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, Func<TFirst, TSecond, TThird, TResult> resultSelector)
@@ -37,7 +37,7 @@ namespace UniT.Extensions
                 e2HasValue = e2.MoveNext();
                 e3HasValue = e3.MoveNext();
             }
-            if (e1HasValue || e2HasValue || e3HasValue) throw new InvalidOperationException("The number of items is different. If this is intentional, use ZipShortest or ZipLongest instead.");
+            if (e1HasValue || e2HasValue || e3HasValue) throw new InvalidOperationException("The number of items are different. If this is intentional, use ZipShortest or ZipLongest instead.");
         }
 
         public static IEnumerable<(TFirst, TSecond)> Zip<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
