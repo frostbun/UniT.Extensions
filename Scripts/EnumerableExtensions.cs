@@ -96,9 +96,9 @@ namespace UniT.Extensions
         {
             return enumerable switch
             {
-                IList<T> list         => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : throw new InvalidOperationException("Sequence contains no elements"),
-                IReadOnlyList<T> list => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : throw new InvalidOperationException("Sequence contains no elements"),
-                _                     => enumerable.ToArray().Random(),
+                ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : throw new InvalidOperationException("Sequence contains no elements"),
+                IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : throw new InvalidOperationException("Sequence contains no elements"),
+                _                                 => enumerable.ToArray().Random(),
             };
         }
 
@@ -106,9 +106,9 @@ namespace UniT.Extensions
         {
             return enumerable switch
             {
-                IList<T> list         => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : default,
-                IReadOnlyList<T> list => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : default,
-                _                     => enumerable.ToArray().RandomOrDefault(),
+                ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : default,
+                IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : default,
+                _                                 => enumerable.ToArray().RandomOrDefault(),
             };
         }
 
@@ -116,9 +116,9 @@ namespace UniT.Extensions
         {
             return enumerable switch
             {
-                IList<T> list         => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : defaultValue,
-                IReadOnlyList<T> list => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : defaultValue,
-                _                     => enumerable.ToArray().RandomOrDefault(defaultValue),
+                ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : defaultValue,
+                IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : defaultValue,
+                _                                 => enumerable.ToArray().RandomOrDefault(defaultValue),
             };
         }
 
@@ -126,9 +126,9 @@ namespace UniT.Extensions
         {
             return enumerable switch
             {
-                IList<T> list         => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : valueFactory(),
-                IReadOnlyList<T> list => list.Count > 0 ? list[UnityEngine.Random.Range(0, list.Count)] : valueFactory(),
-                _                     => enumerable.ToArray().RandomOrDefault(valueFactory),
+                ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : valueFactory(),
+                IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : valueFactory(),
+                _                                 => enumerable.ToArray().RandomOrDefault(valueFactory),
             };
         }
 
