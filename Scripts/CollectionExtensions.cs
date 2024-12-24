@@ -33,14 +33,14 @@ namespace UniT.Extensions
             list.RemoveRange(range.Start, range.End);
         }
 
-        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
+        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> items)
         {
-            enumerable.ForEach(collection.Add);
+            items.ForEach(collection.Add);
         }
 
-        public static void RemoveRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
+        public static void RemoveRange<T>(this ICollection<T> collection, IEnumerable<T> items)
         {
-            enumerable.ForEach(item => collection.Remove(item));
+            items.ForEach(item => collection.Remove(item));
         }
 
         public static void Clear<T>(this ICollection<T> collection, Action<T> action)

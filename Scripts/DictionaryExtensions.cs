@@ -8,6 +8,11 @@ namespace UniT.Extensions
 
     public static class DictionaryExtensions
     {
+        public static void RemoveRange<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IEnumerable<TKey> keys)
+        {
+            keys.ForEach(key => dictionary.Remove(key));
+        }
+
         public static int RemoveWhere<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Func<TKey, TValue, bool> predicate)
         {
             var count = 0;
