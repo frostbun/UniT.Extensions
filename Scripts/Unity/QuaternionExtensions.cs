@@ -29,22 +29,22 @@ namespace UniT.Extensions
             return quaternion;
         }
 
-        public static Quaternion WithEulerX(this Quaternion quaternion, float x)
+        public static Quaternion WithEulerAngleX(this Quaternion quaternion, float x)
         {
-            var euler = quaternion.eulerAngles;
-            return Quaternion.Euler(x, euler.y, euler.z);
+            var eulerAngles = quaternion.eulerAngles;
+            return Quaternion.Euler(x, eulerAngles.y, eulerAngles.z);
         }
 
-        public static Quaternion WithEulerY(this Quaternion quaternion, float y)
+        public static Quaternion WithEulerAngleY(this Quaternion quaternion, float y)
         {
-            var euler = quaternion.eulerAngles;
-            return Quaternion.Euler(euler.x, y, euler.z);
+            var eulerAngles = quaternion.eulerAngles;
+            return Quaternion.Euler(eulerAngles.x, y, eulerAngles.z);
         }
 
-        public static Quaternion WithEulerZ(this Quaternion quaternion, float z)
+        public static Quaternion WithEulerAngleZ(this Quaternion quaternion, float z)
         {
-            var euler = quaternion.eulerAngles;
-            return Quaternion.Euler(euler.x, euler.y, z);
+            var eulerAngles = quaternion.eulerAngles;
+            return Quaternion.Euler(eulerAngles.x, eulerAngles.y, z);
         }
     }
 }
