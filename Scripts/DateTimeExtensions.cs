@@ -13,9 +13,14 @@ namespace UniT.Extensions
             return dateTime.AddDays(-1 * diff).Date;
         }
 
+        public static DateTime GetFirstDayOfWeek(this DateTime dateTime, DateTimeFormatInfo dateTimeFormatInfo)
+        {
+            return GetFirstDayOfWeek(dateTime, dateTimeFormatInfo.FirstDayOfWeek);
+        }
+
         public static DateTime GetFirstDayOfWeek(this DateTime dateTime, CultureInfo cultureInfo)
         {
-            return GetFirstDayOfWeek(dateTime, cultureInfo.DateTimeFormat.FirstDayOfWeek);
+            return GetFirstDayOfWeek(dateTime, cultureInfo.DateTimeFormat);
         }
 
         public static DateTime GetFirstDayOfWeek(this DateTime dateTime)

@@ -125,9 +125,29 @@ namespace UniT.Extensions
             return dictionary.Where(kv => predicate(kv.Key, kv.Value));
         }
 
+        public static IEnumerable<KeyValuePair<TKey, TValue>> WhereKey<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, bool> predicate)
+        {
+            return dictionary.Where(kv => predicate(kv.Key));
+        }
+
+        public static IEnumerable<KeyValuePair<TKey, TValue>> WhereValue<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TValue, bool> predicate)
+        {
+            return dictionary.Where(kv => predicate(kv.Value));
+        }
+
         public static IEnumerable<TResult> Select<TKey, TValue, TResult>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TResult> selector)
         {
             return dictionary.Select(kv => selector(kv.Key, kv.Value));
+        }
+
+        public static IEnumerable<TKey> SelectKeys<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.Select(kv => kv.Key);
+        }
+
+        public static IEnumerable<TValue> SelectValues<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.Select(kv => kv.Value);
         }
 
         public static IEnumerable<TResult> SelectMany<TKey, TValue, TResult>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, IEnumerable<TResult>> selector)

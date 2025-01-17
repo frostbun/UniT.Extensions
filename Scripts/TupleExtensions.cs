@@ -77,6 +77,31 @@ namespace UniT.Extensions
             return tuples.Where(tuple => predicate(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
+        public static IEnumerable<(TFirst, TSecond)> WhereFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, bool> predicate)
+        {
+            return tuples.Where(tuple => predicate(tuple.Item1));
+        }
+
+        public static IEnumerable<(TFirst, TSecond, TThird)> WhereFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, bool> predicate)
+        {
+            return tuples.Where(tuple => predicate(tuple.Item1));
+        }
+
+        public static IEnumerable<(TFirst, TSecond)> WhereSecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, bool> predicate)
+        {
+            return tuples.Where(tuple => predicate(tuple.Item2));
+        }
+
+        public static IEnumerable<(TFirst, TSecond, TThird)> WhereSecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, bool> predicate)
+        {
+            return tuples.Where(tuple => predicate(tuple.Item2));
+        }
+
+        public static IEnumerable<(TFirst, TSecond, TThird)> WhereThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, bool> predicate)
+        {
+            return tuples.Where(tuple => predicate(tuple.Item3));
+        }
+
         public static IEnumerable<TResult> Select<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
         {
             return tuples.Select(tuple => selector(tuple.Item1, tuple.Item2));
@@ -85,6 +110,31 @@ namespace UniT.Extensions
         public static IEnumerable<TResult> Select<TFirst, TSecond, TThird, TResult>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TResult> selector)
         {
             return tuples.Select(tuple => selector(tuple.Item1, tuple.Item2, tuple.Item3));
+        }
+
+        public static IEnumerable<TFirst> SelectFirsts<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        {
+            return tuples.Select(tuple => tuple.Item1);
+        }
+
+        public static IEnumerable<TFirst> SelectFirsts<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        {
+            return tuples.Select(tuple => tuple.Item1);
+        }
+
+        public static IEnumerable<TSecond> SelectSeconds<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        {
+            return tuples.Select(tuple => tuple.Item2);
+        }
+
+        public static IEnumerable<TSecond> SelectSeconds<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        {
+            return tuples.Select(tuple => tuple.Item2);
+        }
+
+        public static IEnumerable<TThird> SelectThirds<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        {
+            return tuples.Select(tuple => tuple.Item3);
         }
 
         public static IEnumerable<TResult> SelectMany<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, IEnumerable<TResult>> selector)
