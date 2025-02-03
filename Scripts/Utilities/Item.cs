@@ -7,6 +7,8 @@ namespace UniT.Extensions
     {
         public static T S<T>(T item) => item;
 
+        public static bool Is<T>(object item) where T : notnull => item is T;
+
         public static bool IsTrue(bool item) => item;
 
         public static bool IsFalse(bool item) => !item;

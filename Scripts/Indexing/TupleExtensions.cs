@@ -77,6 +77,31 @@ namespace UniT.Extensions.Indexing
             return tuples.Where((tuple, index) => predicate(tuple.Item1, tuple.Item2, tuple.Item3, index));
         }
 
+        public static IEnumerable<(TFirst, TSecond)> WhereFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, int, bool> predicate)
+        {
+            return tuples.Where((tuple, index) => predicate(tuple.Item1, index));
+        }
+
+        public static IEnumerable<(TFirst, TSecond, TThird)> WhereFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, int, bool> predicate)
+        {
+            return tuples.Where((tuple, index) => predicate(tuple.Item1, index));
+        }
+
+        public static IEnumerable<(TFirst, TSecond)> WhereSecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, int, bool> predicate)
+        {
+            return tuples.Where((tuple, index) => predicate(tuple.Item2, index));
+        }
+
+        public static IEnumerable<(TFirst, TSecond, TThird)> WhereSecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, int, bool> predicate)
+        {
+            return tuples.Where((tuple, index) => predicate(tuple.Item2, index));
+        }
+
+        public static IEnumerable<(TFirst, TSecond, TThird)> WhereThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, int, bool> predicate)
+        {
+            return tuples.Where((tuple, index) => predicate(tuple.Item3, index));
+        }
+
         public static IEnumerable<TResult> Select<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, int, TResult> selector)
         {
             return tuples.Select((tuple, index) => selector(tuple.Item1, tuple.Item2, index));
@@ -137,6 +162,31 @@ namespace UniT.Extensions.Indexing
             return tuples.MinBy((tuple, index) => keySelector(tuple.Item1, tuple.Item2, tuple.Item3, index));
         }
 
+        public static (TFirst, TSecond) MinByFirst<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, int, TKey> keySelector)
+        {
+            return tuples.MinBy((tuple, index) => keySelector(tuple.Item1, index));
+        }
+
+        public static (TFirst, TSecond, TThird) MinByFirst<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, int, TKey> keySelector)
+        {
+            return tuples.MinBy((tuple, index) => keySelector(tuple.Item1, index));
+        }
+
+        public static (TFirst, TSecond) MinBySecond<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, int, TKey> keySelector)
+        {
+            return tuples.MinBy((tuple, index) => keySelector(tuple.Item2, index));
+        }
+
+        public static (TFirst, TSecond, TThird) MinBySecond<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, int, TKey> keySelector)
+        {
+            return tuples.MinBy((tuple, index) => keySelector(tuple.Item2, index));
+        }
+
+        public static (TFirst, TSecond, TThird) MinByThird<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, int, TKey> keySelector)
+        {
+            return tuples.MinBy((tuple, index) => keySelector(tuple.Item3, index));
+        }
+
         public static (TFirst, TSecond) MaxBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, int, TKey> keySelector)
         {
             return tuples.MaxBy((tuple, index) => keySelector(tuple.Item1, tuple.Item2, index));
@@ -145,6 +195,31 @@ namespace UniT.Extensions.Indexing
         public static (TFirst, TSecond, TThird) MaxBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, int, TKey> keySelector)
         {
             return tuples.MaxBy((tuple, index) => keySelector(tuple.Item1, tuple.Item2, tuple.Item3, index));
+        }
+
+        public static (TFirst, TSecond) MaxByFirst<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, int, TKey> keySelector)
+        {
+            return tuples.MaxBy((tuple, index) => keySelector(tuple.Item1, index));
+        }
+
+        public static (TFirst, TSecond, TThird) MaxByFirst<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, int, TKey> keySelector)
+        {
+            return tuples.MaxBy((tuple, index) => keySelector(tuple.Item1, index));
+        }
+
+        public static (TFirst, TSecond) MaxBySecond<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, int, TKey> keySelector)
+        {
+            return tuples.MaxBy((tuple, index) => keySelector(tuple.Item2, index));
+        }
+
+        public static (TFirst, TSecond, TThird) MaxBySecond<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, int, TKey> keySelector)
+        {
+            return tuples.MaxBy((tuple, index) => keySelector(tuple.Item2, index));
+        }
+
+        public static (TFirst, TSecond, TThird) MaxByThird<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, int, TKey> keySelector)
+        {
+            return tuples.MaxBy((tuple, index) => keySelector(tuple.Item3, index));
         }
 
         public static bool Any<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, int, bool> predicate)

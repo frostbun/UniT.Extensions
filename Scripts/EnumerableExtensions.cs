@@ -45,35 +45,53 @@ namespace UniT.Extensions
 
         public static int FirstIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
-            return enumerable.Enumerate().First((_, item) => predicate(item)).Item1;
+            return enumerable.Enumerate()
+                .WhereSecond(predicate)
+                .SelectFirsts()
+                .First();
         }
 
         public static int FirstIndexOrDefault<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
-            var index = -1;
-            foreach (var item in enumerable)
-            {
-                ++index;
-                if (predicate(item)) return index;
-            }
-            return -1;
+            return enumerable.Enumerate()
+                .WhereSecond(predicate)
+                .SelectFirsts()
+                .DefaultIfEmpty(-1)
+                .First();
         }
 
         public static int LastIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
-            return enumerable.Enumerate().Last((_, item) => predicate(item)).Item1;
+            return enumerable.Enumerate()
+                .WhereSecond(predicate)
+                .SelectFirsts()
+                .Last();
         }
 
         public static int LastIndexOrDefault<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
-            var index     = -1;
-            var lastIndex = -1;
-            foreach (var item in enumerable)
-            {
-                ++index;
-                if (predicate(item)) lastIndex = index;
-            }
-            return lastIndex;
+            return enumerable.Enumerate()
+                .WhereSecond(predicate)
+                .SelectFirsts()
+                .DefaultIfEmpty(-1)
+                .Last();
+        }
+
+        private static int SingleIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            return enumerable.Enumerate()
+                .WhereSecond(predicate)
+                .SelectFirsts()
+                .Single();
+        }
+
+        public static int SingleIndexOrDefault<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        {
+            return enumerable.Enumerate()
+                .WhereSecond(predicate)
+                .SelectFirsts()
+                .DefaultIfEmpty(-1)
+                .Single();
         }
 
         public static bool ContainsAll<T>(this IEnumerable<T> enumerable, IEnumerable<T> other)
@@ -92,60 +110,50 @@ namespace UniT.Extensions
             return enumerable.Shuffle().Take(count);
         }
 
-        public static T Random<T>(this IEnumerable<T> enumerable)
+        public static T Random<T>(this IEnumerable<T> enumerable) => enumerable switch
         {
-            return enumerable switch
-            {
-                ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : throw new InvalidOperationException("Sequence contains no elements"),
-                IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : throw new InvalidOperationException("Sequence contains no elements"),
-                _                                 => enumerable.ToArray().Random(),
-            };
-        }
+            ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : throw new InvalidOperationException("Sequence contains no elements"),
+            IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : throw new InvalidOperationException("Sequence contains no elements"),
+            _                                 => enumerable.ToArray().Random(),
+        };
 
-        public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable)
+        public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable) => enumerable switch
         {
-            return enumerable switch
-            {
-                ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : default,
-                IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : default,
-                _                                 => enumerable.ToArray().RandomOrDefault(),
-            };
-        }
+            ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : default,
+            IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : default,
+            _                                 => enumerable.ToArray().RandomOrDefault(),
+        };
 
-        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, T defaultValue)
+        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, T defaultValue) => enumerable switch
         {
-            return enumerable switch
-            {
-                ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : defaultValue,
-                IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : defaultValue,
-                _                                 => enumerable.ToArray().RandomOrDefault(defaultValue),
-            };
-        }
+            ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : defaultValue,
+            IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : defaultValue,
+            _                                 => enumerable.ToArray().RandomOrDefault(defaultValue),
+        };
 
-        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, Func<T> valueFactory)
+        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, Func<T> valueFactory) => enumerable switch
         {
-            return enumerable switch
-            {
-                ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : valueFactory(),
-                IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : valueFactory(),
-                _                                 => enumerable.ToArray().RandomOrDefault(valueFactory),
-            };
-        }
+            ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : valueFactory(),
+            IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : valueFactory(),
+            _                                 => enumerable.ToArray().RandomOrDefault(valueFactory),
+        };
 
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights, int totalWeight)
         {
             var randomWeight = UnityEngine.Random.Range(0, totalWeight);
             return IterTools.Zip(enumerable, weights)
-                .First((_, weight) => (randomWeight -= weight) < 0)
-                .Item1;
+                .WhereSecond(weight => (randomWeight -= weight) < 0)
+                .SelectFirsts()
+                .First();
         }
 
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<float> weights, float totalWeight)
         {
             var randomWeight = UnityEngine.Random.Range(0, totalWeight);
             return IterTools.Zip(enumerable, weights)
-                .First((_, weight) => (randomWeight -= weight) < 0)
-                .Item1;
+                .WhereSecond(weight => (randomWeight -= weight) < 0)
+                .SelectFirsts()
+                .First();
         }
 
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights)
@@ -218,8 +226,8 @@ namespace UniT.Extensions
         public static IEnumerable<IEnumerable<T>> ChunkBy<T>(this IEnumerable<T> enumerable, int chunkSize)
         {
             return enumerable.Enumerate()
-                .GroupBy((index, _) => index / chunkSize)
-                .Select(group => group.Select((_, value) => value));
+                .GroupByFirst(index => index / chunkSize)
+                .Select(group => group.SelectSeconds());
         }
 
         public static IEnumerable<T> Cycle<T>(this IEnumerable<T> enumerable)

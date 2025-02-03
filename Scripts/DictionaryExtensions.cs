@@ -170,6 +170,56 @@ namespace UniT.Extensions
             return dictionary.Max(kv => selector(kv.Key, kv.Value));
         }
 
+        public static KeyValuePair<TKey, TValue> MinBy<TKey, TValue, TCompareKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TCompareKey> keySelector)
+        {
+            return dictionary.MinBy(kv => keySelector(kv.Key, kv.Value));
+        }
+
+        public static KeyValuePair<TKey, TValue> MinByKey<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.MinBy(kv => kv.Key);
+        }
+
+        public static KeyValuePair<TKey, TValue> MinByKey<TKey, TValue, TCompareKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TCompareKey> keySelector)
+        {
+            return dictionary.MinBy(kv => keySelector(kv.Key));
+        }
+
+        public static KeyValuePair<TKey, TValue> MinByValue<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.MinBy(kv => kv.Value);
+        }
+
+        public static KeyValuePair<TKey, TValue> MinByValue<TKey, TValue, TCompareKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TValue, TCompareKey> keySelector)
+        {
+            return dictionary.MinBy(kv => keySelector(kv.Value));
+        }
+
+        public static KeyValuePair<TKey, TValue> MaxBy<TKey, TValue, TCompareKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TCompareKey> keySelector)
+        {
+            return dictionary.MaxBy(kv => keySelector(kv.Key, kv.Value));
+        }
+
+        public static KeyValuePair<TKey, TValue> MaxByKey<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.MaxBy(kv => kv.Key);
+        }
+
+        public static KeyValuePair<TKey, TValue> MaxByKey<TKey, TValue, TCompareKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TCompareKey> keySelector)
+        {
+            return dictionary.MaxBy(kv => keySelector(kv.Key));
+        }
+
+        public static KeyValuePair<TKey, TValue> MaxByValue<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.MaxBy(kv => kv.Value);
+        }
+
+        public static KeyValuePair<TKey, TValue> MaxByValue<TKey, TValue, TCompareKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TValue, TCompareKey> keySelector)
+        {
+            return dictionary.MaxBy(kv => keySelector(kv.Value));
+        }
+
         public static bool Any<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, bool> predicate)
         {
             return dictionary.Any(kv => predicate(kv.Key, kv.Value));
@@ -205,24 +255,124 @@ namespace UniT.Extensions
             return dictionary.GroupBy(kv => keySelector(kv.Key, kv.Value));
         }
 
-        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderBy<TKey, TValue, TKeySelector>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TKeySelector> keySelector)
+        public static IEnumerable<IGrouping<TKey, KeyValuePair<TKey, TValue>>> GroupByKey<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.GroupBy(kv => kv.Key);
+        }
+
+        public static IEnumerable<IGrouping<TGroupKey, KeyValuePair<TKey, TValue>>> GroupByKey<TKey, TValue, TGroupKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TGroupKey> keySelector)
+        {
+            return dictionary.GroupBy(kv => keySelector(kv.Key));
+        }
+
+        public static IEnumerable<IGrouping<TValue, KeyValuePair<TKey, TValue>>> GroupByValue<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.GroupBy(kv => kv.Value);
+        }
+
+        public static IEnumerable<IGrouping<TGroupKey, KeyValuePair<TKey, TValue>>> GroupByValue<TKey, TValue, TGroupKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TValue, TGroupKey> keySelector)
+        {
+            return dictionary.GroupBy(kv => keySelector(kv.Value));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderBy<TKey, TValue, TOrderKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TOrderKey> keySelector)
         {
             return dictionary.OrderBy(kv => keySelector(kv.Key, kv.Value));
         }
 
-        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByDescending<TKey, TValue, TKeySelector>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TKeySelector> keySelector)
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByKey<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.OrderBy(kv => kv.Key);
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByKey<TKey, TValue, TOrderKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TOrderKey> keySelector)
+        {
+            return dictionary.OrderBy(kv => keySelector(kv.Key));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByValue<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.OrderBy(kv => kv.Value);
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByValue<TKey, TValue, TOrderKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TValue, TOrderKey> keySelector)
+        {
+            return dictionary.OrderBy(kv => keySelector(kv.Value));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByDescending<TKey, TValue, TOrderKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TOrderKey> keySelector)
         {
             return dictionary.OrderByDescending(kv => keySelector(kv.Key, kv.Value));
         }
 
-        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenBy<TKey, TValue, TKeySelector>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TKeySelector> keySelector)
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByDescendingKey<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.OrderByDescending(kv => kv.Key);
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByDescendingKey<TKey, TValue, TOrderKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TOrderKey> keySelector)
+        {
+            return dictionary.OrderByDescending(kv => keySelector(kv.Key));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByDescendingValue<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.OrderByDescending(kv => kv.Value);
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> OrderByDescendingValue<TKey, TValue, TOrderKey>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TValue, TOrderKey> keySelector)
+        {
+            return dictionary.OrderByDescending(kv => keySelector(kv.Value));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenBy<TKey, TValue, TOrderKey>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TOrderKey> keySelector)
         {
             return dictionary.ThenBy(kv => keySelector(kv.Key, kv.Value));
         }
 
-        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByDescending<TKey, TValue, TKeySelector>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TKeySelector> keySelector)
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByKey<TKey, TValue>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.ThenBy(kv => kv.Key);
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByKey<TKey, TValue, TOrderKey>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TOrderKey> keySelector)
+        {
+            return dictionary.ThenBy(kv => keySelector(kv.Key));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByValue<TKey, TValue>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.ThenBy(kv => kv.Value);
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByValue<TKey, TValue, TOrderKey>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TValue, TOrderKey> keySelector)
+        {
+            return dictionary.ThenBy(kv => keySelector(kv.Value));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByDescending<TKey, TValue, TOrderKey>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TOrderKey> keySelector)
         {
             return dictionary.ThenByDescending(kv => keySelector(kv.Key, kv.Value));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByDescendingKey<TKey, TValue>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.ThenByDescending(kv => kv.Key);
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByDescendingKey<TKey, TValue, TOrderKey>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TOrderKey> keySelector)
+        {
+            return dictionary.ThenByDescending(kv => keySelector(kv.Key));
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByDescendingValue<TKey, TValue>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary)
+        {
+            return dictionary.ThenByDescending(kv => kv.Value);
+        }
+
+        public static IOrderedEnumerable<KeyValuePair<TKey, TValue>> ThenByDescendingValue<TKey, TValue, TOrderKey>(this IOrderedEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TValue, TOrderKey> keySelector)
+        {
+            return dictionary.ThenByDescending(kv => keySelector(kv.Value));
         }
 
         public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary)
