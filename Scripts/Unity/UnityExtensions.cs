@@ -48,88 +48,118 @@ namespace UniT.Extensions
             Object.DestroyImmediate(obj);
         }
 
+        public static T? GetComponentOrDefault<T>(this GameObject gameObject)
+        {
+            return gameObject.TryGetComponent(out T result) ? result : default;
+        }
+
+        public static T? GetComponentOrDefault<T>(this Component component)
+        {
+            return component.TryGetComponent(out T result) ? result : default;
+        }
+
         public static T GetComponentOrThrow<T>(this GameObject gameObject)
         {
-            return gameObject.GetComponent<T>() ?? throw new MissingComponentException($"Component {typeof(T).Name} not found in {gameObject.name}");
+            return gameObject.TryGetComponent(out T result) ? result : throw new MissingComponentException($"Component {typeof(T).Name} not found in {gameObject.name}");
         }
 
         public static T GetComponentOrThrow<T>(this Component component)
         {
-            return component.GetComponent<T>() ?? throw new MissingComponentException($"Component {typeof(T).Name} not found in {component.name}");
+            return component.TryGetComponent(out T result) ? result : throw new MissingComponentException($"Component {typeof(T).Name} not found in {component.name}");
         }
 
         public static bool HasComponent<T>(this GameObject gameObject)
         {
-            return gameObject.GetComponent<T>() is { };
+            return gameObject.TryGetComponent<T>(out _);
         }
 
         public static bool HasComponent<T>(this Component component)
         {
-            return component.GetComponent<T>() is { };
+            return component.TryGetComponent<T>(out _);
+        }
+
+        public static T? GetComponentInChildrenOrDefault<T>(this GameObject gameObject, bool includeInactive = false)
+        {
+            return gameObject.TryGetComponentInChildren<T>(out var result, includeInactive) ? result : default;
+        }
+
+        public static T? GetComponentInChildrenOrDefault<T>(this Component component, bool includeInactive = false)
+        {
+            return component.TryGetComponentInChildren<T>(out var result, includeInactive) ? result : default;
         }
 
         public static T GetComponentInChildrenOrThrow<T>(this GameObject gameObject, bool includeInactive = false)
         {
-            return gameObject.GetComponentInChildren<T>(includeInactive) ?? throw new MissingComponentException($"Component {typeof(T).Name} not found in {gameObject.name} children");
+            return gameObject.TryGetComponentInChildren<T>(out var result, includeInactive) ? result : throw new MissingComponentException($"Component {typeof(T).Name} not found in {gameObject.name} children");
         }
 
         public static T GetComponentInChildrenOrThrow<T>(this Component component, bool includeInactive = false)
         {
-            return component.GetComponentInChildren<T>(includeInactive) ?? throw new MissingComponentException($"Component {typeof(T).Name} not found in {component.name} children");
+            return component.TryGetComponentInChildren<T>(out var result, includeInactive) ? result : throw new MissingComponentException($"Component {typeof(T).Name} not found in {component.name} children");
         }
 
         public static bool HasComponentInChildren<T>(this GameObject gameObject, bool includeInactive = false)
         {
-            return gameObject.GetComponentInChildren<T>(includeInactive) is { };
+            return gameObject.TryGetComponentInChildren<T>(out _, includeInactive);
         }
 
         public static bool HasComponentInChildren<T>(this Component component, bool includeInactive = false)
         {
-            return component.GetComponentInChildren<T>(includeInactive) is { };
+            return component.TryGetComponentInChildren<T>(out _, includeInactive);
         }
 
-        public static bool TryGetComponentInChildren<T>(this GameObject gameObject, [MaybeNullWhen(false)] out T component, bool includeInactive = false)
+        public static bool TryGetComponentInChildren<T>(this GameObject gameObject, [MaybeNullWhen(false)] out T result, bool includeInactive = false)
         {
-            component = gameObject.GetComponentInChildren<T>(includeInactive);
-            return component is { };
+            result = gameObject.GetComponentInChildren<T>(includeInactive);
+            return result is { } && !result.Equals(null);
         }
 
-        public static bool TryGetComponentInChildren<T>(this Component component, [MaybeNullWhen(false)] out T child, bool includeInactive = false)
+        public static bool TryGetComponentInChildren<T>(this Component component, [MaybeNullWhen(false)] out T result, bool includeInactive = false)
         {
-            child = component.GetComponentInChildren<T>(includeInactive);
-            return child is { };
+            result = component.GetComponentInChildren<T>(includeInactive);
+            return result is { } && !result.Equals(null);
+        }
+
+        public static T? GetComponentInParentOrDefault<T>(this GameObject gameObject, bool includeInactive = false)
+        {
+            return gameObject.TryGetComponentInParent<T>(out var result, includeInactive) ? result : default;
+        }
+
+        public static T? GetComponentInParentOrDefault<T>(this Component component, bool includeInactive = false)
+        {
+            return component.TryGetComponentInParent<T>(out var result, includeInactive) ? result : default;
         }
 
         public static T GetComponentInParentOrThrow<T>(this GameObject gameObject, bool includeInactive = false)
         {
-            return gameObject.GetComponentInParent<T>(includeInactive) ?? throw new MissingComponentException($"Component {typeof(T).Name} not found in {gameObject.name} parent");
+            return gameObject.TryGetComponentInParent<T>(out var result, includeInactive) ? result : throw new MissingComponentException($"Component {typeof(T).Name} not found in {gameObject.name} parent");
         }
 
         public static T GetComponentInParentOrThrow<T>(this Component component, bool includeInactive = false)
         {
-            return component.GetComponentInParent<T>(includeInactive) ?? throw new MissingComponentException($"Component {typeof(T).Name} not found in {component.name} parent");
+            return component.TryGetComponentInParent<T>(out var result, includeInactive) ? result : throw new MissingComponentException($"Component {typeof(T).Name} not found in {component.name} parent");
         }
 
         public static bool HasComponentInParent<T>(this GameObject gameObject, bool includeInactive = false)
         {
-            return gameObject.GetComponentInParent<T>(includeInactive) is { };
+            return gameObject.TryGetComponentInParent<T>(out _, includeInactive);
         }
 
         public static bool HasComponentInParent<T>(this Component component, bool includeInactive = false)
         {
-            return component.GetComponentInParent<T>(includeInactive) is { };
+            return component.TryGetComponentInParent<T>(out _, includeInactive);
         }
 
-        public static bool TryGetComponentInParent<T>(this GameObject gameObject, [MaybeNullWhen(false)] out T component, bool includeInactive = false)
+        public static bool TryGetComponentInParent<T>(this GameObject gameObject, [MaybeNullWhen(false)] out T result, bool includeInactive = false)
         {
-            component = gameObject.GetComponentInParent<T>(includeInactive);
-            return component is { };
+            result = gameObject.GetComponentInParent<T>(includeInactive);
+            return result is { } && !result.Equals(null);
         }
 
-        public static bool TryGetComponentInParent<T>(this Component component, [MaybeNullWhen(false)] out T parent, bool includeInactive = false)
+        public static bool TryGetComponentInParent<T>(this Component component, [MaybeNullWhen(false)] out T result, bool includeInactive = false)
         {
-            parent = component.GetComponentInParent<T>(includeInactive);
-            return parent is { };
+            result = component.GetComponentInParent<T>(includeInactive);
+            return result is { } && !result.Equals(null);
         }
 
         public static bool TryAddComponent<T>(this GameObject gameObject) where T : Component
@@ -146,7 +176,7 @@ namespace UniT.Extensions
 
         public static T GetComponentOrAdd<T>(this GameObject gameObject) where T : Component
         {
-            return gameObject.GetComponent<T>() ?? gameObject.AddComponent<T>();
+            return gameObject.TryGetComponent(out T result) ? result : gameObject.AddComponent<T>();
         }
 
         public static T GetComponentOrAdd<T>(this Component component) where T : Component

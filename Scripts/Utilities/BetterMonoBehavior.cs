@@ -16,9 +16,9 @@ namespace UniT.Extensions
     {
         #region Self
 
-        public T? GetComponentOrDefault<T>() => base.GetComponent<T>();
+        public T? GetComponentOrDefault<T>() => UnityExtensions.GetComponentOrDefault<T>(this);
 
-        public new T GetComponent<T>() => this.GetComponentOrThrow<T>();
+        public new T GetComponent<T>() => UnityExtensions.GetComponentOrThrow<T>(this);
 
         public bool HasComponent<T>() => UnityExtensions.HasComponent<T>(this);
 
@@ -26,9 +26,9 @@ namespace UniT.Extensions
 
         #region Children
 
-        public T? GetComponentInChildrenOrDefault<T>(bool includeInactive = false) => base.GetComponentInChildren<T>(includeInactive);
+        public T? GetComponentInChildrenOrDefault<T>(bool includeInactive = false) => UnityExtensions.GetComponentInChildrenOrDefault<T>(this, includeInactive);
 
-        public new T GetComponentInChildren<T>(bool includeInactive = false) => this.GetComponentInChildrenOrThrow<T>(includeInactive);
+        public new T GetComponentInChildren<T>(bool includeInactive = false) => UnityExtensions.GetComponentInChildrenOrThrow<T>(this, includeInactive);
 
         public bool HasComponentInChildren<T>(bool includeInactive = false) => UnityExtensions.HasComponentInChildren<T>(this, includeInactive);
 
@@ -38,9 +38,9 @@ namespace UniT.Extensions
 
         #region Parent
 
-        public T? GetComponentInParentOrDefault<T>(bool includeInactive = false) => base.GetComponentInParent<T>(includeInactive);
+        public T? GetComponentInParentOrDefault<T>(bool includeInactive = false) => UnityExtensions.GetComponentInParentOrDefault<T>(this, includeInactive);
 
-        public new T GetComponentInParent<T>(bool includeInactive = false) => this.GetComponentInParentOrThrow<T>(includeInactive);
+        public new T GetComponentInParent<T>(bool includeInactive = false) => UnityExtensions.GetComponentInParentOrThrow<T>(this, includeInactive);
 
         public bool HasComponentInParent<T>(bool includeInactive = false) => UnityExtensions.HasComponentInParent<T>(this, includeInactive);
 
