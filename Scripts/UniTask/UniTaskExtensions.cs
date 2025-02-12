@@ -12,16 +12,6 @@ namespace UniT.Extensions
     public static class UniTaskExtensions
     {
         #if UNIT_ADDRESSABLES
-        public static UniTask.Awaiter GetAwaiter(this AsyncOperationHandle asyncOperation)
-        {
-            return asyncOperation.ToUniTask().GetAwaiter();
-        }
-
-        public static UniTask<T>.Awaiter GetAwaiter<T>(this AsyncOperationHandle<T> asyncOperation)
-        {
-            return asyncOperation.ToUniTask().GetAwaiter();
-        }
-
         public static async UniTask ToUniTask(this AsyncOperationHandle asyncOperation, IProgress<float>? progress = null, CancellationToken cancellationToken = default)
         {
             await asyncOperation.ToUniTask(progress: progress, cancellationToken: cancellationToken, autoReleaseWhenCanceled: true);
