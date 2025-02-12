@@ -3,6 +3,9 @@ namespace UniT.Extensions
 {
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
+    #if UNIT_ADDRESSABLES
+    using UnityEngine.ResourceManagement.AsyncOperations;
+    #endif
 
     public static class UnityExtensions
     {
@@ -205,5 +208,20 @@ namespace UniT.Extensions
         {
             return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), pivot ?? new Vector2(.5f, .5f));
         }
+
+        #if UNIT_ADDRESSABLES
+        public static void WaitForResultOrThrow(this AsyncOperationHandle asyncOperation)
+        {
+            asyncOperation.WaitForCompletion();
+            if (asyncOperation.Status is AsyncOperationStatus.Failed) throw asyncOperation.OperationException;
+        }
+
+        public static T WaitForResultOrThrow<T>(this AsyncOperationHandle<T> asyncOperation)
+        {
+            asyncOperation.WaitForCompletion();
+            if (asyncOperation.Status is AsyncOperationStatus.Failed) throw asyncOperation.OperationException;
+            return asyncOperation.Result;
+        }
+        #endif
     }
 }
