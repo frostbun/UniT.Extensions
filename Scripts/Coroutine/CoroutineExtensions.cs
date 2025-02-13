@@ -7,7 +7,6 @@ namespace UniT.Extensions
     using System.Threading.Tasks;
     using UnityEngine;
     #if UNIT_ADDRESSABLES
-    using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.AsyncOperations;
     #endif
 
@@ -158,8 +157,9 @@ namespace UniT.Extensions
                 }
                 if (asyncOperation.Status is AsyncOperationStatus.Failed)
                 {
-                    Addressables.Release(asyncOperation);
-                    throw asyncOperation.OperationException;
+                    var exception = asyncOperation.OperationException;
+                    asyncOperation.Release();
+                    throw exception;
                 }
                 callback?.Invoke();
             }
@@ -180,8 +180,9 @@ namespace UniT.Extensions
                 }
                 if (asyncOperation.Status is AsyncOperationStatus.Failed)
                 {
-                    Addressables.Release(asyncOperation);
-                    throw asyncOperation.OperationException;
+                    var exception = asyncOperation.OperationException;
+                    asyncOperation.Release();
+                    throw exception;
                 }
                 callback(asyncOperation.Result);
             }

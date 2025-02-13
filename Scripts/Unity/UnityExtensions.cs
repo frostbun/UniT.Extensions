@@ -4,7 +4,6 @@ namespace UniT.Extensions
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
     #if UNIT_ADDRESSABLES
-    using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.AsyncOperations;
     #endif
 
@@ -216,8 +215,9 @@ namespace UniT.Extensions
             asyncOperation.WaitForCompletion();
             if (asyncOperation.Status is AsyncOperationStatus.Failed)
             {
-                Addressables.Release(asyncOperation);
-                throw asyncOperation.OperationException;
+                var exception = asyncOperation.OperationException;
+                asyncOperation.Release();
+                throw exception;
             }
         }
 
@@ -226,8 +226,9 @@ namespace UniT.Extensions
             asyncOperation.WaitForCompletion();
             if (asyncOperation.Status is AsyncOperationStatus.Failed)
             {
-                Addressables.Release(asyncOperation);
-                throw asyncOperation.OperationException;
+                var exception = asyncOperation.OperationException;
+                asyncOperation.Release();
+                throw exception;
             }
             return asyncOperation.Result;
         }

@@ -6,7 +6,6 @@ namespace UniT.Extensions
     using System;
     using System.Threading;
     using Cysharp.Threading.Tasks;
-    using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.AsyncOperations;
     #endif
 
@@ -18,8 +17,9 @@ namespace UniT.Extensions
             await asyncOperation.ToUniTask(progress: progress, cancellationToken: cancellationToken, autoReleaseWhenCanceled: true);
             if (asyncOperation.Status is AsyncOperationStatus.Failed)
             {
-                Addressables.Release(asyncOperation);
-                throw asyncOperation.OperationException;
+                var exception = asyncOperation.OperationException;
+                asyncOperation.Release();
+                throw exception;
             }
         }
 
@@ -28,8 +28,9 @@ namespace UniT.Extensions
             await asyncOperation.ToUniTask(progress: progress, cancellationToken: cancellationToken, autoReleaseWhenCanceled: true);
             if (asyncOperation.Status is AsyncOperationStatus.Failed)
             {
-                Addressables.Release(asyncOperation);
-                throw asyncOperation.OperationException;
+                var exception = asyncOperation.OperationException;
+                asyncOperation.Release();
+                throw exception;
             }
             return asyncOperation.Result;
         }
