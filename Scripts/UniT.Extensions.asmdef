@@ -2,6 +2,7 @@
   "name": "UniT.Extensions",
   "rootNamespace": "UniT.Extensions",
   "references": [
+    "Unity.Addressables",
     "Unity.ResourceManager",
     "VContainer",
     "UniTask",

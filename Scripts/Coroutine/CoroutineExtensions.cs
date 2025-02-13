@@ -7,6 +7,7 @@ namespace UniT.Extensions
     using System.Threading.Tasks;
     using UnityEngine;
     #if UNIT_ADDRESSABLES
+    using UnityEngine.AddressableAssets;
     using UnityEngine.ResourceManagement.AsyncOperations;
     #endif
 
@@ -155,7 +156,11 @@ namespace UniT.Extensions
                     progress?.Report(asyncOperation.PercentComplete);
                     yield return null;
                 }
-                if (asyncOperation.Status is AsyncOperationStatus.Failed) throw asyncOperation.OperationException;
+                if (asyncOperation.Status is AsyncOperationStatus.Failed)
+                {
+                    Addressables.Release(asyncOperation);
+                    throw asyncOperation.OperationException;
+                }
                 callback?.Invoke();
             }
             finally
@@ -173,7 +178,11 @@ namespace UniT.Extensions
                     progress?.Report(asyncOperation.PercentComplete);
                     yield return null;
                 }
-                if (asyncOperation.Status is AsyncOperationStatus.Failed) throw asyncOperation.OperationException;
+                if (asyncOperation.Status is AsyncOperationStatus.Failed)
+                {
+                    Addressables.Release(asyncOperation);
+                    throw asyncOperation.OperationException;
+                }
                 callback(asyncOperation.Result);
             }
             finally
