@@ -33,6 +33,16 @@ namespace UniT.Extensions
             return enumerable.Except(new[] { item });
         }
 
+        public static IEnumerable<T> Prepend<T>(this IEnumerable<T> enumerable, IEnumerable<T> other)
+        {
+            return other.Concat(enumerable);
+        }
+
+        public static IEnumerable<T> Append<T>(this IEnumerable<T> enumerable, IEnumerable<T> other)
+        {
+            return enumerable.Concat(other);
+        }
+
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (var item in enumerable) action(item);
@@ -77,7 +87,7 @@ namespace UniT.Extensions
                 .Last();
         }
 
-        private static int SingleIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        public static int SingleIndex<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             return enumerable.Enumerate()
                 .WhereSecond(predicate)
@@ -92,6 +102,36 @@ namespace UniT.Extensions
                 .SelectFirsts()
                 .DefaultIfEmpty(-1)
                 .Single();
+        }
+
+        public static int FirstIndexOf<T>(this IEnumerable<T> enumerable, T item)
+        {
+            return enumerable.FirstIndex(i => Equals(i, item));
+        }
+
+        public static int FirstIndexOrDefaultOf<T>(this IEnumerable<T> enumerable, T item)
+        {
+            return enumerable.FirstIndexOrDefault(i => Equals(i, item));
+        }
+
+        public static int LastIndexOf<T>(this IEnumerable<T> enumerable, T item)
+        {
+            return enumerable.LastIndex(i => Equals(i, item));
+        }
+
+        public static int LastIndexOrDefaultOf<T>(this IEnumerable<T> enumerable, T item)
+        {
+            return enumerable.LastIndexOrDefault(i => Equals(i, item));
+        }
+
+        public static int SingleIndexOf<T>(this IEnumerable<T> enumerable, T item)
+        {
+            return enumerable.SingleIndex(i => Equals(i, item));
+        }
+
+        public static int SingleIndexOrDefaultOf<T>(this IEnumerable<T> enumerable, T item)
+        {
+            return enumerable.SingleIndexOrDefault(i => Equals(i, item));
         }
 
         public static bool ContainsAll<T>(this IEnumerable<T> enumerable, IEnumerable<T> other)
