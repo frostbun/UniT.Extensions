@@ -21,15 +21,11 @@ namespace UniT.Extensions
                     progress?.Report(asyncOperation.PercentComplete);
                     await UniTask.Yield(cancellationToken);
                 }
-                if (asyncOperation.Status is AsyncOperationStatus.Failed)
-                {
-                    throw asyncOperation.OperationException;
-                }
+                asyncOperation.GetResultOrThrow();
             }
-            catch
+            finally
             {
-                asyncOperation.Release();
-                throw;
+                if (!asyncOperation.IsDone) asyncOperation.Release();
             }
         }
 
@@ -42,16 +38,11 @@ namespace UniT.Extensions
                     progress?.Report(asyncOperation.PercentComplete);
                     await UniTask.Yield(cancellationToken);
                 }
-                if (asyncOperation.Status is AsyncOperationStatus.Failed)
-                {
-                    throw asyncOperation.OperationException;
-                }
-                return asyncOperation.Result;
+                return asyncOperation.GetResultOrThrow();
             }
-            catch
+            finally
             {
-                asyncOperation.Release();
-                throw;
+                if (!asyncOperation.IsDone) asyncOperation.Release();
             }
         }
         #endif

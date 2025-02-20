@@ -155,12 +155,7 @@ namespace UniT.Extensions
                     progress?.Report(asyncOperation.PercentComplete);
                     yield return null;
                 }
-                if (asyncOperation.Status is AsyncOperationStatus.Failed)
-                {
-                    var exception = asyncOperation.OperationException;
-                    asyncOperation.Release();
-                    throw exception;
-                }
+                asyncOperation.GetResultOrThrow();
                 callback?.Invoke();
             }
             finally
@@ -178,13 +173,7 @@ namespace UniT.Extensions
                     progress?.Report(asyncOperation.PercentComplete);
                     yield return null;
                 }
-                if (asyncOperation.Status is AsyncOperationStatus.Failed)
-                {
-                    var exception = asyncOperation.OperationException;
-                    asyncOperation.Release();
-                    throw exception;
-                }
-                callback(asyncOperation.Result);
+                callback(asyncOperation.GetResultOrThrow());
             }
             finally
             {

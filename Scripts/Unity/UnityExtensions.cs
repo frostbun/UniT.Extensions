@@ -212,8 +212,33 @@ namespace UniT.Extensions
         #if UNIT_ADDRESSABLES
         public static void WaitForResultOrThrow(this AsyncOperationHandle asyncOperation)
         {
-            asyncOperation.WaitForCompletion();
-            if (asyncOperation.Status is AsyncOperationStatus.Failed)
+            try
+            {
+                asyncOperation.WaitForCompletion();
+                asyncOperation.GetResultOrThrow();
+            }
+            finally
+            {
+                if (!asyncOperation.IsDone) asyncOperation.Release();
+            }
+        }
+
+        public static T WaitForResultOrThrow<T>(this AsyncOperationHandle<T> asyncOperation)
+        {
+            try
+            {
+                asyncOperation.WaitForCompletion();
+                return asyncOperation.GetResultOrThrow();
+            }
+            finally
+            {
+                if (!asyncOperation.IsDone) asyncOperation.Release();
+            }
+        }
+
+        public static void GetResultOrThrow(this AsyncOperationHandle asyncOperation)
+        {
+            if (asyncOperation.IsValid() && asyncOperation.Status is AsyncOperationStatus.Failed)
             {
                 var exception = asyncOperation.OperationException;
                 asyncOperation.Release();
@@ -221,10 +246,9 @@ namespace UniT.Extensions
             }
         }
 
-        public static T WaitForResultOrThrow<T>(this AsyncOperationHandle<T> asyncOperation)
+        public static T GetResultOrThrow<T>(this AsyncOperationHandle<T> asyncOperation)
         {
-            asyncOperation.WaitForCompletion();
-            if (asyncOperation.Status is AsyncOperationStatus.Failed)
+            if (asyncOperation.IsValid() && asyncOperation.Status is AsyncOperationStatus.Failed)
             {
                 var exception = asyncOperation.OperationException;
                 asyncOperation.Release();
