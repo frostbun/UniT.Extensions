@@ -216,16 +216,6 @@ namespace UniT.Extensions
             }
         }
 
-        public static IEnumerable<int> Range(int start, int stop)
-        {
-            while (start < stop) yield return start++;
-        }
-
-        public static IEnumerable<int> Range(int stop)
-        {
-            return Range(0, stop);
-        }
-
         public static IEnumerable<T> Repeat<T>(Func<T> itemFactory, int count)
         {
             while (count-- > 0) yield return itemFactory();
