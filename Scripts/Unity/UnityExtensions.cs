@@ -187,6 +187,11 @@ namespace UniT.Extensions
             return component.gameObject.GetComponentOrAdd<T>();
         }
 
+        public static T? NullIfDestroyed<T>(this T? obj) where T : Object
+        {
+            return obj ? obj : null;
+        }
+
         public static string GetPathInHierarchy(this Transform transform)
         {
             return transform.parent is null

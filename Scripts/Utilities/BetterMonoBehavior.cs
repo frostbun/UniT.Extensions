@@ -55,14 +55,17 @@ namespace UniT.Extensions
 
         public CancellationToken GetCancellationTokenOnDisable()
         {
+            if (this.disableCts is { IsCancellationRequested: true } && this.isActiveAndEnabled)
+            {
+                this.disableCts.Dispose();
+                this.disableCts = null;
+            }
             return (this.disableCts ??= new CancellationTokenSource()).Token;
         }
 
         protected virtual void OnDisable()
         {
             this.disableCts?.Cancel();
-            this.disableCts?.Dispose();
-            this.disableCts = null;
         }
         #else
         private readonly HashSet<IEnumerator> runningCoroutines = new HashSet<IEnumerator>();

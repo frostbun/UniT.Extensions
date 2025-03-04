@@ -3,6 +3,7 @@ namespace UniT.Extensions
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using UnityEngine;
     #if UNIT_JSON
     using System.Globalization;
     using Newtonsoft.Json;
@@ -53,6 +54,26 @@ namespace UniT.Extensions
         public static string EmptyIfNull(this string? str)
         {
             return str ?? string.Empty;
+        }
+
+        public static string WithColor(this string str, Color color)
+        {
+            return $"<color=#{color.ToHex()}>{str}</color>";
+        }
+
+        public static string WithSize(this string str, int pixel)
+        {
+            return $"<size={pixel}>{str}</size>";
+        }
+
+        public static string MultiplySize(this string str, float multiplier)
+        {
+            return $"<size={multiplier:P}>{str}</size>";
+        }
+
+        public static string AddSize(this string str, int pixel)
+        {
+            return $"<size={(pixel > 0 ? "+" : "-")}{Mathf.Abs(pixel)}>{str}</size>";
         }
 
         #if UNIT_JSON
