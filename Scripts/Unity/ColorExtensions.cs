@@ -29,7 +29,7 @@ namespace UniT.Extensions
 
         public static string ToHex(this Color color)
         {
-            return $"{(byte)(color.r * 255):X2}{(byte)(color.g * 255):X2}{(byte)(color.b * 255):X2}";
+            return $"{(byte)(color.r * 255):X2}{(byte)(color.g * 255):X2}{(byte)(color.b * 255):X2}{(byte)(color.a * 255):X2}";
         }
     }
 }

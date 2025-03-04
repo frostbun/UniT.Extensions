@@ -68,7 +68,7 @@ namespace UniT.Extensions
 
         public static string MultiplySize(this string str, float multiplier)
         {
-            return $"<size={multiplier:P}>{str}</size>";
+            return $"<size={multiplier * 100}%>{str}</size>";
         }
 
         public static string AddSize(this string str, int pixel)
