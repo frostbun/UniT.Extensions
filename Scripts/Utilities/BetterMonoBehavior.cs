@@ -53,13 +53,14 @@ namespace UniT.Extensions
         #if UNIT_UNITASK
         private CancellationTokenSource? disableCts;
 
+        protected virtual void OnEnable()
+        {
+            this.disableCts?.Dispose();
+            this.disableCts = null;
+        }
+
         public CancellationToken GetCancellationTokenOnDisable()
         {
-            if (this.disableCts is { IsCancellationRequested: true } && this.isActiveAndEnabled)
-            {
-                this.disableCts.Dispose();
-                this.disableCts = null;
-            }
             return (this.disableCts ??= new CancellationTokenSource()).Token;
         }
 

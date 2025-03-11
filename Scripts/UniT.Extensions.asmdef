@@ -4,8 +4,7 @@
   "references": [
     "Unity.ResourceManager",
     "VContainer",
-    "UniTask",
-    "UniTask.Addressables"
+    "UniTask"
   ],
   "versionDefines": [
     {
