@@ -53,20 +53,18 @@ namespace UniT.Extensions
         #if UNIT_UNITASK
         private CancellationTokenSource? disableCts;
 
-        protected virtual void OnEnable()
-        {
-            this.disableCts?.Dispose();
-            this.disableCts = null;
-        }
-
         public CancellationToken GetCancellationTokenOnDisable()
         {
-            return (this.disableCts ??= new CancellationTokenSource()).Token;
+            return this.isActiveAndEnabled
+                ? (this.disableCts ??= new CancellationTokenSource()).Token
+                : new CancellationToken(true);
         }
 
         protected virtual void OnDisable()
         {
             this.disableCts?.Cancel();
+            this.disableCts?.Dispose();
+            this.disableCts = null;
         }
         #else
         private readonly HashSet<IEnumerator> runningCoroutines = new HashSet<IEnumerator>();
