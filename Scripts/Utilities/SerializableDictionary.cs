@@ -32,8 +32,8 @@ namespace UniT.Extensions
         [Serializable]
         private struct KeyValuePair
         {
-            [field: SerializeField] public TKey   Key   { get; private set; }
-            [field: SerializeField] public TValue Value { get; private set; }
+            [field: SerializeReference] public TKey   Key   { get; private set; }
+            [field: SerializeReference] public TValue Value { get; private set; }
 
             public KeyValuePair(TKey key, TValue value)
             {
