@@ -16,7 +16,7 @@ namespace UniT.Extensions
             return string.IsNullOrEmpty(str);
         }
 
-        public static bool IsNullOrWhitespace([NotNullWhen(false)] this string? str)
+        public static bool IsNullOrWhiteSpace([NotNullWhen(false)] this string? str)
         {
             return string.IsNullOrWhiteSpace(str);
         }
@@ -41,12 +41,17 @@ namespace UniT.Extensions
             return string.Concat(prefix, str, suffix);
         }
 
+        public static string Format(this string str, params object[] args)
+        {
+            return string.Format(str, args);
+        }
+
         public static string? NullIfEmpty(this string? str)
         {
             return string.IsNullOrEmpty(str) ? null : str;
         }
 
-        public static string? NullIfWhitespace(this string? str)
+        public static string? NullIfWhiteSpace(this string? str)
         {
             return string.IsNullOrWhiteSpace(str) ? null : str;
         }
