@@ -150,73 +150,96 @@ namespace UniT.Extensions
             return enumerable.Shuffle().Take(count);
         }
 
-        public static T Random<T>(this IEnumerable<T> enumerable) => enumerable switch
+        public static IEnumerable<T> Sample<T>(this IEnumerable<T> enumerable, int count, IEnumerable<int> weights)
         {
-            ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : throw new InvalidOperationException("Sequence contains no elements"),
-            IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : throw new InvalidOperationException("Sequence contains no elements"),
-            _                                 => enumerable.ToArray().Random(),
-        };
-
-        public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable) => enumerable switch
-        {
-            ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : default,
-            IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : default,
-            _                                 => enumerable.ToArray().RandomOrDefault(),
-        };
-
-        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, T defaultValue) => enumerable switch
-        {
-            ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : defaultValue,
-            IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : defaultValue,
-            _                                 => enumerable.ToArray().RandomOrDefault(defaultValue),
-        };
-
-        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, Func<T> valueFactory) => enumerable switch
-        {
-            ICollection<T> collection         => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : valueFactory(),
-            IReadOnlyCollection<T> collection => collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : valueFactory(),
-            _                                 => enumerable.ToArray().RandomOrDefault(valueFactory),
-        };
-
-        public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights, int totalWeight)
-        {
-            var randomWeight = UnityEngine.Random.Range(0, totalWeight);
-            return IterTools.Zip(enumerable, weights)
-                .WhereSecond(weight => (randomWeight -= weight) < 0)
-                .SelectFirsts()
-                .First();
+            // ReSharper disable PossibleMultipleEnumeration
+            enumerable = enumerable.ToCollectionIfNeeded();
+            weights    = weights.ToCollectionIfNeeded();
+            var sumWeight     = weights.Sum();
+            var chosenIndices = new HashSet<int>();
+            while (count-- > 0)
+            {
+                if (sumWeight <= 0) break;
+                var randomWeight = UnityEngine.Random.Range(0, sumWeight);
+                foreach (var (index, (item, weight)) in IterTools.Zip(enumerable, weights).Enumerate())
+                {
+                    if (chosenIndices.Contains(index)) continue;
+                    if ((randomWeight -= weight) >= 0) continue;
+                    yield return item;
+                    sumWeight -= weight;
+                    chosenIndices.Add(index);
+                    break;
+                }
+            }
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
-        public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<float> weights, float totalWeight)
+        public static IEnumerable<T> Sample<T>(this IEnumerable<T> enumerable, int count, IEnumerable<float> weights)
         {
-            var randomWeight = UnityEngine.Random.Range(0, totalWeight);
-            return IterTools.Zip(enumerable, weights)
-                .WhereSecond(weight => (randomWeight -= weight) < 0)
-                .SelectFirsts()
-                .First();
+            // ReSharper disable PossibleMultipleEnumeration
+            enumerable = enumerable.ToCollectionIfNeeded();
+            weights    = weights.ToCollectionIfNeeded();
+            var sumWeight     = weights.Sum();
+            var chosenIndices = new HashSet<int>();
+            while (count-- > 0)
+            {
+                if (sumWeight <= 0) break;
+                var randomWeight = UnityEngine.Random.Range(0, sumWeight);
+                foreach (var (index, (item, weight)) in IterTools.Zip(enumerable, weights).Enumerate())
+                {
+                    if (chosenIndices.Contains(index)) continue;
+                    if ((randomWeight -= weight) >= 0) continue;
+                    yield return item;
+                    sumWeight -= weight;
+                    chosenIndices.Add(index);
+                    break;
+                }
+            }
+            // ReSharper restore PossibleMultipleEnumeration
         }
+
+        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, Func<T> valueFactory)
+        {
+            // ReSharper disable PossibleMultipleEnumeration
+            enumerable = enumerable.ToCollectionIfNeeded();
+            return enumerable.Any() ? enumerable.ElementAt(UnityEngine.Random.Range(0, enumerable.Count())) : valueFactory();
+            // ReSharper restore PossibleMultipleEnumeration
+        }
+
+        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, T defaultValue) => enumerable.RandomOrDefault(() => defaultValue);
+
+        // ReSharper disable once ReturnTypeCanBeNotNullable
+        public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable) => enumerable.RandomOrDefault(() => default!);
+
+        public static T Random<T>(this IEnumerable<T> enumerable) => enumerable.RandomOrDefault(() => throw new InvalidOperationException("Sequence contains no elements"));
 
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights)
         {
-            weights = weights switch
-            {
-                ICollection<int> or IReadOnlyCollection<int> => weights,
-                _                                            => weights.ToArray(),
-            };
             // ReSharper disable PossibleMultipleEnumeration
-            return enumerable.Random(weights, weights.Sum());
+            weights = weights.ToCollectionIfNeeded();
+            var sumWeight    = weights.Sum();
+            var randomWeight = UnityEngine.Random.Range(0, sumWeight);
+            foreach (var (item, weight) in IterTools.Zip(enumerable, weights))
+            {
+                if ((randomWeight -= weight) >= 0) continue;
+                return item;
+            }
+            throw new InvalidOperationException("Sequence contains no elements");
             // ReSharper restore PossibleMultipleEnumeration
         }
 
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<float> weights)
         {
-            weights = weights switch
-            {
-                ICollection<float> or IReadOnlyCollection<float> => weights,
-                _                                                => weights.ToArray(),
-            };
             // ReSharper disable PossibleMultipleEnumeration
-            return enumerable.Random(weights, weights.Sum());
+            weights = weights.ToCollectionIfNeeded();
+            var sumWeight    = weights.Sum();
+            var randomWeight = UnityEngine.Random.Range(0, sumWeight);
+            foreach (var (item, weight) in IterTools.Zip(enumerable, weights))
+            {
+                if ((randomWeight -= weight) >= 0) continue;
+                return item;
+            }
+            throw new InvalidOperationException("Sequence contains no elements");
             // ReSharper restore PossibleMultipleEnumeration
         }
 
@@ -303,5 +326,11 @@ namespace UniT.Extensions
         {
             return enumerable.ToArray().AsReadOnly();
         }
+
+        public static IEnumerable<T> ToCollectionIfNeeded<T>(this IEnumerable<T> enumerable) => enumerable switch
+        {
+            ICollection<T> or IReadOnlyCollection<T> => enumerable,
+            _                                        => enumerable.ToArray(),
+        };
     }
 }

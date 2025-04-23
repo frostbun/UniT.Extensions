@@ -37,35 +37,41 @@ namespace UniT.Extensions
 
         public static UniTask ForEachAwaitAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>?, CancellationToken, UniTask> action, IProgress<float>? progress, CancellationToken cancellationToken)
         {
-            var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
+            // ReSharper disable PossibleMultipleEnumeration
+            enumerable = enumerable.ToCollectionIfNeeded();
             return IterTools.Zip(
-                collection,
-                progress.CreateSubProgresses(collection.Count),
-                cancellationToken.Repeat(collection.Count),
+                enumerable,
+                progress.CreateSubProgresses(enumerable.Count()),
+                cancellationToken.Repeat(enumerable.Count()),
                 action
             ).ForEachAwaitAsync(Item.S);
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public static UniTask ForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>?, CancellationToken, UniTask> action, IProgress<float>? progress, CancellationToken cancellationToken)
         {
-            var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
+            // ReSharper disable PossibleMultipleEnumeration
+            enumerable = enumerable.ToCollectionIfNeeded();
             return IterTools.Zip(
-                collection,
-                progress.CreateSubProgresses(collection.Count),
-                cancellationToken.Repeat(collection.Count),
+                enumerable,
+                progress.CreateSubProgresses(enumerable.Count()),
+                cancellationToken.Repeat(enumerable.Count()),
                 action
             ).ForEachAsync(Item.S);
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public static UniTask<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, IProgress<float>?, CancellationToken, UniTask<TResult>> selector, IProgress<float>? progress, CancellationToken cancellationToken)
         {
-            var collection = enumerable as ICollection<TSource> ?? enumerable.ToArray();
+            // ReSharper disable PossibleMultipleEnumeration
+            enumerable = enumerable.ToCollectionIfNeeded();
             return IterTools.Zip(
-                collection,
-                progress.CreateSubProgresses(collection.Count),
-                cancellationToken.Repeat(collection.Count),
+                enumerable,
+                progress.CreateSubProgresses(enumerable.Count()),
+                cancellationToken.Repeat(enumerable.Count()),
                 selector
             ).SelectAsync(Item.S);
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public static async UniTask<T[]> ToArrayAsync<T>(this UniTask<IEnumerable<T>> enumerable)

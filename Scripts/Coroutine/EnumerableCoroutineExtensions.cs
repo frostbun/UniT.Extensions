@@ -33,42 +33,50 @@ namespace UniT.Extensions
 
         public static IEnumerator SelectAsync<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, Action<TResult>, IEnumerator> selector, Action<IEnumerable<TResult>> callback)
         {
-            var collection = enumerable as ICollection<TSource> ?? enumerable.ToArray();
+            // ReSharper disable PossibleMultipleEnumeration
+            enumerable = enumerable.ToCollectionIfNeeded();
             var dictionary = new Dictionary<TSource, TResult>();
-            yield return collection.Select(source => selector(source, result => dictionary.Add(source, result))).Gather();
-            callback(collection.Select(source => dictionary[source]));
+            yield return enumerable.Select(source => selector(source, result => dictionary.Add(source, result))).Gather();
+            callback(enumerable.Select(source => dictionary[source]));
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public static IEnumerator ForEachAwaitAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>?, IEnumerator> action, Action? callback = null, IProgress<float>? progress = null)
         {
-            var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
+            // ReSharper disable PossibleMultipleEnumeration
+            enumerable = enumerable.ToCollectionIfNeeded();
             return IterTools.Zip(
-                collection,
-                progress.CreateSubProgresses(collection.Count),
+                enumerable,
+                progress.CreateSubProgresses(enumerable.Count()),
                 action
             ).ForEachAwaitAsync(Item.S, callback);
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public static IEnumerator ForEachAsync<T>(this IEnumerable<T> enumerable, Func<T, IProgress<float>?, IEnumerator> action, Action? callback = null, IProgress<float>? progress = null)
         {
-            var collection = enumerable as ICollection<T> ?? enumerable.ToArray();
+            // ReSharper disable PossibleMultipleEnumeration
+            enumerable = enumerable.ToCollectionIfNeeded();
             return IterTools.Zip(
-                collection,
-                progress.CreateSubProgresses(collection.Count),
+                enumerable,
+                progress.CreateSubProgresses(enumerable.Count()),
                 action
             ).ForEachAsync(Item.S, callback);
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public static IEnumerator SelectAsync<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, Action<TResult>, IProgress<float>?, IEnumerator> selector, Action<IEnumerable<TResult>> callback, IProgress<float>? progress = null)
         {
-            var collection = enumerable as ICollection<TSource> ?? enumerable.ToArray();
+            // ReSharper disable PossibleMultipleEnumeration
+            enumerable = enumerable.ToCollectionIfNeeded();
             var dictionary = new Dictionary<TSource, TResult>();
             yield return IterTools.Zip(
-                collection,
-                progress.CreateSubProgresses(collection.Count),
+                enumerable,
+                progress.CreateSubProgresses(enumerable.Count()),
                 (source, progress) => selector(source, result => dictionary.Add(source, result), progress)
             ).Gather();
-            callback(collection.Select(source => dictionary[source]));
+            callback(enumerable.Select(source => dictionary[source]));
+            // ReSharper restore PossibleMultipleEnumeration
         }
     }
 }
