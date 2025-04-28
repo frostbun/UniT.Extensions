@@ -18,6 +18,14 @@ namespace UniT.Extensions
             list.RemoveAt(list.GetRealIndex(index));
         }
 
+        public static void RemoveAtSwapBack<T>(this IList<T> list, Index index)
+        {
+            var realIndex = list.GetRealIndex(index);
+            var lastIndex = list.Count - 1;
+            list[realIndex] = list[lastIndex];
+            list.RemoveAt(lastIndex);
+        }
+
         public static void RemoveRange<T>(this IList<T> list, int start, int stop)
         {
             while (stop-- > start) list.RemoveAt(stop);
