@@ -1,8 +1,10 @@
 #nullable enable
 namespace UniT.Extensions
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
+    using Object = UnityEngine.Object;
     #if UNIT_ADDRESSABLES
     using UnityEngine.ResourceManagement.AsyncOperations;
     #endif
@@ -219,6 +221,9 @@ namespace UniT.Extensions
         {
             try
             {
+                #if UNITY_WEBGL
+                if (!asyncOperation.IsDone) throw new InvalidOperationException("Cannot wait for async operation on WebGL");
+                #endif
                 asyncOperation.WaitForCompletion();
                 asyncOperation.GetResultOrThrow();
             }
@@ -232,6 +237,9 @@ namespace UniT.Extensions
         {
             try
             {
+                #if UNITY_WEBGL
+                if (!asyncOperation.IsDone) throw new InvalidOperationException("Cannot wait for async operation on WebGL");
+                #endif
                 asyncOperation.WaitForCompletion();
                 return asyncOperation.GetResultOrThrow();
             }
