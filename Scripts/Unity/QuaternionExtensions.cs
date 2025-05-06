@@ -31,20 +31,17 @@ namespace UniT.Extensions
 
         public static Quaternion WithEulerAngleX(this Quaternion quaternion, float x)
         {
-            var eulerAngles = quaternion.eulerAngles;
-            return Quaternion.Euler(x, eulerAngles.y, eulerAngles.z);
+            return Quaternion.Euler(quaternion.eulerAngles.WithX(x));
         }
 
         public static Quaternion WithEulerAngleY(this Quaternion quaternion, float y)
         {
-            var eulerAngles = quaternion.eulerAngles;
-            return Quaternion.Euler(eulerAngles.x, y, eulerAngles.z);
+            return Quaternion.Euler(quaternion.eulerAngles.WithY(y));
         }
 
         public static Quaternion WithEulerAngleZ(this Quaternion quaternion, float z)
         {
-            var eulerAngles = quaternion.eulerAngles;
-            return Quaternion.Euler(eulerAngles.x, eulerAngles.y, z);
+            return Quaternion.Euler(quaternion.eulerAngles.WithZ(z));
         }
     }
 }

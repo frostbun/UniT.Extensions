@@ -8,24 +8,58 @@ namespace UniT.Extensions
 
     public static class EnumerableExtensions
     {
-        public static T MinBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector)
+        public static T AggregateFromFirst<T>(this IEnumerable<T> enumerable, Func<T, T, T> func)
         {
-            var dictionary = new Dictionary<TKey, T>();
-            foreach (var item in enumerable)
+            using var enumerator = enumerable.GetEnumerator();
+            if (!enumerator.MoveNext()) throw new InvalidOperationException("Sequence contains no elements");
+            var current = enumerator.Current;
+            while (enumerator.MoveNext())
             {
-                dictionary.TryAdd(keySelector(item), item);
+                current = func(current, enumerator.Current);
             }
-            return dictionary[dictionary.Keys.Min()];
+            return current;
         }
 
-        public static T MaxBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector)
+        public static T Min<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null)
+        {
+            comparer ??= Comparer<T>.Default;
+            return enumerable.AggregateFromFirst((x, y) => comparer.Compare(x, y) < 0 ? x : y);
+        }
+
+        public static T Max<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null)
+        {
+            comparer ??= Comparer<T>.Default;
+            return enumerable.AggregateFromFirst((x, y) => comparer.Compare(x, y) > 0 ? x : y);
+        }
+
+        public static TResult Min<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector, IComparer<TResult>? comparer = null)
+        {
+            return enumerable.Select(selector).Min(comparer);
+        }
+
+        public static TResult Max<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector, IComparer<TResult>? comparer = null)
+        {
+            return enumerable.Select(selector).Max(comparer);
+        }
+
+        public static T MinBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
             var dictionary = new Dictionary<TKey, T>();
             foreach (var item in enumerable)
             {
                 dictionary.TryAdd(keySelector(item), item);
             }
-            return dictionary[dictionary.Keys.Max()];
+            return dictionary[dictionary.Keys.Min(comparer)];
+        }
+
+        public static T MaxBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null)
+        {
+            var dictionary = new Dictionary<TKey, T>();
+            foreach (var item in enumerable)
+            {
+                dictionary.TryAdd(keySelector(item), item);
+            }
+            return dictionary[dictionary.Keys.Max(comparer)];
         }
 
         public static IEnumerable<T> Except<T>(this IEnumerable<T> enumerable, T item)

@@ -58,5 +58,35 @@ namespace UniT.Extensions
             vector.w = w;
             return vector;
         }
+
+        public static Vector2Int WithX(this Vector2Int vector, int x)
+        {
+            vector.x = x;
+            return vector;
+        }
+
+        public static Vector2Int WithY(this Vector2Int vector, int y)
+        {
+            vector.y = y;
+            return vector;
+        }
+
+        public static Vector3Int WithX(this Vector3Int vector, int x)
+        {
+            vector.x = x;
+            return vector;
+        }
+
+        public static Vector3Int WithY(this Vector3Int vector, int y)
+        {
+            vector.y = y;
+            return vector;
+        }
+
+        public static Vector3Int WithZ(this Vector3Int vector, int z)
+        {
+            vector.z = z;
+            return vector;
+        }
     }
 }
