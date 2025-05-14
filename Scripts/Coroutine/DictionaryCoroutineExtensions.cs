@@ -38,7 +38,7 @@ namespace UniT.Extensions
 
         public static IEnumerator TryAddAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<Action<TValue>, IEnumerator> valueFactory, Action<bool>? callback = null)
         {
-            var @lock = (dictionary, key);
+            var @lock = (object)(dictionary, key);
             if (Locks.Contains(@lock)) yield return new WaitUntil(() => !Locks.Contains(@lock));
             if (dictionary.ContainsKey(key))
             {
