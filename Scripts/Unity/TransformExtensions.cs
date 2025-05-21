@@ -5,6 +5,11 @@ namespace UniT.Extensions
 
     public static class TransformExtensions
     {
+        public static void SetPosition(this Transform transform, Vector3 position)
+        {
+            transform.position = position;
+        }
+
         public static void SetPositionX(this Transform transform, float x)
         {
             transform.position = transform.position.WithX(x);
@@ -18,6 +23,11 @@ namespace UniT.Extensions
         public static void SetPositionZ(this Transform transform, float z)
         {
             transform.position = transform.position.WithZ(z);
+        }
+
+        public static void SetLocalPosition(this Transform transform, Vector3 position)
+        {
+            transform.localPosition = position;
         }
 
         public static void SetLocalPositionX(this Transform transform, float x)
@@ -35,6 +45,11 @@ namespace UniT.Extensions
             transform.localPosition = transform.localPosition.WithZ(z);
         }
 
+        public static void SetEulerAngle(this Transform transform, Vector3 eulerAngle)
+        {
+            transform.eulerAngles = eulerAngle;
+        }
+
         public static void SetEulerAngleX(this Transform transform, float x)
         {
             transform.eulerAngles = transform.eulerAngles.WithX(x);
@@ -50,6 +65,11 @@ namespace UniT.Extensions
             transform.eulerAngles = transform.eulerAngles.WithZ(z);
         }
 
+        public static void SetLocalEulerAngle(this Transform transform, Vector3 localEulerAngle)
+        {
+            transform.localEulerAngles = localEulerAngle;
+        }
+
         public static void SetLocalEulerAngleX(this Transform transform, float x)
         {
             transform.localEulerAngles = transform.localEulerAngles.WithX(x);
@@ -63,6 +83,11 @@ namespace UniT.Extensions
         public static void SetLocalEulerAngleZ(this Transform transform, float z)
         {
             transform.localEulerAngles = transform.localEulerAngles.WithZ(z);
+        }
+
+        public static void SetRotation(this Transform transform, Quaternion rotation)
+        {
+            transform.rotation = rotation;
         }
 
         public static void SetRotationX(this Transform transform, float x)
@@ -83,6 +108,11 @@ namespace UniT.Extensions
         public static void SetRotationW(this Transform transform, float w)
         {
             transform.rotation = transform.rotation.WithW(w);
+        }
+
+        public static void SetLocalRotation(this Transform transform, Quaternion localRotation)
+        {
+            transform.localRotation = localRotation;
         }
 
         public static void SetLocalRotationX(this Transform transform, float x)
