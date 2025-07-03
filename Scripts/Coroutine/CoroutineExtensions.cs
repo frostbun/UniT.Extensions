@@ -6,6 +6,7 @@ namespace UniT.Extensions
     using System.Collections;
     using System.Threading.Tasks;
     using UnityEngine;
+    using UnityEngine.Playables;
     #if UNIT_ADDRESSABLES
     using UnityEngine.ResourceManagement.AsyncOperations;
     #endif
@@ -181,6 +182,23 @@ namespace UniT.Extensions
             }
         }
         #endif
+
+        public static IEnumerator PlayAsync(this PlayableDirector playableDirector, Action? callback = null, IProgress<float>? progress = null)
+        {
+            playableDirector.Play();
+            try
+            {
+                while (playableDirector.state is PlayState.Playing)
+                {
+                    progress?.Report((float)(playableDirector.time / playableDirector.duration));
+                    yield return null;
+                }
+            }
+            finally
+            {
+                playableDirector.Stop();
+            }
+        }
     }
 }
 #endif

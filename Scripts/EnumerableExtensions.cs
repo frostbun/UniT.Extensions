@@ -8,10 +8,12 @@ namespace UniT.Extensions
 
     public static class EnumerableExtensions
     {
-        public static T AggregateFromFirst<T>(this IEnumerable<T> enumerable, Func<T, T, T> func)
+        #region AggregateFromFirst
+
+        public static T AggregateFromFirstOrDefault<T>(this IEnumerable<T> enumerable, Func<T, T, T> func, Func<T> defaultValueFactory)
         {
             using var enumerator = enumerable.GetEnumerator();
-            if (!enumerator.MoveNext()) throw new InvalidOperationException("Sequence contains no elements");
+            if (!enumerator.MoveNext()) return defaultValueFactory();
             var current = enumerator.Current;
             while (enumerator.MoveNext())
             {
@@ -20,47 +22,90 @@ namespace UniT.Extensions
             return current;
         }
 
-        public static T Min<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null)
+        public static T AggregateFromFirstOrDefault<T>(this IEnumerable<T> enumerable, Func<T, T, T> func, T defaultValue) => enumerable.AggregateFromFirstOrDefault(func, () => defaultValue);
+
+        // ReSharper disable once ReturnTypeCanBeNotNullable
+        public static T? AggregateFromFirstOrDefault<T>(this IEnumerable<T> enumerable, Func<T, T, T> func) => enumerable.AggregateFromFirstOrDefault(func, () => default!);
+
+        public static T AggregateFromFirst<T>(this IEnumerable<T> enumerable, Func<T, T, T> func) => enumerable.AggregateFromFirstOrDefault(func, () => throw new InvalidOperationException("Sequence contains no elements"));
+
+        #endregion
+
+        #region Min
+
+        public static T MinOrDefault<T>(this IEnumerable<T> enumerable, Func<T> defaultValueFactory, IComparer<T>? comparer = null)
         {
             comparer ??= Comparer<T>.Default;
-            return enumerable.AggregateFromFirst((x, y) => comparer.Compare(x, y) < 0 ? x : y);
+            return enumerable.AggregateFromFirstOrDefault((x, y) => comparer.Compare(x, y) < 0 ? x : y, defaultValueFactory);
         }
 
-        public static T Max<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null)
+        public static T MinOrDefault<T>(this IEnumerable<T> enumerable, T defaultValue, IComparer<T>? comparer = null) => enumerable.MinOrDefault(() => defaultValue, comparer);
+
+        // ReSharper disable once ReturnTypeCanBeNotNullable
+        public static T? MinOrDefault<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MinOrDefault(() => default!, comparer);
+
+        public static T Min<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MinOrDefault(() => throw new InvalidOperationException("Sequence contains no elements"), comparer);
+
+        #endregion
+
+        #region Max
+
+        public static T MaxOrDefault<T>(this IEnumerable<T> enumerable, Func<T> defaultValueFactory, IComparer<T>? comparer = null)
         {
             comparer ??= Comparer<T>.Default;
-            return enumerable.AggregateFromFirst((x, y) => comparer.Compare(x, y) > 0 ? x : y);
+            return enumerable.AggregateFromFirstOrDefault((x, y) => comparer.Compare(x, y) > 0 ? x : y, defaultValueFactory);
         }
 
-        public static TResult Min<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector, IComparer<TResult>? comparer = null)
-        {
-            return enumerable.Select(selector).Min(comparer);
-        }
+        public static T MaxOrDefault<T>(this IEnumerable<T> enumerable, T defaultValue, IComparer<T>? comparer = null) => enumerable.MaxOrDefault(() => defaultValue, comparer);
 
-        public static TResult Max<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector, IComparer<TResult>? comparer = null)
-        {
-            return enumerable.Select(selector).Max(comparer);
-        }
+        // ReSharper disable once ReturnTypeCanBeNotNullable
+        public static T? MaxOrDefault<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MaxOrDefault(() => default!, comparer);
 
-        public static T MinBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null)
+        public static T Max<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MaxOrDefault(() => throw new InvalidOperationException("Sequence contains no elements"), comparer);
+
+        #endregion
+
+        #region MinBy
+
+        public static T MinByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, Func<T> defaultValueFactory, IComparer<TKey>? comparer = null)
         {
             var dictionary = new Dictionary<TKey, T>();
             foreach (var item in enumerable)
             {
                 dictionary.TryAdd(keySelector(item), item);
             }
-            return dictionary[dictionary.Keys.Min(comparer)];
+            return dictionary.Count is 0 ? defaultValueFactory() : dictionary[dictionary.Keys.Min(comparer)];
         }
 
-        public static T MaxBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null)
+        public static T MinByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, T defaultValue, IComparer<TKey>? comparer = null) => enumerable.MinByOrDefault(keySelector, () => defaultValue, comparer);
+
+        // ReSharper disable once ReturnTypeCanBeNotNullable
+        public static T? MinByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MinByOrDefault(keySelector, () => default!, comparer);
+
+        public static T MinBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MinByOrDefault(keySelector, () => throw new InvalidOperationException("Sequence contains no elements"), comparer);
+
+        #endregion
+
+        #region MinBy
+
+        public static T MaxByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, Func<T> defaultValueFactory, IComparer<TKey>? comparer = null)
         {
             var dictionary = new Dictionary<TKey, T>();
             foreach (var item in enumerable)
             {
                 dictionary.TryAdd(keySelector(item), item);
             }
-            return dictionary[dictionary.Keys.Max(comparer)];
+            return dictionary.Count is 0 ? defaultValueFactory() : dictionary[dictionary.Keys.Max(comparer)];
         }
+
+        public static T MaxByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, T defaultValue, IComparer<TKey>? comparer = null) => enumerable.MaxByOrDefault(keySelector, () => defaultValue, comparer);
+
+        // ReSharper disable once ReturnTypeCanBeNotNullable
+        public static T? MaxByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MaxByOrDefault(keySelector, () => default!, comparer);
+
+        public static T MaxBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MaxByOrDefault(keySelector, () => throw new InvalidOperationException("Sequence contains no elements"), comparer);
+
+        #endregion
 
         public static IEnumerable<T> Except<T>(this IEnumerable<T> enumerable, T item)
         {
@@ -232,11 +277,13 @@ namespace UniT.Extensions
             // ReSharper restore PossibleMultipleEnumeration
         }
 
-        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, Func<T> valueFactory)
+        #region Random
+
+        public static T RandomOrDefault<T>(this IEnumerable<T> enumerable, Func<T> defaultValueFactory)
         {
             // ReSharper disable PossibleMultipleEnumeration
             enumerable = enumerable.ToCollectionIfNeeded();
-            return enumerable.Any() ? enumerable.ElementAt(UnityEngine.Random.Range(0, enumerable.Count())) : valueFactory();
+            return enumerable.Any() ? enumerable.ElementAt(UnityEngine.Random.Range(0, enumerable.Count())) : defaultValueFactory();
             // ReSharper restore PossibleMultipleEnumeration
         }
 
@@ -246,6 +293,8 @@ namespace UniT.Extensions
         public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable) => enumerable.RandomOrDefault(() => default!);
 
         public static T Random<T>(this IEnumerable<T> enumerable) => enumerable.RandomOrDefault(() => throw new InvalidOperationException("Sequence contains no elements"));
+
+        #endregion
 
         public static T Random<T>(this IEnumerable<T> enumerable, IEnumerable<int> weights)
         {

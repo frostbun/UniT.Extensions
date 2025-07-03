@@ -1,6 +1,7 @@
 #nullable enable
 namespace UniT.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
@@ -19,6 +20,23 @@ namespace UniT.Extensions
         public static bool IsNullOrWhiteSpace([NotNullWhen(false)] this string? str)
         {
             return string.IsNullOrWhiteSpace(str);
+        }
+
+        public static string Trim(this string str, string trimStr)
+        {
+            var isTrimmed = false;
+            var span      = str.AsSpan();
+            if (span.StartsWith(trimStr))
+            {
+                span      = span[trimStr.Length..];
+                isTrimmed = true;
+            }
+            if (span.EndsWith(trimStr))
+            {
+                span      = span[..^trimStr.Length];
+                isTrimmed = true;
+            }
+            return isTrimmed ? span.ToString() : str;
         }
 
         public static string Join<T>(this IEnumerable<T> enumerable, char separator)
