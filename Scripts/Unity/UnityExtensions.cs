@@ -1,11 +1,14 @@
 #nullable enable
 namespace UniT.Extensions
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using UnityEngine;
     using Object = UnityEngine.Object;
     #if UNIT_ADDRESSABLES
+    #if UNITY_WEBGL
+    using System;
+    #endif
     using UnityEngine.ResourceManagement.AsyncOperations;
     #endif
 
@@ -209,6 +212,22 @@ namespace UniT.Extensions
         public static string GetPathInHierarchy(this Component component)
         {
             return component.transform.GetPathInHierarchy();
+        }
+
+        public static void SetLayer(this Transform transform, int layer)
+        {
+            transform.gameObject.layer = layer;
+            transform.Cast<Transform>().ForEach(child => child.SetLayer(layer));
+        }
+
+        public static void SetLayer(this GameObject gameObject, int layer)
+        {
+            gameObject.transform.SetLayer(layer);
+        }
+
+        public static void SetLayer(this Component component, int layer)
+        {
+            component.transform.SetLayer(layer);
         }
 
         public static Sprite CreateSprite(this Texture2D texture, Vector2? pivot = null)

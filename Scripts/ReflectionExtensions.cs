@@ -58,16 +58,6 @@ namespace UniT.Extensions
             return assembly.GetTypes().Where(type => !type.IsAbstract && baseType.IsAssignableFrom(type));
         }
 
-        public static T Cast<T>(this object obj)
-        {
-            return (T)obj;
-        }
-
-        public static T? As<T>(this object obj) where T : class
-        {
-            return obj as T;
-        }
-
         public static void CopyTo(this object from, object to)
         {
             from.GetType().GetAllFields()
