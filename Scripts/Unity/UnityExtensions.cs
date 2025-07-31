@@ -5,12 +5,6 @@ namespace UniT.Extensions
     using System.Linq;
     using UnityEngine;
     using Object = UnityEngine.Object;
-    #if UNIT_ADDRESSABLES
-    #if UNITY_WEBGL
-    using System;
-    #endif
-    using UnityEngine.ResourceManagement.AsyncOperations;
-    #endif
 
     public static class UnityExtensions
     {
@@ -234,60 +228,5 @@ namespace UniT.Extensions
         {
             return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), pivot ?? new Vector2(.5f, .5f));
         }
-
-        #if UNIT_ADDRESSABLES
-        public static void WaitForResultOrThrow(this AsyncOperationHandle asyncOperation)
-        {
-            try
-            {
-                #if UNITY_WEBGL
-                if (!asyncOperation.IsDone) throw new InvalidOperationException("Cannot wait for async operation on WebGL");
-                #endif
-                asyncOperation.WaitForCompletion();
-                asyncOperation.GetResultOrThrow();
-            }
-            finally
-            {
-                if (!asyncOperation.IsDone) asyncOperation.Release();
-            }
-        }
-
-        public static T WaitForResultOrThrow<T>(this AsyncOperationHandle<T> asyncOperation)
-        {
-            try
-            {
-                #if UNITY_WEBGL
-                if (!asyncOperation.IsDone) throw new InvalidOperationException("Cannot wait for async operation on WebGL");
-                #endif
-                asyncOperation.WaitForCompletion();
-                return asyncOperation.GetResultOrThrow();
-            }
-            finally
-            {
-                if (!asyncOperation.IsDone) asyncOperation.Release();
-            }
-        }
-
-        public static void GetResultOrThrow(this AsyncOperationHandle asyncOperation)
-        {
-            if (asyncOperation.IsValid() && asyncOperation.Status is AsyncOperationStatus.Failed)
-            {
-                var exception = asyncOperation.OperationException;
-                asyncOperation.Release();
-                throw exception;
-            }
-        }
-
-        public static T GetResultOrThrow<T>(this AsyncOperationHandle<T> asyncOperation)
-        {
-            if (asyncOperation.IsValid() && asyncOperation.Status is AsyncOperationStatus.Failed)
-            {
-                var exception = asyncOperation.OperationException;
-                asyncOperation.Release();
-                throw exception;
-            }
-            return asyncOperation.Result;
-        }
-        #endif
     }
 }

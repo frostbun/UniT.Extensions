@@ -7,9 +7,6 @@ namespace UniT.Extensions
     using System.Threading.Tasks;
     using UnityEngine;
     using UnityEngine.Playables;
-    #if UNIT_ADDRESSABLES
-    using UnityEngine.ResourceManagement.AsyncOperations;
-    #endif
 
     public static class CoroutineExtensions
     {
@@ -145,43 +142,6 @@ namespace UniT.Extensions
             }
             callback?.Invoke();
         }
-
-        #if UNIT_ADDRESSABLES
-        public static IEnumerator ToCoroutine(this AsyncOperationHandle asyncOperation, Action? callback = null, IProgress<float>? progress = null)
-        {
-            try
-            {
-                while (!asyncOperation.IsDone)
-                {
-                    progress?.Report(asyncOperation.PercentComplete);
-                    yield return null;
-                }
-                asyncOperation.GetResultOrThrow();
-                callback?.Invoke();
-            }
-            finally
-            {
-                if (!asyncOperation.IsDone) asyncOperation.Release();
-            }
-        }
-
-        public static IEnumerator ToCoroutine<T>(this AsyncOperationHandle<T> asyncOperation, Action<T> callback, IProgress<float>? progress = null)
-        {
-            try
-            {
-                while (!asyncOperation.IsDone)
-                {
-                    progress?.Report(asyncOperation.PercentComplete);
-                    yield return null;
-                }
-                callback(asyncOperation.GetResultOrThrow());
-            }
-            finally
-            {
-                if (!asyncOperation.IsDone) asyncOperation.Release();
-            }
-        }
-        #endif
 
         public static IEnumerator PlayAsync(this PlayableDirector playableDirector, Action? callback = null, IProgress<float>? progress = null)
         {
