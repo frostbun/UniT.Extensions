@@ -122,6 +122,11 @@ namespace UniT.Extensions
             return enumerable.Concat(other);
         }
 
+        public static IEnumerable<T> Flat<T>(this IEnumerable<IEnumerable<T>> enumerable)
+        {
+            return enumerable.SelectMany(Item.S);
+        }
+
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (var item in enumerable) action(item);
