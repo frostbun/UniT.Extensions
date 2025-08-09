@@ -20,6 +20,10 @@ namespace UniT.Extensions
         [field: SerializeReference] public T1 Item1 { get; private set; }
         [field: SerializeReference] public T2 Item2 { get; private set; }
 
+        public SerializableTuple() : this(default!, default!)
+        {
+        }
+
         public SerializableTuple(T1 item1, T2 item2)
         {
             this.Item1 = item1;

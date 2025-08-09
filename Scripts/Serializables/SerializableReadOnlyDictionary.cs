@@ -13,7 +13,16 @@ namespace UniT.Extensions
     [Serializable]
     public class SerializableReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
     {
-        [SerializeField] private SerializableDictionary<TKey, TValue> values = new SerializableDictionary<TKey, TValue>();
+        [SerializeField] private SerializableDictionary<TKey, TValue> values;
+
+        public SerializableReadOnlyDictionary() : this(new SerializableDictionary<TKey, TValue>())
+        {
+        }
+
+        public SerializableReadOnlyDictionary(SerializableDictionary<TKey, TValue> values)
+        {
+            this.values = values;
+        }
 
         public int Count => this.values.Count;
 

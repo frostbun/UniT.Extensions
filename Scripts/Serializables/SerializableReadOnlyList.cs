@@ -16,7 +16,16 @@ namespace UniT.Extensions
     [Serializable]
     public class SerializableReadOnlyList<T> : IReadOnlyList<T>
     {
-        [SerializeReference] private List<T> values = new List<T>();
+        [SerializeReference] private List<T> values;
+
+        public SerializableReadOnlyList() : this(new List<T>())
+        {
+        }
+
+        public SerializableReadOnlyList(List<T> values)
+        {
+            this.values = values;
+        }
 
         public int Count => this.values.Count;
 
