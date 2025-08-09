@@ -74,7 +74,7 @@ namespace UniT.Extensions
         {
             [field: SerializeReference] public TItem[] Cells { get; private set; }
 
-            public int Height => this.Cells.Length;
+            public readonly int Height => this.Cells.Length;
 
             public Column(int height)
             {
@@ -89,7 +89,7 @@ namespace UniT.Extensions
     {
         protected override void DrawPropertyLayout(GUIContent label)
         {
-            this.Property.Children["columns"].Draw(label);
+            this.Property.Children[0].Draw(label);
         }
     }
     #else

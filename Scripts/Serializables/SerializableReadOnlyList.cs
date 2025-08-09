@@ -33,7 +33,7 @@ namespace UniT.Extensions
     {
         protected override void DrawPropertyLayout(GUIContent label)
         {
-            this.Property.Children["values"].Draw(label);
+            this.Property.Children[0].Draw(label);
         }
     }
     #else
