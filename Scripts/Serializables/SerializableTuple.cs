@@ -15,7 +15,7 @@ namespace UniT.Extensions
     #endif
 
     [Serializable]
-    public struct SerializableTuple<T1, T2> : ITuple
+    public class SerializableTuple<T1, T2> : ITuple
     {
         [field: SerializeReference] public T1 Item1 { get; private set; }
         [field: SerializeReference] public T2 Item2 { get; private set; }
@@ -26,15 +26,15 @@ namespace UniT.Extensions
             this.Item2 = item2;
         }
 
-        public readonly void Deconstruct(out T1 x, out T2 y)
+        public void Deconstruct(out T1 x, out T2 y)
         {
             x = this.Item1;
             y = this.Item2;
         }
 
-        readonly int ITuple.Length => 2;
+        int ITuple.Length => 2;
 
-        readonly object? ITuple.this[int index] => index switch
+        object? ITuple.this[int index] => index switch
         {
             0 => this.Item1,
             1 => this.Item2,
@@ -43,7 +43,7 @@ namespace UniT.Extensions
     }
 
     [Serializable]
-    public struct SerializableTuple<T1, T2, T3> : ITuple
+    public class SerializableTuple<T1, T2, T3> : ITuple
     {
         [field: SerializeReference] public T1 Item1 { get; private set; }
         [field: SerializeReference] public T2 Item2 { get; private set; }
@@ -56,16 +56,16 @@ namespace UniT.Extensions
             this.Item3 = item3;
         }
 
-        public readonly void Deconstruct(out T1 x, out T2 y, out T3 z)
+        public void Deconstruct(out T1 x, out T2 y, out T3 z)
         {
             x = this.Item1;
             y = this.Item2;
             z = this.Item3;
         }
 
-        readonly int ITuple.Length => 3;
+        int ITuple.Length => 3;
 
-        readonly object? ITuple.this[int index] => index switch
+        object? ITuple.this[int index] => index switch
         {
             0 => this.Item1,
             1 => this.Item2,
@@ -75,7 +75,7 @@ namespace UniT.Extensions
     }
 
     [Serializable]
-    public struct SerializableTuple<T1, T2, T3, T4> : ITuple
+    public class SerializableTuple<T1, T2, T3, T4> : ITuple
     {
         [field: SerializeReference] public T1 Item1 { get; private set; }
         [field: SerializeReference] public T2 Item2 { get; private set; }
@@ -90,7 +90,7 @@ namespace UniT.Extensions
             this.Item4 = item4;
         }
 
-        public readonly void Deconstruct(out T1 x, out T2 y, out T3 z, out T4 w)
+        public void Deconstruct(out T1 x, out T2 y, out T3 z, out T4 w)
         {
             x = this.Item1;
             y = this.Item2;
@@ -98,9 +98,9 @@ namespace UniT.Extensions
             w = this.Item4;
         }
 
-        readonly int ITuple.Length => 4;
+        int ITuple.Length => 4;
 
-        readonly object? ITuple.this[int index] => index switch
+        object? ITuple.this[int index] => index switch
         {
             0 => this.Item1,
             1 => this.Item2,
