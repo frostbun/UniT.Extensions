@@ -119,7 +119,7 @@ namespace UniT.Extensions
     {
         public IReadOnlyList<string> Names { get; }
 
-        public TupleDisplayNamesAttribute(params string[] names) : base(applyToCollection: true)
+        public TupleDisplayNamesAttribute(params string[] names)
         {
             this.Names = names;
         }
