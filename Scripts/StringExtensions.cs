@@ -102,10 +102,10 @@ namespace UniT.Extensions
         #if UNIT_JSON
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
-            Culture                = CultureInfo.InvariantCulture,
-            TypeNameHandling       = TypeNameHandling.Auto,
-            ReferenceLoopHandling  = ReferenceLoopHandling.Ignore,
-            ObjectCreationHandling = ObjectCreationHandling.Replace,
+            Culture               = CultureInfo.InvariantCulture,
+            TypeNameHandling      = TypeNameHandling.Auto,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Formatting            = Formatting.Indented,
         };
 
         public static string ToJson(this object obj)
