@@ -153,17 +153,17 @@ namespace UniT.Extensions
 
         public static void SetScaleX(this Transform transform, float x)
         {
-            transform.SetScale(transform.localScale.WithX(x));
+            transform.SetScale(transform.lossyScale.WithX(x));
         }
 
         public static void SetScaleY(this Transform transform, float y)
         {
-            transform.SetScale(transform.localScale.WithY(y));
+            transform.SetScale(transform.lossyScale.WithY(y));
         }
 
         public static void SetScaleZ(this Transform transform, float z)
         {
-            transform.SetScale(transform.localScale.WithZ(z));
+            transform.SetScale(transform.lossyScale.WithZ(z));
         }
 
         public static void SetLocalScale(this Transform transform, Vector3 scale)

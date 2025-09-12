@@ -5,29 +5,29 @@ namespace UniT.Extensions
 
     public static class CameraExtensions
     {
-        public static void FitDiagonal(this Camera camera, Bounds bounds, Vector3 offsetPercent = default, Vector3 offset = default, float paddingPercent = 0, float padding = 0)
+        public static void FitDiagonal(this Camera camera, Bounds bounds, Vector3 offsetBySize = default, Vector3 offset = default, float paddingBySize = 0, float padding = 0)
         {
-            camera.Fit(bounds.center, bounds.extents.magnitude, offsetPercent, offset, paddingPercent, padding);
+            camera.Fit(bounds.center, bounds.extents.magnitude, offsetBySize, offset, paddingBySize, padding);
         }
 
-        public static void FitDiagonal(this Camera camera, Rect rect, Vector3 offsetPercent = default, Vector3 offset = default, float paddingPercent = 0, float padding = 0)
+        public static void FitDiagonal(this Camera camera, Rect rect, Vector3 offsetBySize = default, Vector3 offset = default, float paddingBySize = 0, float padding = 0)
         {
-            camera.Fit(rect.center, rect.size.magnitude / 2, offsetPercent, offset, paddingPercent, padding);
+            camera.Fit(rect.center, rect.size.magnitude / 2, offsetBySize, offset, paddingBySize, padding);
         }
 
-        public static void Fit(this Camera camera, Rect rect, Vector3 offsetPercent = default, Vector3 offset = default, Vector2 paddingPercent = default, Vector2 padding = default)
+        public static void Fit(this Camera camera, Rect rect, Vector3 offsetBySize = default, Vector3 offset = default, Vector2 paddingBySize = default, Vector2 padding = default)
         {
             var size = Mathf.Max(
-                rect.width / camera.aspect * (1 + paddingPercent.x) + padding.x,
-                rect.height * (1 + paddingPercent.y) + padding.y
+                rect.width / camera.aspect * (1 + paddingBySize.x) + padding.x,
+                rect.height * (1 + paddingBySize.y) + padding.y
             );
-            camera.Fit(rect.center, size / 2, offsetPercent, offset);
+            camera.Fit(rect.center, size / 2, offsetBySize, offset);
         }
 
-        public static void Fit(this Camera camera, Vector3 center, float size, Vector3 offsetPercent = default, Vector3 offset = default, float paddingPercent = 0, float padding = 0)
+        public static void Fit(this Camera camera, Vector3 center, float size, Vector3 offsetBySize = default, Vector3 offset = default, float paddingBySize = 0, float padding = 0)
         {
-            center = Vector3.Scale(center, Vector3.one + offsetPercent) + offset;
-            size   = size * (1 + paddingPercent) + padding;
+            center = center + size * offsetBySize + offset;
+            size   = size * (1 + paddingBySize) + padding;
             if (camera.orthographic)
             {
                 camera.orthographicSize   = size;
