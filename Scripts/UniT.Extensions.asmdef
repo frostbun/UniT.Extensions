@@ -18,6 +18,11 @@
       "define": "UNIT_UNITASK"
     },
     {
+      "name": "com.cysharp.messagepipe",
+      "expression": "",
+      "define": "UNIT_MESSAGEPIPE"
+    },
+    {
       "name": "com.unity.nuget.newtonsoft-json",
       "expression": "",
       "define": "UNIT_JSON"

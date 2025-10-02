@@ -58,6 +58,11 @@ namespace UniT.Extensions
             return assembly.GetTypes().Where(type => !type.IsAbstract && baseType.IsAssignableFrom(type));
         }
 
+        public static bool IsAssignableTo(this Type type, Type baseType)
+        {
+            return baseType.IsAssignableFrom(type);
+        }
+
         public static void CopyTo(this object from, object to)
         {
             from.GetType().GetAllFields()

@@ -6,6 +6,9 @@ namespace UniT.Extensions
     using System.Threading;
     using Cysharp.Threading.Tasks;
     using UnityEngine.Playables;
+    #if UNIT_MESSAGEPIPE
+    using MessagePipe;
+    #endif
 
     public static class UniTaskExtensions
     {
@@ -25,6 +28,19 @@ namespace UniT.Extensions
                 playableDirector.Stop();
             }
         }
+
+        #if UNIT_MESSAGEPIPE
+        public static async UniTask WaitForSignalAsync<T>(this ISubscriber<T> subscriber, Func<T, bool>? filter = null, CancellationToken cancellationToken = default)
+        {
+            filter ??= _ => true;
+            var tcs = new UniTaskCompletionSource();
+            using var _ = subscriber.Subscribe(signal =>
+            {
+                if (filter(signal)) tcs.TrySetResult();
+            });
+            await tcs.Task.AttachExternalCancellation(cancellationToken);
+        }
+        #endif
     }
 }
 #endif
