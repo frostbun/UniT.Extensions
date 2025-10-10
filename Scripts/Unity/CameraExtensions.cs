@@ -17,11 +17,14 @@ namespace UniT.Extensions
 
         public static void Fit(this Camera camera, Rect rect, Vector3 offsetBySize = default, Vector3 offset = default, Vector2 paddingBySize = default, Vector2 padding = default)
         {
-            var size = Mathf.Max(
-                rect.width / camera.aspect * (1 + paddingBySize.x) + padding.x,
-                rect.height * (1 + paddingBySize.y) + padding.y
-            );
-            camera.Fit(rect.center, size / 2, offsetBySize, offset);
+            var sizeWithPadding = rect.size * (Vector2.one + paddingBySize) + padding;
+            camera.Fit(rect.center, Mathf.Max(sizeWithPadding.x / camera.aspect, sizeWithPadding.y) / 2, offsetBySize, offset);
+        }
+
+        public static void Fit(this Camera camera, Vector3 center, Vector2 size, Vector3 offsetBySize = default, Vector3 offset = default, Vector2 paddingBySize = default, Vector2 padding = default)
+        {
+            var sizeWithPadding = size * (Vector2.one + paddingBySize) + padding;
+            camera.Fit(center, Mathf.Max(sizeWithPadding.x / camera.aspect, sizeWithPadding.y) / 2, offsetBySize, offset);
         }
 
         public static void Fit(this Camera camera, Vector3 center, float size, Vector3 offsetBySize = default, Vector3 offset = default, float paddingBySize = 0, float padding = 0)
