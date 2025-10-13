@@ -29,7 +29,7 @@ namespace UniT.Extensions
             this.cts ??= new();
             var ct      = this.cts.Token;
             var attempt = 0;
-            while (attempt < this.retryCount)
+            while (true)
             {
                 try
                 {
@@ -42,7 +42,7 @@ namespace UniT.Extensions
                 }
                 catch (Exception)
                 {
-                    if (++attempt == this.retryCount) throw;
+                    if (attempt++ == this.retryCount) throw;
                     var delaySeconds = Mathf.Min(
                         this.maxRetryIntervalSeconds,
                         this.retryIntervalSeconds * (this.doubleIntervalEachRetry ? Mathf.Pow(2, attempt - 1) : 1)
