@@ -4,7 +4,7 @@ namespace UniT.Extensions
     using System;
     using System.Reflection;
 
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
     public sealed class KeyAttribute : Attribute
     {
         public string Key { get; }
