@@ -18,6 +18,10 @@ namespace UniT.Extensions
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            if (LayerMask.LayerToName(property.intValue).IsNullOrEmpty())
+            {
+                property.intValue = 0;
+            }
             property.intValue = EditorGUI.LayerField(position, label, property.intValue);
         }
     }
