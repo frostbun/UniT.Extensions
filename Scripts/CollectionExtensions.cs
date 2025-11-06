@@ -26,6 +26,24 @@ namespace UniT.Extensions
             list.RemoveAt(lastIndex);
         }
 
+        public static IEnumerable<T> GetRange<T>(this IList<T> list, int start, int stop)
+        {
+            for (var i = start; i < stop; ++i)
+            {
+                yield return list[i];
+            }
+        }
+
+        public static IEnumerable<T> GetRange<T>(this IList<T> list, Index start, Index stop)
+        {
+            return list.GetRange(list.GetRealIndex(start), list.GetRealIndex(stop));
+        }
+
+        public static IEnumerable<T> GetRange<T>(this IList<T> list, Range range)
+        {
+            return list.GetRange(range.Start, range.End);
+        }
+
         public static void RemoveRange<T>(this IList<T> list, int start, int stop)
         {
             while (stop-- > start) list.RemoveAt(stop);
