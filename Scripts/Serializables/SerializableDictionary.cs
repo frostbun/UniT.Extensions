@@ -1,5 +1,4 @@
-﻿#if ODIN_INSPECTOR
-#nullable enable
+﻿#nullable enable
 namespace UniT.Extensions
 {
     using System;
@@ -43,4 +42,3 @@ namespace UniT.Extensions
         }
     }
 }
-#endif
