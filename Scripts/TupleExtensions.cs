@@ -177,124 +177,124 @@ namespace UniT.Extensions
             return tuples.Max(tuple => selector(tuple.Item1, tuple.Item2, tuple.Item3));
         }
 
-        public static (TFirst, TSecond) MinBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        public static (TFirst, TSecond) MinBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MinBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+            return tuples.MinBy(tuple => keySelector(tuple.Item1, tuple.Item2), comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MinBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        public static (TFirst, TSecond, TThird) MinBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MinBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+            return tuples.MinBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3), comparer);
         }
 
-        public static (TFirst, TSecond) MinByFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        public static (TFirst, TSecond) MinByFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.MinBy(tuple => tuple.Item1);
+            return tuples.MinBy(tuple => tuple.Item1, comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MinByFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static (TFirst, TSecond, TThird) MinByFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.MinBy(tuple => tuple.Item1);
+            return tuples.MinBy(tuple => tuple.Item1, comparer);
         }
 
-        public static (TFirst, TSecond) MinByFirst<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector)
+        public static (TFirst, TSecond) MinByFirst<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MinBy(tuple => keySelector(tuple.Item1));
+            return tuples.MinBy(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MinByFirst<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector)
+        public static (TFirst, TSecond, TThird) MinByFirst<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MinBy(tuple => keySelector(tuple.Item1));
+            return tuples.MinBy(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static (TFirst, TSecond) MinBySecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        public static (TFirst, TSecond) MinBySecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.MinBy(tuple => tuple.Item2);
+            return tuples.MinBy(tuple => tuple.Item2, comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MinBySecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static (TFirst, TSecond, TThird) MinBySecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.MinBy(tuple => tuple.Item2);
+            return tuples.MinBy(tuple => tuple.Item2, comparer);
         }
 
-        public static (TFirst, TSecond) MinBySecond<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector)
+        public static (TFirst, TSecond) MinBySecond<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MinBy(tuple => keySelector(tuple.Item2));
+            return tuples.MinBy(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MinBySecond<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector)
+        public static (TFirst, TSecond, TThird) MinBySecond<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MinBy(tuple => keySelector(tuple.Item2));
+            return tuples.MinBy(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MinByThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static (TFirst, TSecond, TThird) MinByThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TThird>? comparer = null)
         {
-            return tuples.MinBy(tuple => tuple.Item3);
+            return tuples.MinBy(tuple => tuple.Item3, comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MinByThird<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector)
+        public static (TFirst, TSecond, TThird) MinByThird<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MinBy(tuple => keySelector(tuple.Item3));
+            return tuples.MinBy(tuple => keySelector(tuple.Item3), comparer);
         }
 
-        public static (TFirst, TSecond) MaxBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        public static (TFirst, TSecond) MaxBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MaxBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+            return tuples.MaxBy(tuple => keySelector(tuple.Item1, tuple.Item2), comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MaxBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        public static (TFirst, TSecond, TThird) MaxBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MaxBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+            return tuples.MaxBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3), comparer);
         }
 
-        public static (TFirst, TSecond) MaxByFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        public static (TFirst, TSecond) MaxByFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.MaxBy(tuple => tuple.Item1);
+            return tuples.MaxBy(tuple => tuple.Item1, comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MaxByFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static (TFirst, TSecond, TThird) MaxByFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.MaxBy(tuple => tuple.Item1);
+            return tuples.MaxBy(tuple => tuple.Item1, comparer);
         }
 
-        public static (TFirst, TSecond) MaxByFirst<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector)
+        public static (TFirst, TSecond) MaxByFirst<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MaxBy(tuple => keySelector(tuple.Item1));
+            return tuples.MaxBy(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MaxByFirst<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector)
+        public static (TFirst, TSecond, TThird) MaxByFirst<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MaxBy(tuple => keySelector(tuple.Item1));
+            return tuples.MaxBy(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static (TFirst, TSecond) MaxBySecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        public static (TFirst, TSecond) MaxBySecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.MaxBy(tuple => tuple.Item2);
+            return tuples.MaxBy(tuple => tuple.Item2, comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MaxBySecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static (TFirst, TSecond, TThird) MaxBySecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.MaxBy(tuple => tuple.Item2);
+            return tuples.MaxBy(tuple => tuple.Item2, comparer);
         }
 
-        public static (TFirst, TSecond) MaxBySecond<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector)
+        public static (TFirst, TSecond) MaxBySecond<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MaxBy(tuple => keySelector(tuple.Item2));
+            return tuples.MaxBy(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MaxBySecond<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector)
+        public static (TFirst, TSecond, TThird) MaxBySecond<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MaxBy(tuple => keySelector(tuple.Item2));
+            return tuples.MaxBy(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MaxByThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static (TFirst, TSecond, TThird) MaxByThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TThird>? comparer = null)
         {
-            return tuples.MaxBy(tuple => tuple.Item3);
+            return tuples.MaxBy(tuple => tuple.Item3, comparer);
         }
 
-        public static (TFirst, TSecond, TThird) MaxByThird<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector)
+        public static (TFirst, TSecond, TThird) MaxByThird<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.MaxBy(tuple => keySelector(tuple.Item3));
+            return tuples.MaxBy(tuple => keySelector(tuple.Item3), comparer);
         }
 
         public static bool Any<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
@@ -397,244 +397,244 @@ namespace UniT.Extensions
             return tuples.GroupBy(tuple => keySelector(tuple.Item3));
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderBy<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+            return tuples.OrderBy(tuple => keySelector(tuple.Item1, tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderBy<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+            return tuples.OrderBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.OrderBy(tuple => tuple.Item1);
+            return tuples.OrderBy(tuple => tuple.Item1, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.OrderBy(tuple => tuple.Item1);
+            return tuples.OrderBy(tuple => tuple.Item1, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByFirst<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByFirst<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderBy(tuple => keySelector(tuple.Item1));
+            return tuples.OrderBy(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByFirst<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByFirst<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderBy(tuple => keySelector(tuple.Item1));
+            return tuples.OrderBy(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderBySecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderBySecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.OrderBy(tuple => tuple.Item2);
+            return tuples.OrderBy(tuple => tuple.Item2, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderBySecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderBySecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.OrderBy(tuple => tuple.Item2);
+            return tuples.OrderBy(tuple => tuple.Item2, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderBySecond<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderBySecond<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderBy(tuple => keySelector(tuple.Item2));
+            return tuples.OrderBy(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderBySecond<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderBySecond<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderBy(tuple => keySelector(tuple.Item2));
+            return tuples.OrderBy(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TThird>? comparer = null)
         {
-            return tuples.OrderBy(tuple => tuple.Item3);
+            return tuples.OrderBy(tuple => tuple.Item3, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByThird<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByThird<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderBy(tuple => keySelector(tuple.Item3));
+            return tuples.OrderBy(tuple => keySelector(tuple.Item3), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescending<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescending<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1, tuple.Item2));
+            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1, tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescending<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescending<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescendingFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescendingFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => tuple.Item1);
+            return tuples.OrderByDescending(tuple => tuple.Item1, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => tuple.Item1);
+            return tuples.OrderByDescending(tuple => tuple.Item1, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescendingFirst<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescendingFirst<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1));
+            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingFirst<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingFirst<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1));
+            return tuples.OrderByDescending(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescendingSecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescendingSecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => tuple.Item2);
+            return tuples.OrderByDescending(tuple => tuple.Item2, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingSecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingSecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => tuple.Item2);
+            return tuples.OrderByDescending(tuple => tuple.Item2, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescendingSecond<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> OrderByDescendingSecond<TFirst, TSecond, TKey>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => keySelector(tuple.Item2));
+            return tuples.OrderByDescending(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingSecond<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingSecond<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => keySelector(tuple.Item2));
+            return tuples.OrderByDescending(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TThird>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => tuple.Item3);
+            return tuples.OrderByDescending(tuple => tuple.Item3, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingThird<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> OrderByDescendingThird<TFirst, TSecond, TThird, TKey>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.OrderByDescending(tuple => keySelector(tuple.Item3));
+            return tuples.OrderByDescending(tuple => keySelector(tuple.Item3), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenBy<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenBy<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenBy(tuple => keySelector(tuple.Item1, tuple.Item2));
+            return tuples.ThenBy(tuple => keySelector(tuple.Item1, tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenBy<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenBy<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+            return tuples.ThenBy(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByFirst<TFirst, TSecond>(this IOrderedEnumerable<(TFirst, TSecond)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByFirst<TFirst, TSecond>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.ThenBy(tuple => tuple.Item1);
+            return tuples.ThenBy(tuple => tuple.Item1, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByFirst<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByFirst<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.ThenBy(tuple => tuple.Item1);
+            return tuples.ThenBy(tuple => tuple.Item1, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByFirst<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByFirst<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenBy(tuple => keySelector(tuple.Item1));
+            return tuples.ThenBy(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByFirst<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByFirst<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenBy(tuple => keySelector(tuple.Item1));
+            return tuples.ThenBy(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenBySecond<TFirst, TSecond>(this IOrderedEnumerable<(TFirst, TSecond)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenBySecond<TFirst, TSecond>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.ThenBy(tuple => tuple.Item2);
+            return tuples.ThenBy(tuple => tuple.Item2, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenBySecond<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenBySecond<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.ThenBy(tuple => tuple.Item2);
+            return tuples.ThenBy(tuple => tuple.Item2, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenBySecond<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenBySecond<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenBy(tuple => keySelector(tuple.Item2));
+            return tuples.ThenBy(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenBySecond<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenBySecond<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenBy(tuple => keySelector(tuple.Item2));
+            return tuples.ThenBy(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByThird<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByThird<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TThird>? comparer = null)
         {
-            return tuples.ThenBy(tuple => tuple.Item3);
+            return tuples.ThenBy(tuple => tuple.Item3, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByThird<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByThird<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenBy(tuple => keySelector(tuple.Item3));
+            return tuples.ThenBy(tuple => keySelector(tuple.Item3), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescending<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescending<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1, tuple.Item2));
+            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1, tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescending<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescending<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3));
+            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1, tuple.Item2, tuple.Item3), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescendingFirst<TFirst, TSecond>(this IOrderedEnumerable<(TFirst, TSecond)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescendingFirst<TFirst, TSecond>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => tuple.Item1);
+            return tuples.ThenByDescending(tuple => tuple.Item1, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingFirst<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingFirst<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => tuple.Item1);
+            return tuples.ThenByDescending(tuple => tuple.Item1, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescendingFirst<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescendingFirst<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1));
+            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingFirst<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingFirst<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1));
+            return tuples.ThenByDescending(tuple => keySelector(tuple.Item1), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescendingSecond<TFirst, TSecond>(this IOrderedEnumerable<(TFirst, TSecond)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescendingSecond<TFirst, TSecond>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => tuple.Item2);
+            return tuples.ThenByDescending(tuple => tuple.Item2, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingSecond<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingSecond<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => tuple.Item2);
+            return tuples.ThenByDescending(tuple => tuple.Item2, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescendingSecond<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond)> ThenByDescendingSecond<TFirst, TSecond, TKey>(this IOrderedEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => keySelector(tuple.Item2));
+            return tuples.ThenByDescending(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingSecond<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingSecond<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => keySelector(tuple.Item2));
+            return tuples.ThenByDescending(tuple => keySelector(tuple.Item2), comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingThird<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingThird<TFirst, TSecond, TThird>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TThird>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => tuple.Item3);
+            return tuples.ThenByDescending(tuple => tuple.Item3, comparer);
         }
 
-        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingThird<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector)
+        public static IOrderedEnumerable<(TFirst, TSecond, TThird)> ThenByDescendingThird<TFirst, TSecond, TThird, TKey>(this IOrderedEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TKey> keySelector, IComparer<TKey>? comparer = null)
         {
-            return tuples.ThenByDescending(tuple => keySelector(tuple.Item3));
+            return tuples.ThenByDescending(tuple => keySelector(tuple.Item3), comparer);
         }
 
         public static (List<TFirst>, List<TSecond>) Unzip<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
