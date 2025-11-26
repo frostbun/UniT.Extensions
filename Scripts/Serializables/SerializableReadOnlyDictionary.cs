@@ -54,7 +54,7 @@ namespace UniT.Extensions
         }
     }
     #else
-    [CustomPropertyDrawer(typeof(SerializableReadOnlyDictionary<>), useForChildren: true)]
+    [CustomPropertyDrawer(typeof(SerializableReadOnlyDictionary<,>), useForChildren: true)]
     internal sealed class SerializableReadOnlyDictionaryDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

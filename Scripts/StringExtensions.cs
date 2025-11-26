@@ -127,7 +127,6 @@ namespace UniT.Extensions
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             Culture               = CultureInfo.InvariantCulture,
-            TypeNameHandling      = TypeNameHandling.Auto,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             Formatting            = Formatting.Indented,
         };
