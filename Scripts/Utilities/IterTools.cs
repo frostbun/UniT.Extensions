@@ -159,6 +159,11 @@ namespace UniT.Extensions
             return Product(first, second, third, (i1, i2, i3) => (i1, i2, i3));
         }
 
+        public static IEnumerable<(int, int)> Product(int first, int second)
+        {
+            return Product(Ranges.Take(first), Ranges.Take(second));
+        }
+
         public static IEnumerable<IEnumerable<T>> Permutations<T>(IEnumerable<T> enumerables, int count)
         {
             var items = enumerables as IList<T> ?? enumerables.ToArray();
