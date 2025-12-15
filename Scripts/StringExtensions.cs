@@ -8,6 +8,7 @@ namespace UniT.Extensions
     #if UNIT_JSON
     using System.Globalization;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     #endif
 
     public static class StringExtensions
@@ -129,6 +130,10 @@ namespace UniT.Extensions
             Culture               = CultureInfo.InvariantCulture,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             Formatting            = Formatting.Indented,
+            Converters = new List<JsonConverter>
+            {
+                new StringEnumConverter(),
+            },
         };
 
         public static string ToJson(this object obj)
