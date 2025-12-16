@@ -69,12 +69,14 @@ namespace UniT.Extensions
 
         public static T MinByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, Func<T> defaultValueFactory, IComparer<TKey>? comparer = null)
         {
-            var dictionary = new Dictionary<TKey, T>();
-            foreach (var item in enumerable)
-            {
-                dictionary.TryAdd(keySelector(item), item);
-            }
-            return dictionary.Count is 0 ? defaultValueFactory() : dictionary[dictionary.Keys.Min(comparer)];
+            comparer ??= Comparer<TKey>.Default;
+            return enumerable
+                .Select(item => (Item: item, Key: keySelector(item)))
+                .AggregateFromFirstOrDefault(
+                    (x, y) => comparer.Compare(x.Key, y.Key) < 0 ? x : y,
+                    () => (Item: defaultValueFactory(), Key: default!)
+                )
+                .Item;
         }
 
         public static T MinByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, T defaultValue, IComparer<TKey>? comparer = null) => enumerable.MinByOrDefault(keySelector, () => defaultValue, comparer);
@@ -86,16 +88,18 @@ namespace UniT.Extensions
 
         #endregion
 
-        #region MinBy
+        #region MaxBy
 
         public static T MaxByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, Func<T> defaultValueFactory, IComparer<TKey>? comparer = null)
         {
-            var dictionary = new Dictionary<TKey, T>();
-            foreach (var item in enumerable)
-            {
-                dictionary.TryAdd(keySelector(item), item);
-            }
-            return dictionary.Count is 0 ? defaultValueFactory() : dictionary[dictionary.Keys.Max(comparer)];
+            comparer ??= Comparer<TKey>.Default;
+            return enumerable
+                .Select(item => (Item: item, Key: keySelector(item)))
+                .AggregateFromFirstOrDefault(
+                    (x, y) => comparer.Compare(x.Key, y.Key) > 0 ? x : y,
+                    () => (Item: defaultValueFactory(), Key: default!)
+                )
+                .Item;
         }
 
         public static T MaxByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, T defaultValue, IComparer<TKey>? comparer = null) => enumerable.MaxByOrDefault(keySelector, () => defaultValue, comparer);
