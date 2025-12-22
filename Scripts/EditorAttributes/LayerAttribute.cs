@@ -18,7 +18,7 @@ namespace UniT.Extensions
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (LayerMask.LayerToName(property.intValue).IsNullOrEmpty())
+            if (LayerMask.LayerToName(property.intValue).IsNullOrWhiteSpace())
             {
                 property.intValue = 0;
             }
