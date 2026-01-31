@@ -143,7 +143,7 @@ namespace UniT.Extensions
         }
 
         #if UNIT_JSON
-        private static readonly JsonSerializerSettings JSON_SETTINGS = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             Culture               = CultureInfo.InvariantCulture,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
@@ -157,7 +157,7 @@ namespace UniT.Extensions
         [Pure]
         public static string ToJson(this object obj)
         {
-            return JsonConvert.SerializeObject(obj, JSON_SETTINGS);
+            return JsonConvert.SerializeObject(obj, JsonSettings);
         }
         #endif
     }
