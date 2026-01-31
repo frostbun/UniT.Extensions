@@ -1,6 +1,7 @@
 ﻿#nullable enable
 namespace UniT.Extensions
 {
+    using System.Diagnostics.Contracts;
     using UnityEngine;
 
     public static class TransformExtensions
@@ -191,6 +192,7 @@ namespace UniT.Extensions
             transform.localScale = transform.localScale.WithZ(z);
         }
 
+        [Pure]
         public static bool Overlaps(this RectTransform transform1, RectTransform transform2)
         {
             var rect1 = transform1.rect;

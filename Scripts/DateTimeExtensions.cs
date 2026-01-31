@@ -2,10 +2,12 @@
 namespace UniT.Extensions
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.Globalization;
 
     public static class DateTimeExtensions
     {
+        [Pure]
         public static DateTime GetFirstDayOfWeek(this DateTime dateTime, DayOfWeek firstDayOfWeek)
         {
             var diff           = dateTime.DayOfWeek - firstDayOfWeek;
@@ -13,26 +15,31 @@ namespace UniT.Extensions
             return dateTime.AddDays(-1 * diff).Date;
         }
 
+        [Pure]
         public static DateTime GetFirstDayOfWeek(this DateTime dateTime, DateTimeFormatInfo dateTimeFormatInfo)
         {
-            return GetFirstDayOfWeek(dateTime, dateTimeFormatInfo.FirstDayOfWeek);
+            return dateTime.GetFirstDayOfWeek(dateTimeFormatInfo.FirstDayOfWeek);
         }
 
+        [Pure]
         public static DateTime GetFirstDayOfWeek(this DateTime dateTime, CultureInfo cultureInfo)
         {
-            return GetFirstDayOfWeek(dateTime, cultureInfo.DateTimeFormat);
+            return dateTime.GetFirstDayOfWeek(cultureInfo.DateTimeFormat);
         }
 
+        [Pure]
         public static DateTime GetFirstDayOfWeek(this DateTime dateTime)
         {
-            return GetFirstDayOfWeek(dateTime, CultureInfo.InvariantCulture);
+            return dateTime.GetFirstDayOfWeek(CultureInfo.InvariantCulture);
         }
 
+        [Pure]
         public static DateTime GetFirstDayOfMonth(this DateTime dateTime)
         {
             return new DateTime(dateTime.Year, dateTime.Month, 1);
         }
 
+        [Pure]
         public static DateTime GetFirstDayOfYear(this DateTime dateTime)
         {
             return new DateTime(dateTime.Year, 1, 1);

@@ -3,6 +3,7 @@ namespace UniT.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -18,11 +19,13 @@ namespace UniT.Extensions
             enumerable.ToArray().ParallelForEach(action);
         }
 
+        [Pure]
         public static ParallelQuery<T> Shuffle<T>(this ParallelQuery<T> enumerable)
         {
             return enumerable.OrderBy(_ => Guid.NewGuid());
         }
 
+        [Pure]
         public static ParallelQuery<T> Sample<T>(this ParallelQuery<T> enumerable, int count)
         {
             return enumerable.Shuffle().Take(count);

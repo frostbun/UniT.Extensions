@@ -148,9 +148,10 @@ namespace UniT.Extensions
             playableDirector.Play();
             try
             {
+                var duration = playableDirector.duration;
                 while (playableDirector.state is PlayState.Playing)
                 {
-                    progress?.Report((float)(playableDirector.time / playableDirector.duration));
+                    progress?.Report((float)(playableDirector.time / duration));
                     yield return null;
                 }
             }

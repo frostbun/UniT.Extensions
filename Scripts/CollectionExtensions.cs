@@ -4,10 +4,12 @@ namespace UniT.Extensions
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics.Contracts;
     using System.Linq;
 
     public static class CollectionExtensions
     {
+        [Pure]
         public static int GetRealIndex<T>(this IList<T> list, Index index)
         {
             return index.IsFromEnd ? list.Count - index.Value : index.Value;
@@ -26,6 +28,7 @@ namespace UniT.Extensions
             list.RemoveAt(lastIndex);
         }
 
+        [Pure]
         public static IEnumerable<T> GetRange<T>(this IList<T> list, int start, int stop)
         {
             for (var i = start; i < stop; ++i)
@@ -34,11 +37,13 @@ namespace UniT.Extensions
             }
         }
 
+        [Pure]
         public static IEnumerable<T> GetRange<T>(this IList<T> list, Index start, Index stop)
         {
             return list.GetRange(list.GetRealIndex(start), list.GetRealIndex(stop));
         }
 
+        [Pure]
         public static IEnumerable<T> GetRange<T>(this IList<T> list, Range range)
         {
             return list.GetRange(range.Start, range.End);
@@ -75,36 +80,43 @@ namespace UniT.Extensions
             collection.Clear();
         }
 
+        [Pure]
         public static Stack<T> ToStack<T>(this IEnumerable<T> enumerable)
         {
             return new Stack<T>(enumerable);
         }
 
+        [Pure]
         public static T? PeekOrDefault<T>(this Stack<T> stack)
         {
             return stack.Count > 0 ? stack.Peek() : default;
         }
 
+        [Pure]
         public static T PeekOrDefault<T>(this Stack<T> stack, T defaultValue)
         {
             return stack.Count > 0 ? stack.Peek() : defaultValue;
         }
 
+        [Pure]
         public static T PeekOrDefault<T>(this Stack<T> stack, Func<T> valueFactory)
         {
             return stack.Count > 0 ? stack.Peek() : valueFactory();
         }
 
+        [Pure]
         public static T? PopOrDefault<T>(this Stack<T> stack)
         {
             return stack.Count > 0 ? stack.Pop() : default;
         }
 
+        [Pure]
         public static T PopOrDefault<T>(this Stack<T> stack, T defaultValue)
         {
             return stack.Count > 0 ? stack.Pop() : defaultValue;
         }
 
+        [Pure]
         public static T PopOrDefault<T>(this Stack<T> stack, Func<T> valueFactory)
         {
             return stack.Count > 0 ? stack.Pop() : valueFactory();
@@ -116,36 +128,43 @@ namespace UniT.Extensions
             stack.Clear();
         }
 
+        [Pure]
         public static Queue<T> ToQueue<T>(this IEnumerable<T> enumerable)
         {
             return new Queue<T>(enumerable);
         }
 
+        [Pure]
         public static T? PeekOrDefault<T>(this Queue<T> queue)
         {
             return queue.Count > 0 ? queue.Peek() : default;
         }
 
+        [Pure]
         public static T PeekOrDefault<T>(this Queue<T> queue, T defaultValue)
         {
             return queue.Count > 0 ? queue.Peek() : defaultValue;
         }
 
+        [Pure]
         public static T PeekOrDefault<T>(this Queue<T> queue, Func<T> valueFactory)
         {
             return queue.Count > 0 ? queue.Peek() : valueFactory();
         }
 
+        [Pure]
         public static T? DequeueOrDefault<T>(this Queue<T> queue)
         {
             return queue.Count > 0 ? queue.Dequeue() : default;
         }
 
+        [Pure]
         public static T DequeueOrDefault<T>(this Queue<T> queue, T defaultValue)
         {
             return queue.Count > 0 ? queue.Dequeue() : defaultValue;
         }
 
+        [Pure]
         public static T DequeueOrDefault<T>(this Queue<T> queue, Func<T> valueFactory)
         {
             return queue.Count > 0 ? queue.Dequeue() : valueFactory();
@@ -157,11 +176,13 @@ namespace UniT.Extensions
             queue.Clear();
         }
 
+        [Pure]
         public static ReadOnlyCollection<T> AsReadOnly<T>(this T[] array)
         {
             return Array.AsReadOnly(array);
         }
 
+        [Pure]
         public static T[,] To2DArray<T>(this T[][] source)
         {
             try
@@ -184,6 +205,7 @@ namespace UniT.Extensions
             }
         }
 
+        [Pure]
         public static T[][] ToJaggedArray<T>(this T[,] source)
         {
             var dimension1 = source.GetLength(0);

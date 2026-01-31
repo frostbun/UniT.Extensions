@@ -1,6 +1,7 @@
 ﻿#nullable enable
 namespace UniT.Extensions
 {
+    using System.Diagnostics.Contracts;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -36,21 +37,18 @@ namespace UniT.Extensions
             graphic.color = graphic.color.WithAlpha(a);
         }
 
+        [Pure]
         public static Color WithAlpha(this Color color, float a)
         {
             color.a = a;
             return color;
         }
 
+        [Pure]
         public static Color32 WithAlpha(this Color32 color, byte a)
         {
             color.a = a;
             return color;
-        }
-
-        public static string ToHex(this Color color)
-        {
-            return $"{(byte)(color.r * 255):X2}{(byte)(color.g * 255):X2}{(byte)(color.b * 255):X2}{(byte)(color.a * 255):X2}";
         }
     }
 }

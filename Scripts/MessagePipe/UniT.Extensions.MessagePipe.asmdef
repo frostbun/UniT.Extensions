@@ -1,7 +1,8 @@
 {
-  "name": "UniT.Extensions",
+  "name": "UniT.Extensions.MessagePipe",
   "rootNamespace": "UniT.Extensions",
   "references": [
+    "MessagePipe",
     "UniTask"
   ],
   "versionDefines": [
@@ -11,9 +12,13 @@
       "define": "UNIT_UNITASK"
     },
     {
-      "name": "com.unity.nuget.newtonsoft-json",
+      "name": "com.cysharp.messagepipe",
       "expression": "",
-      "define": "UNIT_JSON"
+      "define": "UNIT_MESSAGEPIPE"
     }
+  ],
+  "defineConstraints": [
+    "UNIT_UNITASK",
+    "UNIT_MESSAGEPIPE"
   ]
 }
