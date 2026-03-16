@@ -2,6 +2,7 @@
 namespace UniT.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
@@ -17,9 +18,11 @@ namespace UniT.Extensions
 
     public static class KeyAttributeExtensions
     {
+        private static readonly Dictionary<Type, string> Cache = new();
+
         public static string GetKey(this Type type)
         {
-            return type.GetCustomAttribute<KeyAttribute>()?.Key ?? type.Name;
+            return Cache.GetOrAdd(type, type => type.GetCustomAttribute<KeyAttribute>()?.Key ?? type.Name, type);
         }
     }
 }

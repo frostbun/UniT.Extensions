@@ -13,6 +13,7 @@ namespace UniT.Extensions
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
             this.values.Clear();
+            this.values.Capacity = this.Count;
             foreach (var kv in this)
             {
                 this.values.Add(new KeyValuePair(kv.Key, kv.Value));
@@ -22,6 +23,7 @@ namespace UniT.Extensions
         void ISerializationCallbackReceiver.OnAfterDeserialize()
         {
             this.Clear();
+            this.EnsureCapacity(this.values.Count);
             foreach (var kv in this.values)
             {
                 this.Add(kv.Key, kv.Value);

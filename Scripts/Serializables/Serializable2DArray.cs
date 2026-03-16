@@ -25,7 +25,8 @@ namespace UniT.Extensions
 
         public Serializable2DArray(int width, int height)
         {
-            this.columns = IterTools.Repeat(() => new Column(height), width).ToArray();
+            this.columns = new Column[width];
+            for (var i = 0; i < width; ++i) this.columns[i] = new Column(height);
         }
 
         public int Width => this.columns.Length;
@@ -36,16 +37,28 @@ namespace UniT.Extensions
 
         public IEnumerable<TItem> GetColumn(int x) => this.columns[x].Cells;
 
-        public IEnumerable<TItem> GetRow(int y) => this.columns.Select(column => column.Cells[y]);
+        public IEnumerable<TItem> GetRow(int y) => this.columns.Select((column, y) => column.Cells[y], y);
+
+        public IEnumerator<TItem> GetEnumerator()
+        {
+            for (var y = 0; y < this.Height; ++y)
+            {
+                for (var x = 0; x < this.Width; ++x)
+                {
+                    yield return this.columns[x].Cells[y];
+                }
+            }
+        }
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
-            foreach (var x in Ranges.Take(this.Width))
+            for (var x = 0; x < this.Width; ++x)
             {
                 if (this.columns[x].Height == this.Height) continue;
                 var oldColumn = this.columns[x];
                 this.columns[x] = new Column(this.Height);
-                foreach (var y in Ranges.Take(Mathf.Min(oldColumn.Height, this.Height)))
+                var height = Mathf.Min(oldColumn.Height, this.Height);
+                for (var y = 0; y < height; ++y)
                 {
                     this.columns[x].Cells[y] = oldColumn.Cells[y];
                 }
@@ -54,20 +67,7 @@ namespace UniT.Extensions
 
         void ISerializationCallbackReceiver.OnAfterDeserialize() { }
 
-        IEnumerator<TItem> IEnumerable<TItem>.GetEnumerator() => this.GetEnumerator();
-
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-
-        private IEnumerator<TItem> GetEnumerator()
-        {
-            foreach (var y in Ranges.Take(this.Height))
-            {
-                foreach (var x in Ranges.Take(this.Width))
-                {
-                    yield return this.columns[x].Cells[y];
-                }
-            }
-        }
 
         [Serializable]
         private struct Column

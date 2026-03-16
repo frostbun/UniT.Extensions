@@ -165,7 +165,7 @@ namespace UniT.Extensions
             position.x += position.width;
 
             position.width = (fullWidth - position.width - (tuple.Length - 1) * SPACING) / tuple.Length;
-            foreach (var index in Ranges.Take(tuple.Length))
+            for (var index = 0; index < tuple.Length; ++index)
             {
                 var name = $"Item{index + 1}";
                 var childLabel = new GUIContent(

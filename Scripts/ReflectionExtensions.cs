@@ -6,6 +6,10 @@ namespace UniT.Extensions
     using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
+    #if UNIT_ZSTRING
+    using Cysharp.Text;
+    #endif
 
     public static class ReflectionExtensions
     {
@@ -67,6 +71,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsAssignableTo(this Type type, Type baseType)
         {
             return baseType.IsAssignableFrom(type);
@@ -74,9 +79,10 @@ namespace UniT.Extensions
 
         public static void CopyTo(this object from, object to)
         {
-            from.GetType().GetAllFields()
-                .Intersect(to.GetType().GetAllFields())
-                .ForEach(field => field.SetValue(to, field.GetValue(from)));
+            foreach (var field in from.GetType().GetAllFields().Intersect(to.GetType().GetAllFields()))
+            {
+                field.SetValue(to, field.GetValue(from));
+            }
         }
 
         [Pure]
@@ -94,7 +100,11 @@ namespace UniT.Extensions
         [Pure]
         public static string ToBackingFieldName(this string str)
         {
-            return str.IsBackingFieldName() ? str : $"<{str}>k__BackingField";
+            #if UNIT_ZSTRING
+            return str.IsBackingFieldName() ? str : ZString.Concat("<", str, ">k__BackingField");
+            #else
+            return str.IsBackingFieldName() ? str : string.Concat("<", str, ">k__BackingField");
+            #endif
         }
 
         [Pure]

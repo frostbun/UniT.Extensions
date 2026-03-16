@@ -4,6 +4,7 @@ namespace UniT.Extensions
     using System;
     using System.Diagnostics.Contracts;
     using System.Globalization;
+    using System.Runtime.CompilerServices;
 
     public static class DateTimeExtensions
     {
@@ -16,30 +17,35 @@ namespace UniT.Extensions
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DateTime GetFirstDayOfWeek(this DateTime dateTime, DateTimeFormatInfo dateTimeFormatInfo)
         {
             return dateTime.GetFirstDayOfWeek(dateTimeFormatInfo.FirstDayOfWeek);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DateTime GetFirstDayOfWeek(this DateTime dateTime, CultureInfo cultureInfo)
         {
             return dateTime.GetFirstDayOfWeek(cultureInfo.DateTimeFormat);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DateTime GetFirstDayOfWeek(this DateTime dateTime)
         {
             return dateTime.GetFirstDayOfWeek(CultureInfo.InvariantCulture);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DateTime GetFirstDayOfMonth(this DateTime dateTime)
         {
             return new DateTime(dateTime.Year, dateTime.Month, 1);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DateTime GetFirstDayOfYear(this DateTime dateTime)
         {
             return new DateTime(dateTime.Year, 1, 1);

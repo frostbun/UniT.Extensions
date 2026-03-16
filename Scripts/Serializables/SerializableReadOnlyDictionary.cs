@@ -39,6 +39,8 @@ namespace UniT.Extensions
 
         public bool TryGetValue(TKey key, out TValue value) => this.values.TryGetValue(key, out value);
 
+        public Dictionary<TKey, TValue>.Enumerator GetEnumerator() => this.values.GetEnumerator();
+
         IEnumerator IEnumerable.GetEnumerator() => this.values.GetEnumerator();
 
         IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator() => this.values.GetEnumerator();

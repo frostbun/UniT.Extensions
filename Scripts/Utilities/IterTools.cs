@@ -5,6 +5,7 @@ namespace UniT.Extensions
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     public static class IterTools
     {
@@ -44,12 +45,14 @@ namespace UniT.Extensions
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> Zip<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
             return Zip(first, second, (i1, i2) => (i1, i2));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> Zip<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
             return Zip(first, second, third, (i1, i2, i3) => (i1, i2, i3));
@@ -89,12 +92,14 @@ namespace UniT.Extensions
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> ZipShortest<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
             return ZipShortest(first, second, (i1, i2) => (i1, i2));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> ZipShortest<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
             return ZipShortest(first, second, third, (i1, i2, i3) => (i1, i2, i3));
@@ -141,12 +146,14 @@ namespace UniT.Extensions
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst?, TSecond?)> ZipLongest<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
             return ZipLongest(first, second, (i1, i2) => (i1, i2));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst?, TSecond?, TThird?)> ZipLongest<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
             return ZipLongest(first, second, third, (i1, i2, i3) => (i1, i2, i3));
@@ -155,90 +162,141 @@ namespace UniT.Extensions
         [Pure]
         public static IEnumerable<TResult> Product<TFirst, TSecond, TResult>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
         {
-            return first.SelectMany(i1 => second.Select(i2 => resultSelector(i1, i2)));
+            var firstCollection  = first as ICollection<TFirst> ?? first.ToArray();
+            var secondCollection = second as ICollection<TSecond> ?? second.ToArray();
+            foreach (var i1 in firstCollection)
+            foreach (var i2 in secondCollection)
+                yield return resultSelector(i1, i2);
         }
 
         [Pure]
         public static IEnumerable<TResult> Product<TFirst, TSecond, TThird, TResult>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, Func<TFirst, TSecond, TThird, TResult> resultSelector)
         {
-            return first.SelectMany(i1 => second.SelectMany(i2 => third.Select(i3 => resultSelector(i1, i2, i3))));
+            var firstCollection  = first as ICollection<TFirst> ?? first.ToArray();
+            var secondCollection = second as ICollection<TSecond> ?? second.ToArray();
+            var thirdCollection  = third as ICollection<TThird> ?? third.ToArray();
+            foreach (var i1 in firstCollection)
+            foreach (var i2 in secondCollection)
+            foreach (var i3 in thirdCollection)
+                yield return resultSelector(i1, i2, i3);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> Product<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
             return Product(first, second, (i1, i2) => (i1, i2));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> Product<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
             return Product(first, second, third, (i1, i2, i3) => (i1, i2, i3));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(int, int)> Product(int first, int second)
         {
             return Product(Ranges.Take(first), Ranges.Take(second));
         }
 
         [Pure]
-        public static IEnumerable<IEnumerable<T>> Permutations<T>(IEnumerable<T> enumerables, int count)
+        public static IEnumerable<IReadOnlyList<T>> Permutations<T>(IEnumerable<T> enumerables, int count, bool useSharedBuffer = false)
         {
-            var items = enumerables as IList<T> ?? enumerables.ToArray();
-            if (count is 0)
+            var items  = enumerables as IList<T> ?? enumerables.ToArray();
+            var buffer = new List<T>(count);
+            var used   = new bool[items.Count];
+            return PermutationsRecursive(items, count, buffer, used, useSharedBuffer);
+
+            static IEnumerable<IReadOnlyList<T>> PermutationsRecursive(IList<T> items, int count, List<T> buffer, bool[] used, bool useSharedBuffer)
             {
-                yield return Enumerable.Empty<T>();
-                yield break;
-            }
-            foreach (var (index, item) in items.Enumerate())
-            {
-                foreach (var result in Permutations(items.Take(index).Concat(items.Skip(index + 1)), count - 1))
+                if (count is 0)
                 {
-                    yield return result.Prepend(item);
+                    yield return useSharedBuffer ? buffer : buffer.ToArray();
+                    yield break;
+                }
+
+                for (var i = 0; i < items.Count; ++i)
+                {
+                    if (used[i]) continue;
+
+                    used[i] = true;
+                    buffer.Add(items[i]);
+
+                    foreach (var result in PermutationsRecursive(items, count - 1, buffer, used, useSharedBuffer))
+                    {
+                        yield return result;
+                    }
+
+                    buffer.RemoveAt(buffer.Count - 1);
+                    used[i] = false;
                 }
             }
         }
 
         [Pure]
-        public static IEnumerable<IEnumerable<T>> Permutations<T>(IEnumerable<T> enumerables)
+        public static IEnumerable<IReadOnlyList<T>> Permutations<T>(IEnumerable<T> enumerables, bool useSharedBuffer = false)
         {
             var items = enumerables as IList<T> ?? enumerables.ToArray();
-            return Permutations(items, items.Count);
+            return Permutations(items, items.Count, useSharedBuffer);
         }
 
         [Pure]
-        public static IEnumerable<IEnumerable<T>> Combinations<T>(IEnumerable<T> enumerables, int count)
+        public static IEnumerable<IReadOnlyList<T>> Combinations<T>(IEnumerable<T> enumerables, int count, bool useSharedBuffer = false)
         {
-            var items = enumerables as IList<T> ?? enumerables.ToArray();
-            if (count is 0)
+            var items  = enumerables as IList<T> ?? enumerables.ToArray();
+            var buffer = new List<T>(count);
+            return CombinationsRecursive(items, count, 0, buffer, useSharedBuffer);
+
+            static IEnumerable<IReadOnlyList<T>> CombinationsRecursive(IList<T> items, int count, int startIndex, List<T> buffer, bool useSharedBuffer)
             {
-                yield return Enumerable.Empty<T>();
-                yield break;
-            }
-            foreach (var (index, item) in items.Enumerate())
-            {
-                foreach (var result in Combinations(items.Skip(index + 1), count - 1))
+                if (count is 0)
                 {
-                    yield return result.Prepend(item);
+                    yield return useSharedBuffer ? buffer : buffer.ToArray();
+                    yield break;
+                }
+
+                for (var i = startIndex; i <= items.Count - count; ++i)
+                {
+                    buffer.Add(items[i]);
+
+                    foreach (var result in CombinationsRecursive(items, count - 1, i + 1, buffer, useSharedBuffer))
+                    {
+                        yield return result;
+                    }
+
+                    buffer.RemoveAt(buffer.Count - 1);
                 }
             }
         }
 
         [Pure]
-        public static IEnumerable<IEnumerable<T>> CombinationsWithReplacement<T>(IEnumerable<T> enumerables, int count)
+        public static IEnumerable<IReadOnlyList<T>> CombinationsWithReplacement<T>(IEnumerable<T> enumerables, int count, bool useSharedBuffer = false)
         {
-            var items = enumerables as IList<T> ?? enumerables.ToArray();
-            if (count is 0)
+            var items  = enumerables as IList<T> ?? enumerables.ToArray();
+            var buffer = new List<T>(count);
+            return CombinationsWithReplacementRecursive(items, count, 0, buffer, useSharedBuffer);
+
+            static IEnumerable<IReadOnlyList<T>> CombinationsWithReplacementRecursive(IList<T> items, int count, int startIndex, List<T> buffer, bool useSharedBuffer)
             {
-                yield return Enumerable.Empty<T>();
-                yield break;
-            }
-            foreach (var (index, item) in items.Enumerate())
-            {
-                foreach (var result in CombinationsWithReplacement(items.Skip(index), count - 1))
+                if (count is 0)
                 {
-                    yield return result.Prepend(item);
+                    yield return useSharedBuffer ? buffer : buffer.ToArray();
+                    yield break;
+                }
+
+                for (var i = startIndex; i < items.Count; ++i)
+                {
+                    buffer.Add(items[i]);
+
+                    foreach (var result in CombinationsWithReplacementRecursive(items, count - 1, i, buffer, useSharedBuffer))
+                    {
+                        yield return result;
+                    }
+
+                    buffer.RemoveAt(buffer.Count - 1);
                 }
             }
         }
@@ -249,11 +307,13 @@ namespace UniT.Extensions
             while (count-- > 0) yield return itemFactory();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Repeat(Action action, int count)
         {
             while (count-- > 0) action();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static T? GetCurrentOrDefault<T>(IEnumerator<T> enumerator, bool hasValue) => hasValue ? enumerator.Current : default;
     }
 }

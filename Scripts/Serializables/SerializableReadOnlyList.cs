@@ -11,6 +11,7 @@ namespace UniT.Extensions
     #else
     using UnityEditor;
     #endif
+
     #endif
 
     [Serializable]
@@ -30,6 +31,8 @@ namespace UniT.Extensions
         public int Count => this.values.Count;
 
         public T this[int index] => this.values[index];
+
+        public List<T>.Enumerator GetEnumerator() => this.values.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.values.GetEnumerator();
 
