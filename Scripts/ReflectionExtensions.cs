@@ -67,7 +67,7 @@ namespace UniT.Extensions
         [Pure]
         public static IEnumerable<Type> GetDerivedTypes(this Type baseType, Assembly assembly)
         {
-            return assembly.GetTypes().Where(type => !type.IsAbstract && baseType.IsAssignableFrom(type));
+            return assembly.GetTypes().Where((type, baseType) => !type.IsAbstract && baseType.IsAssignableFrom(type), baseType);
         }
 
         [Pure]
