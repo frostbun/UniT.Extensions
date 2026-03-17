@@ -482,13 +482,44 @@ namespace UniT.Extensions
         [Pure]
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable)
         {
-            var list = enumerable.ToList();
-            for (var i = 0; i < list.Count - 1; ++i)
+            #if UNIT_ZLINQ
+            using var array = enumerable.AsValueEnumerable().ToArrayPool();
+            for (var i = 0; i < array.Size - 1; ++i)
             {
-                var j = UnityEngine.Random.Range(i, list.Count);
-                yield return list[j];
-                list[j] = list[i];
+                var j = UnityEngine.Random.Range(i, array.Size);
+                yield return array.Array[j];
+                array.Array[j] = array.Array[i];
             }
+            #else
+            if (enumerable is ICollection<T> collection)
+            {
+                var array = ArrayPool<T>.Shared.Rent(collection.Count);
+                try
+                {
+                    collection.CopyTo(array, 0);
+                    for (var i = 0; i < array.Length - 1; ++i)
+                    {
+                        var j = UnityEngine.Random.Range(i, array.Length);
+                        yield return array[j];
+                        array[j] = array[i];
+                    }
+                }
+                finally
+                {
+                    ArrayPool<T>.Shared.Return(array, RuntimeHelpers.IsReferenceOrContainsReferences<T>());
+                }
+            }
+            else
+            {
+                var array = enumerable.ToArray();
+                for (var i = 0; i < array.Length - 1; ++i)
+                {
+                    var j = UnityEngine.Random.Range(i, array.Length);
+                    yield return array[j];
+                    array[j] = array[i];
+                }
+            }
+            #endif
         }
 
         [Pure]

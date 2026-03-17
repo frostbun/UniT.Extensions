@@ -136,18 +136,18 @@ namespace UniT.Extensions
         {
             if (this.head < this.tail)
             {
-                for (var i = this.head; i < this.tail; i++)
+                for (var i = this.head; i < this.tail; ++i)
                 {
                     if (EqualityComparer<T>.Default.Equals(this.items[i], item)) return true;
                 }
             }
             else
             {
-                for (var i = this.head; i < this.Capacity; i++)
+                for (var i = this.head; i < this.Capacity; ++i)
                 {
                     if (EqualityComparer<T>.Default.Equals(this.items[i], item)) return true;
                 }
-                for (var i = 0; i < this.tail; i++)
+                for (var i = 0; i < this.tail; ++i)
                 {
                     if (EqualityComparer<T>.Default.Equals(this.items[i], item)) return true;
                 }
@@ -159,12 +159,12 @@ namespace UniT.Extensions
         {
             if (this.head < this.tail)
             {
-                for (var i = this.head; i < this.tail; i++) yield return this.items[i];
+                for (var i = this.head; i < this.tail; ++i) yield return this.items[i];
             }
             else
             {
-                for (var i = this.head; i < this.Capacity; i++) yield return this.items[i];
-                for (var i = 0; i < this.tail; i++) yield return this.items[i];
+                for (var i = this.head; i < this.Capacity; ++i) yield return this.items[i];
+                for (var i = 0; i < this.tail; ++i) yield return this.items[i];
             }
         }
 
