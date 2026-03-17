@@ -10,7 +10,7 @@ namespace UniT.Extensions
     {
         public static async UniTask WaitForSignalAsync<T>(this ISubscriber<T> subscriber, Func<T, bool>? filter = null, CancellationToken cancellationToken = default)
         {
-            filter ??= _ => true;
+            filter ??= static _ => true;
             var tcs = new UniTaskCompletionSource();
             using var _ = subscriber.Subscribe(signal =>
             {

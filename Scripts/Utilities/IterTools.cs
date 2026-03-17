@@ -48,14 +48,14 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> Zip<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
-            return Zip(first, second, (i1, i2) => (i1, i2));
+            return Zip(first, second, static (i1, i2) => (i1, i2));
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> Zip<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
-            return Zip(first, second, third, (i1, i2, i3) => (i1, i2, i3));
+            return Zip(first, second, third, static (i1, i2, i3) => (i1, i2, i3));
         }
 
         [Pure]
@@ -95,14 +95,14 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> ZipShortest<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
-            return ZipShortest(first, second, (i1, i2) => (i1, i2));
+            return ZipShortest(first, second, static (i1, i2) => (i1, i2));
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> ZipShortest<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
-            return ZipShortest(first, second, third, (i1, i2, i3) => (i1, i2, i3));
+            return ZipShortest(first, second, third, static (i1, i2, i3) => (i1, i2, i3));
         }
 
         [Pure]
@@ -149,14 +149,14 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst?, TSecond?)> ZipLongest<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
-            return ZipLongest(first, second, (i1, i2) => (i1, i2));
+            return ZipLongest(first, second, static (i1, i2) => (i1, i2));
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst?, TSecond?, TThird?)> ZipLongest<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
-            return ZipLongest(first, second, third, (i1, i2, i3) => (i1, i2, i3));
+            return ZipLongest(first, second, third, static (i1, i2, i3) => (i1, i2, i3));
         }
 
         [Pure]
@@ -185,14 +185,14 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> Product<TFirst, TSecond>(IEnumerable<TFirst> first, IEnumerable<TSecond> second)
         {
-            return Product(first, second, (i1, i2) => (i1, i2));
+            return Product(first, second, static (i1, i2) => (i1, i2));
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> Product<TFirst, TSecond, TThird>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
         {
-            return Product(first, second, third, (i1, i2, i3) => (i1, i2, i3));
+            return Product(first, second, third, static (i1, i2, i3) => (i1, i2, i3));
         }
 
         [Pure]

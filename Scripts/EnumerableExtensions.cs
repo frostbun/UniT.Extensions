@@ -36,11 +36,11 @@ namespace UniT.Extensions
         // ReSharper disable once ReturnTypeCanBeNotNullable
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T? AggregateFromFirstOrDefault<T>(this IEnumerable<T> enumerable, Func<T, T, T> func) => enumerable.AggregateFromFirstOrDefault(func, () => default!);
+        public static T? AggregateFromFirstOrDefault<T>(this IEnumerable<T> enumerable, Func<T, T, T> func) => enumerable.AggregateFromFirstOrDefault(func, static () => default!);
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T AggregateFromFirst<T>(this IEnumerable<T> enumerable, Func<T, T, T> func) => enumerable.AggregateFromFirstOrDefault(func, () => throw new InvalidOperationException("Sequence contains no elements"));
+        public static T AggregateFromFirst<T>(this IEnumerable<T> enumerable, Func<T, T, T> func) => enumerable.AggregateFromFirstOrDefault(func, static () => throw new InvalidOperationException("Sequence contains no elements"));
 
         #endregion
 
@@ -61,11 +61,11 @@ namespace UniT.Extensions
         // ReSharper disable once ReturnTypeCanBeNotNullable
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T? MinOrDefault<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MinOrDefault(() => default!, comparer);
+        public static T? MinOrDefault<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MinOrDefault(static () => default!, comparer);
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Min<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MinOrDefault(() => throw new InvalidOperationException("Sequence contains no elements"), comparer);
+        public static T Min<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MinOrDefault(static () => throw new InvalidOperationException("Sequence contains no elements"), comparer);
 
         #endregion
 
@@ -86,11 +86,11 @@ namespace UniT.Extensions
         // ReSharper disable once ReturnTypeCanBeNotNullable
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T? MaxOrDefault<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MaxOrDefault(() => default!, comparer);
+        public static T? MaxOrDefault<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MaxOrDefault(static () => default!, comparer);
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Max<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MaxOrDefault(() => throw new InvalidOperationException("Sequence contains no elements"), comparer);
+        public static T Max<T>(this IEnumerable<T> enumerable, IComparer<T>? comparer = null) => enumerable.MaxOrDefault(static () => throw new InvalidOperationException("Sequence contains no elements"), comparer);
 
         #endregion
 
@@ -123,11 +123,11 @@ namespace UniT.Extensions
         // ReSharper disable once ReturnTypeCanBeNotNullable
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T? MinByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MinByOrDefault(keySelector, () => default!, comparer);
+        public static T? MinByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MinByOrDefault(keySelector, static () => default!, comparer);
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T MinBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MinByOrDefault(keySelector, () => throw new InvalidOperationException("Sequence contains no elements"), comparer);
+        public static T MinBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MinByOrDefault(keySelector, static () => throw new InvalidOperationException("Sequence contains no elements"), comparer);
 
         #endregion
 
@@ -160,11 +160,11 @@ namespace UniT.Extensions
         // ReSharper disable once ReturnTypeCanBeNotNullable
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T? MaxByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MaxByOrDefault(keySelector, () => default!, comparer);
+        public static T? MaxByOrDefault<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MaxByOrDefault(keySelector, static () => default!, comparer);
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T MaxBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MaxByOrDefault(keySelector, () => throw new InvalidOperationException("Sequence contains no elements"), comparer);
+        public static T MaxBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, IComparer<TKey>? comparer = null) => enumerable.MaxByOrDefault(keySelector, static () => throw new InvalidOperationException("Sequence contains no elements"), comparer);
 
         #endregion
 
@@ -569,11 +569,11 @@ namespace UniT.Extensions
         // ReSharper disable once ReturnTypeCanBeNotNullable
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable) => enumerable.RandomOrDefault(() => default!);
+        public static T? RandomOrDefault<T>(this IEnumerable<T> enumerable) => enumerable.RandomOrDefault(static () => default!);
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Random<T>(this IEnumerable<T> enumerable) => enumerable.RandomOrDefault(() => throw new InvalidOperationException("Sequence contains no elements"));
+        public static T Random<T>(this IEnumerable<T> enumerable) => enumerable.RandomOrDefault(static () => throw new InvalidOperationException("Sequence contains no elements"));
 
         #endregion
 

@@ -22,7 +22,7 @@ namespace UniT.Extensions
 
         public static string GetKey(this Type type)
         {
-            return Cache.GetOrAdd(type, type => type.GetCustomAttribute<KeyAttribute>()?.Key ?? type.Name);
+            return Cache.GetOrAdd(type, static type => type.GetCustomAttribute<KeyAttribute>()?.Key ?? type.Name);
         }
     }
 }
