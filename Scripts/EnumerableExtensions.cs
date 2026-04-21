@@ -484,7 +484,7 @@ namespace UniT.Extensions
         {
             #if UNIT_ZLINQ
             using var array = enumerable.AsValueEnumerable().ToArrayPool();
-            for (var i = 0; i < array.Size - 1; ++i)
+            for (var i = 0; i < array.Size; ++i)
             {
                 var j = UnityEngine.Random.Range(i, array.Size);
                 yield return array.Array[j];
@@ -497,7 +497,7 @@ namespace UniT.Extensions
                 try
                 {
                     collection.CopyTo(array, 0);
-                    for (var i = 0; i < array.Length - 1; ++i)
+                    for (var i = 0; i < array.Length; ++i)
                     {
                         var j = UnityEngine.Random.Range(i, array.Length);
                         yield return array[j];
@@ -512,7 +512,7 @@ namespace UniT.Extensions
             else
             {
                 var array = enumerable.ToArray();
-                for (var i = 0; i < array.Length - 1; ++i)
+                for (var i = 0; i < array.Length; ++i)
                 {
                     var j = UnityEngine.Random.Range(i, array.Length);
                     yield return array[j];
