@@ -159,7 +159,7 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TValue : new()
         {
-            return dictionary.GetOrAdd(key, static () => new TValue());
+            return dictionary.GetOrAdd(key, static () => new());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -189,7 +189,7 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TValue : new()
         {
-            return dictionary.TryAdd(key, static () => new TValue());
+            return dictionary.TryAdd(key, static () => new());
         }
 
         [Pure]
@@ -756,7 +756,7 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
-            return new ReadOnlyDictionary<TKey, TValue>(dictionary);
+            return new(dictionary);
         }
     }
 }

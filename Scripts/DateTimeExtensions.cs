@@ -41,14 +41,14 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DateTime GetFirstDayOfMonth(this DateTime dateTime)
         {
-            return new DateTime(dateTime.Year, dateTime.Month, 1);
+            return new(dateTime.Year, dateTime.Month, 1);
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DateTime GetFirstDayOfYear(this DateTime dateTime)
         {
-            return new DateTime(dateTime.Year, 1, 1);
+            return new(dateTime.Year, 1, 1);
         }
     }
 }

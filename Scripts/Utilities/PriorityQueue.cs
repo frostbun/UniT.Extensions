@@ -18,7 +18,7 @@ namespace UniT.Extensions
 
         public PriorityQueue(IComparer<TPriority> comparer)
         {
-            this.items = new SortedList<TPriority, TItem>(Comparer<TPriority>.Create((i1, i2) =>
+            this.items = new(Comparer<TPriority>.Create((i1, i2) =>
             {
                 var result = comparer.Compare(i1, i2);
                 return result is 0 ? 1 : result;

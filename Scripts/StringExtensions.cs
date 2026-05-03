@@ -187,7 +187,7 @@ namespace UniT.Extensions
         }
 
         #if UNIT_JSON
-        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings JsonSettings = new()
         {
             Culture               = CultureInfo.InvariantCulture,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,

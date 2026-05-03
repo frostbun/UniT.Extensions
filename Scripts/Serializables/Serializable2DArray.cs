@@ -25,7 +25,7 @@ namespace UniT.Extensions
         public Serializable2DArray(int width, int height)
         {
             this.columns = new Column[width];
-            for (var i = 0; i < width; ++i) this.columns[i] = new Column(height);
+            for (var i = 0; i < width; ++i) this.columns[i] = new(height);
         }
 
         public int Width => this.columns.Length;
@@ -55,7 +55,7 @@ namespace UniT.Extensions
             {
                 if (this.columns[x].Height == this.Height) continue;
                 var oldColumn = this.columns[x];
-                this.columns[x] = new Column(this.Height);
+                this.columns[x] = new(this.Height);
                 var height = Mathf.Min(oldColumn.Height, this.Height);
                 for (var y = 0; y < height; ++y)
                 {

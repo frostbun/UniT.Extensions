@@ -18,7 +18,7 @@ namespace UniT.Extensions
     {
         [SerializeField] private SerializableDictionary<TKey, TValue> values;
 
-        public SerializableReadOnlyDictionary() : this(new SerializableDictionary<TKey, TValue>())
+        public SerializableReadOnlyDictionary() : this(new())
         {
         }
 

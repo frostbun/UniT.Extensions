@@ -110,7 +110,7 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Stack<T> ToStack<T>(this IEnumerable<T> enumerable)
         {
-            return new Stack<T>(enumerable);
+            return new(enumerable);
         }
 
         [Pure]
@@ -136,6 +136,13 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T PeekOrDefault<T, TState>(this Stack<T> stack, Func<TState, T> valueFactory, TState state)
+        {
+            return stack.Count > 0 ? stack.Peek() : valueFactory(state);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T? PopOrDefault<T>(this Stack<T> stack)
         {
             return stack.Count > 0 ? stack.Pop() : default;
@@ -155,6 +162,13 @@ namespace UniT.Extensions
             return stack.Count > 0 ? stack.Pop() : valueFactory();
         }
 
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T PopOrDefault<T, TState>(this Stack<T> stack, Func<TState, T> valueFactory, TState state)
+        {
+            return stack.Count > 0 ? stack.Pop() : valueFactory(state);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Clear<T>(this Stack<T> stack, Action<T> action)
         {
@@ -166,7 +180,7 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Queue<T> ToQueue<T>(this IEnumerable<T> enumerable)
         {
-            return new Queue<T>(enumerable);
+            return new(enumerable);
         }
 
         [Pure]
@@ -192,6 +206,13 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T PeekOrDefault<T, TState>(this Queue<T> queue, Func<TState, T> valueFactory, TState state)
+        {
+            return queue.Count > 0 ? queue.Peek() : valueFactory(state);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T? DequeueOrDefault<T>(this Queue<T> queue)
         {
             return queue.Count > 0 ? queue.Dequeue() : default;
@@ -211,6 +232,13 @@ namespace UniT.Extensions
             return queue.Count > 0 ? queue.Dequeue() : valueFactory();
         }
 
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T DequeueOrDefault<T, TState>(this Queue<T> queue, Func<TState, T> valueFactory, TState state)
+        {
+            return queue.Count > 0 ? queue.Dequeue() : valueFactory(state);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Clear<T>(this Queue<T> queue, Action<T> action)
         {
@@ -222,7 +250,7 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Deque<T> ToDeque<T>(this IEnumerable<T> enumerable)
         {
-            return new Deque<T>(enumerable);
+            return new(enumerable);
         }
 
         [Pure]
@@ -248,6 +276,13 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T PeekFrontOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state)
+        {
+            return deque.Count > 0 ? deque.PeekFront() : valueFactory(state);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T? PeekBackOrDefault<T>(this Deque<T> deque)
         {
             return deque.Count > 0 ? deque.PeekBack() : default;
@@ -265,6 +300,13 @@ namespace UniT.Extensions
         public static T PeekBackOrDefault<T>(this Deque<T> deque, Func<T> valueFactory)
         {
             return deque.Count > 0 ? deque.PeekBack() : valueFactory();
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T PeekBackOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state)
+        {
+            return deque.Count > 0 ? deque.PeekBack() : valueFactory(state);
         }
 
         [Pure]
@@ -290,6 +332,13 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T PopFrontOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state)
+        {
+            return deque.Count > 0 ? deque.PopFront() : valueFactory(state);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T? PopBackOrDefault<T>(this Deque<T> deque)
         {
             return deque.Count > 0 ? deque.PopBack() : default;
@@ -307,6 +356,13 @@ namespace UniT.Extensions
         public static T PopBackOrDefault<T>(this Deque<T> deque, Func<T> valueFactory)
         {
             return deque.Count > 0 ? deque.PopBack() : valueFactory();
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T PopBackOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state)
+        {
+            return deque.Count > 0 ? deque.PopBack() : valueFactory(state);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

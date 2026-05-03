@@ -9,7 +9,7 @@ namespace UniT.Extensions
 
     public static class DictionaryCoroutineExtensions
     {
-        private static readonly HashSet<object> Locks = new HashSet<object>();
+        private static readonly HashSet<object> Locks = new();
 
         public static IEnumerator GetOrDefaultAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<Action<TValue>, IEnumerator> valueFactory, Action<TValue> callback)
         {

@@ -67,7 +67,7 @@ namespace UniT.Extensions
             this.disableCts = null;
         }
         #else
-        private readonly HashSet<IEnumerator> runningCoroutines = new HashSet<IEnumerator>();
+        private readonly HashSet<IEnumerator> runningCoroutines = new();
 
         public new void StartCoroutine(IEnumerator coroutine)
         {

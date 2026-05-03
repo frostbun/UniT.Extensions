@@ -187,13 +187,13 @@ namespace UniT.Extensions
 
         public static Vector2 Multiply(Vector2 a, Vector2 b) => Vector2.Scale(a, b);
 
-        public static Vector2 Divide(Vector2 a, Vector2 b) => new Vector2(a.x / b.x, a.y / b.y);
+        public static Vector2 Divide(Vector2 a, Vector2 b) => new(a.x / b.x, a.y / b.y);
 
         public static Vector2 Min(Vector2 a, Vector2 b) => Vector2.Min(a, b);
 
         public static Vector2 Max(Vector2 a, Vector2 b) => Vector2.Max(a, b);
 
-        public static Vector2 Difference(Vector2 a, Vector2 b) => new Vector2(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y));
+        public static Vector2 Difference(Vector2 a, Vector2 b) => new(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y));
 
         #endregion
 
@@ -205,13 +205,13 @@ namespace UniT.Extensions
 
         public static Vector3 Multiply(Vector3 a, Vector3 b) => Vector3.Scale(a, b);
 
-        public static Vector3 Divide(Vector3 a, Vector3 b) => new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
+        public static Vector3 Divide(Vector3 a, Vector3 b) => new(a.x / b.x, a.y / b.y, a.z / b.z);
 
         public static Vector3 Min(Vector3 a, Vector3 b) => Vector3.Min(a, b);
 
         public static Vector3 Max(Vector3 a, Vector3 b) => Vector3.Max(a, b);
 
-        public static Vector3 Difference(Vector3 a, Vector3 b) => new Vector3(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y), Mathf.Abs(a.z - b.z));
+        public static Vector3 Difference(Vector3 a, Vector3 b) => new(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y), Mathf.Abs(a.z - b.z));
 
         #endregion
 
@@ -223,13 +223,13 @@ namespace UniT.Extensions
 
         public static Vector4 Multiply(Vector4 a, Vector4 b) => Vector4.Scale(a, b);
 
-        public static Vector4 Divide(Vector4 a, Vector4 b) => new Vector4(a.x / b.x, a.y / b.y, a.z / b.z);
+        public static Vector4 Divide(Vector4 a, Vector4 b) => new(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
 
         public static Vector4 Min(Vector4 a, Vector4 b) => Vector4.Min(a, b);
 
         public static Vector4 Max(Vector4 a, Vector4 b) => Vector4.Max(a, b);
 
-        public static Vector4 Difference(Vector4 a, Vector4 b) => new Vector4(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y), Mathf.Abs(a.z - b.z), Mathf.Abs(a.w - b.w));
+        public static Vector4 Difference(Vector4 a, Vector4 b) => new(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y), Mathf.Abs(a.z - b.z), Mathf.Abs(a.w - b.w));
 
         #endregion
 
@@ -241,13 +241,13 @@ namespace UniT.Extensions
 
         public static Vector2Int Multiply(Vector2Int a, Vector2Int b) => Vector2Int.Scale(a, b);
 
-        public static Vector2Int Divide(Vector2Int a, Vector2Int b) => new Vector2Int(a.x / b.x, a.y / b.y);
+        public static Vector2Int Divide(Vector2Int a, Vector2Int b) => new(a.x / b.x, a.y / b.y);
 
         public static Vector2Int Min(Vector2Int a, Vector2Int b) => Vector2Int.Min(a, b);
 
         public static Vector2Int Max(Vector2Int a, Vector2Int b) => Vector2Int.Max(a, b);
 
-        public static Vector2Int Difference(Vector2Int a, Vector2Int b) => new Vector2Int(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y));
+        public static Vector2Int Difference(Vector2Int a, Vector2Int b) => new(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y));
 
         #endregion
 
@@ -259,13 +259,13 @@ namespace UniT.Extensions
 
         public static Vector3Int Multiply(Vector3Int a, Vector3Int b) => Vector3Int.Scale(a, b);
 
-        public static Vector3Int Divide(Vector3Int a, Vector3Int b) => new Vector3Int(a.x / b.x, a.y / b.y);
+        public static Vector3Int Divide(Vector3Int a, Vector3Int b) => new(a.x / b.x, a.y / b.y, a.z / b.z);
 
         public static Vector3Int Min(Vector3Int a, Vector3Int b) => Vector3Int.Min(a, b);
 
         public static Vector3Int Max(Vector3Int a, Vector3Int b) => Vector3Int.Max(a, b);
 
-        public static Vector3Int Difference(Vector3Int a, Vector3Int b) => new Vector3Int(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y));
+        public static Vector3Int Difference(Vector3Int a, Vector3Int b) => new(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y), Mathf.Abs(a.z - b.z));
 
         #endregion
     }

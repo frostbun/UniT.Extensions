@@ -10,7 +10,7 @@ namespace UniT.Extensions
     public static class Ranges
     {
         [Pure]
-        public static From From(int start) => new From(start);
+        public static From From(int start) => new(start);
 
         [Pure]
         public static RangeEnumerable To(int stop) => new From(0).To(stop);
@@ -31,7 +31,7 @@ namespace UniT.Extensions
         [Pure]
         public RangeEnumerable To(int stop)
         {
-            return new RangeEnumerable(this.start, stop);
+            return new(this.start, stop);
         }
 
         [Pure]
@@ -55,7 +55,7 @@ namespace UniT.Extensions
 
         public RangeEnumerator GetEnumerator()
         {
-            return new RangeEnumerator(this.start, this.stop);
+            return new(this.start, this.stop);
         }
 
         IEnumerator<int> IEnumerable<int>.GetEnumerator() => this.GetEnumerator();

@@ -19,7 +19,7 @@ namespace UniT.Extensions
     {
         [SerializeReference] private List<T> values;
 
-        public SerializableReadOnlyList() : this(new List<T>())
+        public SerializableReadOnlyList() : this(new())
         {
         }
 

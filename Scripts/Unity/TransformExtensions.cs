@@ -168,7 +168,7 @@ namespace UniT.Extensions
         {
             var lossyScale = transform.lossyScale;
             var localScale = transform.localScale;
-            transform.localScale = new Vector3(
+            transform.localScale = new(
                 scale.x / lossyScale.x * localScale.x,
                 scale.y / lossyScale.y * localScale.y,
                 scale.z / lossyScale.z * localScale.z

@@ -8,7 +8,7 @@ namespace UniT.Extensions
     [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
-        [SerializeField] private List<KeyValuePair> values = new List<KeyValuePair>();
+        [SerializeField] private List<KeyValuePair> values = new();
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
@@ -16,7 +16,7 @@ namespace UniT.Extensions
             this.values.Capacity = this.Count;
             foreach (var kv in this)
             {
-                this.values.Add(new KeyValuePair(kv.Key, kv.Value));
+                this.values.Add(new(kv.Key, kv.Value));
             }
         }
 

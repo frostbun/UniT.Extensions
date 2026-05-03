@@ -698,7 +698,7 @@ namespace UniT.Extensions
                 if (chunk.Count == chunkSize)
                 {
                     yield return chunk;
-                    chunk = new List<T>(chunkSize);
+                    chunk = new(chunkSize);
                 }
             }
             if (chunk.Count > 0) yield return chunk;
