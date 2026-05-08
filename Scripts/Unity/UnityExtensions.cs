@@ -152,7 +152,7 @@ namespace UniT.Extensions
         public static bool TryGetComponentInChildren<T>(this GameObject gameObject, [MaybeNullWhen(false)] out T result, bool includeInactive = false)
         {
             result = gameObject.GetComponentInChildren<T>(includeInactive);
-            return result is { } && !result.Equals(null);
+            return result?.Equals(null) is false;
         }
 
         [Pure]
@@ -160,7 +160,7 @@ namespace UniT.Extensions
         public static bool TryGetComponentInChildren<T>(this Component component, [MaybeNullWhen(false)] out T result, bool includeInactive = false)
         {
             result = component.GetComponentInChildren<T>(includeInactive);
-            return result is { } && !result.Equals(null);
+            return result?.Equals(null) is false;
         }
 
         [Pure]
@@ -210,7 +210,7 @@ namespace UniT.Extensions
         public static bool TryGetComponentInParent<T>(this GameObject gameObject, [MaybeNullWhen(false)] out T result, bool includeInactive = false)
         {
             result = gameObject.GetComponentInParent<T>(includeInactive);
-            return result is { } && !result.Equals(null);
+            return result?.Equals(null) is false;
         }
 
         [Pure]
@@ -218,7 +218,7 @@ namespace UniT.Extensions
         public static bool TryGetComponentInParent<T>(this Component component, [MaybeNullWhen(false)] out T result, bool includeInactive = false)
         {
             result = component.GetComponentInParent<T>(includeInactive);
-            return result is { } && !result.Equals(null);
+            return result?.Equals(null) is false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -258,7 +258,7 @@ namespace UniT.Extensions
         public static string GetPathInHierarchy(this Transform transform)
         {
             var stack = new Stack<string>();
-            while (transform != null)
+            while (transform)
             {
                 stack.Push(transform.name);
                 transform = transform.parent;

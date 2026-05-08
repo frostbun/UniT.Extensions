@@ -18,9 +18,14 @@ namespace UniT.Extensions
         {
             get
             {
-                if (runner == null) runner = new GameObject(nameof(CoroutineRunner)).AddComponent<BetterMonoBehavior>().DontDestroyOnLoad();
-                return runner;
+                Initialize();
+                return runner!;
             }
+        }
+
+        public static void Initialize()
+        {
+            if (!runner) runner = new GameObject(nameof(CoroutineRunner)).AddComponent<BetterMonoBehavior>().DontDestroyOnLoad();
         }
 
         public static void Start(this IEnumerator coroutine) => Runner.StartCoroutine(coroutine);
