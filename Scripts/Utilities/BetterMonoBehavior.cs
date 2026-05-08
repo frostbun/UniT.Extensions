@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 namespace UniT.Extensions
 {
     using System.Diagnostics.CodeAnalysis;
