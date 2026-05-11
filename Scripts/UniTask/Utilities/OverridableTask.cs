@@ -3,6 +3,7 @@
 namespace UniT.Extensions
 {
     using System;
+    using System.Runtime.CompilerServices;
     using System.Threading;
     using Cysharp.Threading.Tasks;
 
@@ -10,23 +11,24 @@ namespace UniT.Extensions
     {
         private CancellationTokenSource? cts;
 
-        public async UniTask RunAsync(Func<CancellationToken, UniTask> taskFactory)
+        public async UniTask RunAsync<TState>(Func<TState, CancellationToken, UniTask> taskFactory, TState state)
         {
-            this.cts?.Cancel();
-            using var cts = this.cts = new();
-            try
-            {
-                await taskFactory(cts.Token);
-            }
-            finally
-            {
-                if (this.cts == cts) this.cts = null;
-            }
+            this.Cancel();
+            this.cts = new();
+            await taskFactory(state, this.cts.Token);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UniTask RunAsync(Func<CancellationToken, UniTask> taskFactory)
+        {
+            return this.RunAsync((taskFactory, ct) => taskFactory(ct), taskFactory);
         }
 
         public void Cancel()
         {
             this.cts?.Cancel();
+            this.cts?.Dispose();
+            this.cts = null;
         }
     }
 }
