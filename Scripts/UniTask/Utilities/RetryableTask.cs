@@ -12,15 +12,17 @@ namespace UniT.Extensions
     {
         private readonly int   retryCount;
         private readonly float retryIntervalSeconds;
-        private readonly bool  doubleIntervalEachRetry;
-        private readonly float maxRetryIntervalSeconds;
+        private readonly float retryIntervalMultiplier;
+        private readonly float retryIntervalMax;
+        private readonly bool  ignoreTimeScale;
 
-        public RetryableTask(int retryCount = -1, float retryIntervalSeconds = 1, bool doubleIntervalEachRetry = true, float maxRetryIntervalSeconds = 32)
+        public RetryableTask(int retryCount = -1, float retryIntervalSeconds = 1, float retryIntervalMultiplier = 2, float retryIntervalMax = 32, bool ignoreTimeScale = false)
         {
             this.retryCount              = retryCount;
             this.retryIntervalSeconds    = retryIntervalSeconds;
-            this.doubleIntervalEachRetry = doubleIntervalEachRetry;
-            this.maxRetryIntervalSeconds = maxRetryIntervalSeconds;
+            this.retryIntervalMultiplier = retryIntervalMultiplier;
+            this.retryIntervalMax        = retryIntervalMax;
+            this.ignoreTimeScale         = ignoreTimeScale;
         }
 
         private CancellationTokenSource? cts;
@@ -28,13 +30,12 @@ namespace UniT.Extensions
         public async UniTask RunAsync<TState>(Func<TState, CancellationToken, UniTask<bool>> taskFactory, TState state)
         {
             this.cts ??= new();
-            var ct      = this.cts.Token;
             var attempt = 0;
             while (true)
             {
                 try
                 {
-                    if (await taskFactory(state, ct)) return;
+                    if (await taskFactory(state, this.cts.Token)) return;
                 }
                 catch (OperationCanceledException)
                 {
@@ -44,12 +45,14 @@ namespace UniT.Extensions
                 {
                     if (attempt == this.retryCount) throw;
                 }
-                ++attempt;
-                var delaySeconds = Mathf.Min(
-                    this.maxRetryIntervalSeconds,
-                    this.retryIntervalSeconds * (this.doubleIntervalEachRetry ? Mathf.Pow(2, attempt - 1) : 1)
+                await UniTask.WaitForSeconds(
+                    Mathf.Min(
+                        this.retryIntervalSeconds * Mathf.Pow(this.retryIntervalMultiplier, ++attempt - 1),
+                        this.retryIntervalMax
+                    ),
+                    this.ignoreTimeScale,
+                    cancellationToken: this.cts.Token
                 );
-                await UniTask.WaitForSeconds(delaySeconds, cancellationToken: ct);
             }
         }
 
