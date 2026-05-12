@@ -497,9 +497,9 @@ namespace UniT.Extensions
                 try
                 {
                     collection.CopyTo(array, 0);
-                    for (var i = 0; i < array.Length; ++i)
+                    for (var i = 0; i < collection.Count; ++i)
                     {
-                        var j = UnityEngine.Random.Range(i, array.Length);
+                        var j = UnityEngine.Random.Range(i, collection.Count);
                         yield return array[j];
                         array[j] = array[i];
                     }
