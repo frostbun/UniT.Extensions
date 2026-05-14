@@ -4,6 +4,7 @@ namespace UniT.Extensions
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     public class Deque<T> : ICollection<T>, IReadOnlyCollection<T>
@@ -85,6 +86,24 @@ namespace UniT.Extensions
             ++this.count;
         }
 
+        public bool TryPopFront([MaybeNullWhen(false)] out T item)
+        {
+            if (!this.TryPeekFront(out item)) return false;
+            this.items[this.head] = default!;
+            this.head             = this.Next(this.head);
+            --this.count;
+            return true;
+        }
+
+        public bool TryPopBack([MaybeNullWhen(false)] out T item)
+        {
+            if (!this.TryPeekBack(out item)) return false;
+            this.tail             = this.Previous(this.tail);
+            this.items[this.tail] = default!;
+            --this.count;
+            return true;
+        }
+
         public T PopFront()
         {
             var item = this.PeekFront();
@@ -101,6 +120,28 @@ namespace UniT.Extensions
             this.items[this.tail] = default!;
             --this.count;
             return item;
+        }
+
+        public bool TryPeekFront([MaybeNullWhen(false)] out T item)
+        {
+            if (this.count is 0)
+            {
+                item = default;
+                return false;
+            }
+            item = this.items[this.head];
+            return true;
+        }
+
+        public bool TryPeekBack([MaybeNullWhen(false)] out T item)
+        {
+            if (this.count is 0)
+            {
+                item = default;
+                return false;
+            }
+            item = this.items[this.Previous(this.tail)];
+            return true;
         }
 
         public T PeekFront()
