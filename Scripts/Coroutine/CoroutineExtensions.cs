@@ -143,6 +143,16 @@ namespace UniT.Extensions
             callback?.Invoke();
         }
 
+        public static IEnumerator ToCoroutine<T>(this T asyncOperation, Action<T> callback, IProgress<float>? progress = null) where T : AsyncOperation
+        {
+            while (!asyncOperation.isDone)
+            {
+                progress?.Report(asyncOperation.progress);
+                yield return null;
+            }
+            callback(asyncOperation);
+        }
+
         public static IEnumerator PlayAsync(this PlayableDirector playableDirector, Action? callback = null, IProgress<float>? progress = null)
         {
             playableDirector.Play();

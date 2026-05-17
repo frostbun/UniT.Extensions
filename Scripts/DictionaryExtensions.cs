@@ -39,7 +39,6 @@ namespace UniT.Extensions
             var array = ArrayPool<KeyValuePair<TKey, TValue>>.Shared.Rent(dictionary.Count);
             try
             {
-
                 dictionary.CopyTo(array, 0);
                 foreach (var (key, value) in array.AsSpan(0, dictionary.Count))
                 {

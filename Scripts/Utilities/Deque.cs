@@ -18,7 +18,7 @@ namespace UniT.Extensions
 
         public Deque(int capacity)
         {
-            if (capacity < 0) throw new ArgumentOutOfRangeException(nameof(capacity));
+            if (capacity < 0) throw new ArgumentOutOfRangeException(nameof(capacity), capacity, "`capacity` must be >= 0");
             this.items = new T[capacity > 0 ? capacity : 4];
         }
 
@@ -216,7 +216,7 @@ namespace UniT.Extensions
         void ICollection<T>.CopyTo(T[] array, int arrayIndex)
         {
             if (array is null) throw new ArgumentNullException(nameof(array));
-            if (arrayIndex < 0) throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+            if (arrayIndex < 0) throw new ArgumentOutOfRangeException(nameof(arrayIndex), "`arrayIndex` must be >= 0");
             if (this.count > array.Length - arrayIndex) throw new ArgumentException("Destination array is not long enough");
 
             if (this.head < this.tail)

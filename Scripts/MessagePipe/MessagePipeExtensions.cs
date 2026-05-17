@@ -2,9 +2,9 @@
 namespace UniT.Extensions
 {
     using System;
-    using MessagePipe;
     using System.Threading;
     using Cysharp.Threading.Tasks;
+    using MessagePipe;
 
     public static class MessagePipeExtensions
     {

@@ -12,21 +12,20 @@ namespace UniT.Extensions
 
     public static class CoroutineRunner
     {
+        #if UNITY_EDITOR
         private static BetterMonoBehavior? runner;
 
         private static BetterMonoBehavior Runner
         {
             get
             {
-                Initialize();
-                return runner!;
+                if (!runner) runner = new GameObject(nameof(CoroutineRunner)).AddComponent<BetterMonoBehavior>().DontDestroyOnLoad();
+                return runner;
             }
         }
-
-        public static void Initialize()
-        {
-            if (!runner) runner = new GameObject(nameof(CoroutineRunner)).AddComponent<BetterMonoBehavior>().DontDestroyOnLoad();
-        }
+        #else
+        private static readonly BetterMonoBehavior Runner = new GameObject(nameof(CoroutineRunner)).AddComponent<BetterMonoBehavior>().DontDestroyOnLoad();
+        #endif
 
         public static void Start(this IEnumerator coroutine) => Runner.StartCoroutine(coroutine);
 

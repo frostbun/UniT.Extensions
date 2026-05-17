@@ -734,5 +734,12 @@ namespace UniT.Extensions
                 return lists;
             });
         }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<T?> CastNullable<T>(this IEnumerable<T> enumerable) where T : struct
+        {
+            return enumerable.Cast<T?>();
+        }
     }
 }
