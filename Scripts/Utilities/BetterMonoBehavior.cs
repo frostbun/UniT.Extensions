@@ -1,0 +1,135 @@
+#nullable enable
+namespace UniT.Extensions
+{
+    using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
+    using System.Runtime.CompilerServices;
+    using UnityEngine;
+    #if UNIT_UNITASK
+    using System.Threading;
+    #else
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    #endif
+
+    public class BetterMonoBehavior : MonoBehaviour
+    {
+        #region Self
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public T? GetComponentOrDefault<T>() => UnityExtensions.GetComponentOrDefault<T>(this);
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public new T GetComponent<T>() => UnityExtensions.GetComponentOrThrow<T>(this);
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool HasComponent<T>() => UnityExtensions.HasComponent<T>(this);
+
+        #endregion
+
+        #region Children
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public T? GetComponentInChildrenOrDefault<T>(bool includeInactive = false) => UnityExtensions.GetComponentInChildrenOrDefault<T>(this, includeInactive);
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public new T GetComponentInChildren<T>(bool includeInactive = false) => UnityExtensions.GetComponentInChildrenOrThrow<T>(this, includeInactive);
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool HasComponentInChildren<T>(bool includeInactive = false) => UnityExtensions.HasComponentInChildren<T>(this, includeInactive);
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool TryGetComponentInChildren<T>([MaybeNullWhen(false)] out T component, bool includeInactive = false) => UnityExtensions.TryGetComponentInChildren(this, out component, includeInactive);
+
+        #endregion
+
+        #region Parent
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public T? GetComponentInParentOrDefault<T>(bool includeInactive = false) => UnityExtensions.GetComponentInParentOrDefault<T>(this, includeInactive);
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public new T GetComponentInParent<T>(bool includeInactive = false) => UnityExtensions.GetComponentInParentOrThrow<T>(this, includeInactive);
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool HasComponentInParent<T>(bool includeInactive = false) => UnityExtensions.HasComponentInParent<T>(this, includeInactive);
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool TryGetComponentInParent<T>([MaybeNullWhen(false)] out T component, bool includeInactive = false) => UnityExtensions.TryGetComponentInParent(this, out component, includeInactive);
+
+        #endregion
+
+        #region Async
+
+        #if UNIT_UNITASK
+        private CancellationTokenSource? disableCts;
+
+        public CancellationToken GetCancellationTokenOnDisable()
+        {
+            return this.isActiveAndEnabled
+                ? (this.disableCts ??= new()).Token
+                : new(true);
+        }
+
+        protected virtual void OnDisable()
+        {
+            this.disableCts?.Cancel();
+            this.disableCts?.Dispose();
+            this.disableCts = null;
+        }
+        #else
+        private readonly HashSet<IEnumerator> runningCoroutines = new();
+
+        public new void StartCoroutine(IEnumerator coroutine)
+        {
+            if (!this.runningCoroutines.Add(coroutine)) throw new InvalidOperationException("Coroutine is already running");
+            base.StartCoroutine(coroutine.Finally(() => this.runningCoroutines.Remove(coroutine)));
+        }
+
+        public new void StopCoroutine(IEnumerator coroutine)
+        {
+            if (!this.runningCoroutines.Remove(coroutine)) throw new InvalidOperationException("Coroutine is not running");
+            base.StopCoroutine(coroutine);
+            (coroutine as IDisposable)?.Dispose();
+        }
+
+        public IEnumerator GatherCoroutines(params IEnumerator[] coroutines)
+        {
+            var count     = coroutines.Length;
+            var exception = default(Exception);
+            coroutines.ForEach(coroutine => this.StartCoroutine(coroutine.Catch(e => exception = exception is null ? e : throw e).Finally(() => --count)));
+            while (count > 0)
+            {
+                if (exception is { }) throw exception;
+                yield return null;
+            }
+            if (exception is { }) throw exception;
+        }
+
+        public IEnumerator GatherCoroutines(IEnumerable<IEnumerator> coroutines)
+        {
+            return this.GatherCoroutines(coroutines.ToArray());
+        }
+
+        protected virtual void OnDisable()
+        {
+            this.runningCoroutines.SafeForEach(this.StopCoroutine);
+        }
+        #endif
+
+        #endregion
+    }
+}

@@ -1,0 +1,46 @@
+#nullable enable
+namespace UniT.Extensions
+{
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    [Serializable]
+    public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
+    {
+        [SerializeField] private List<KeyValuePair> values = new();
+
+        void ISerializationCallbackReceiver.OnBeforeSerialize()
+        {
+            this.values.Clear();
+            this.values.Capacity = this.Count;
+            foreach (var kv in this)
+            {
+                this.values.Add(new(kv.Key, kv.Value));
+            }
+        }
+
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
+        {
+            this.Clear();
+            this.EnsureCapacity(this.values.Count);
+            foreach (var kv in this.values)
+            {
+                this.Add(kv.Key, kv.Value);
+            }
+        }
+
+        [Serializable]
+        private struct KeyValuePair
+        {
+            [field: SerializeReference] public TKey   Key   { get; private set; }
+            [field: SerializeReference] public TValue Value { get; private set; }
+
+            public KeyValuePair(TKey key, TValue value)
+            {
+                this.Key   = key;
+                this.Value = value;
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "UniT.Extensions.MessagePipe",
+  "rootNamespace": "UniT.Extensions",
+  "references": [
+    "MessagePipe",
+    "UniTask"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.cysharp.unitask",
+      "expression": "",
+      "define": "UNIT_UNITASK"
+    },
+    {
+      "name": "com.cysharp.messagepipe",
+      "expression": "",
+      "define": "UNIT_MESSAGEPIPE"
+    }
+  ],
+  "defineConstraints": [
+    "UNIT_UNITASK",
+    "UNIT_MESSAGEPIPE"
+  ]
+}
