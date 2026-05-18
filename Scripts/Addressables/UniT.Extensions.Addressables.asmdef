@@ -7,17 +7,18 @@
   ],
   "versionDefines": [
     {
-      "name": "com.cysharp.unitask",
-      "expression": "",
-      "define": "UNIT_UNITASK"
-    },
-    {
       "name": "com.unity.addressables",
       "expression": "",
       "define": "UNIT_ADDRESSABLES"
+    },
+    {
+      "name": "com.cysharp.unitask",
+      "expression": "",
+      "define": "UNIT_UNITASK"
     }
   ],
   "defineConstraints": [
-    "UNIT_ADDRESSABLES"
+    "UNIT_ADDRESSABLES",
+    "UNIT_UNITASK"
   ]
 }

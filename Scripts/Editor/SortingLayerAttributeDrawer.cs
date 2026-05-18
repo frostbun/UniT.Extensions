@@ -1,19 +1,10 @@
 #nullable enable
-namespace UniT.Extensions
+namespace UniT.Extensions.Editor
 {
-    using System;
-    using UnityEngine;
-    #if UNITY_EDITOR
     using System.Linq;
     using UnityEditor;
-    #endif
+    using UnityEngine;
 
-    [AttributeUsage(AttributeTargets.Field)]
-    public sealed class SortingLayerAttribute : PropertyAttribute
-    {
-    }
-
-    #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(SortingLayerAttribute))]
     internal sealed class SortingLayerAttributeDrawer : PropertyDrawer
     {
@@ -24,5 +15,4 @@ namespace UniT.Extensions
             property.intValue = SortingLayer.layers[newIndex].id;
         }
     }
-    #endif
 }

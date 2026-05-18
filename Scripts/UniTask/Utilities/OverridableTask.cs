@@ -1,6 +1,5 @@
-#if UNIT_UNITASK
 #nullable enable
-namespace UniT.Extensions
+namespace UniT.Extensions.UniTask
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -32,4 +31,3 @@ namespace UniT.Extensions
         }
     }
 }
-#endif

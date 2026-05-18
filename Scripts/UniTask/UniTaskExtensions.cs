@@ -1,6 +1,5 @@
-#if UNIT_UNITASK
 #nullable enable
-namespace UniT.Extensions
+namespace UniT.Extensions.UniTask
 {
     using System;
     using System.Threading;
@@ -28,4 +27,3 @@ namespace UniT.Extensions
         }
     }
 }
-#endif

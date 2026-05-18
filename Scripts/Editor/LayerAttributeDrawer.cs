@@ -1,18 +1,9 @@
 #nullable enable
-namespace UniT.Extensions
+namespace UniT.Extensions.Editor
 {
-    using System;
-    using UnityEngine;
-    #if UNITY_EDITOR
     using UnityEditor;
-    #endif
+    using UnityEngine;
 
-    [AttributeUsage(AttributeTargets.Field)]
-    public sealed class LayerAttribute : PropertyAttribute
-    {
-    }
-
-    #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(LayerAttribute))]
     internal sealed class LayerAttributeDrawer : PropertyDrawer
     {
@@ -25,5 +16,4 @@ namespace UniT.Extensions
             property.intValue = EditorGUI.LayerField(position, label, property.intValue);
         }
     }
-    #endif
 }

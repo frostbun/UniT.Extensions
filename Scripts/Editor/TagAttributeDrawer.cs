@@ -1,20 +1,11 @@
 #nullable enable
-namespace UniT.Extensions
+namespace UniT.Extensions.Editor
 {
-    using System;
-    using UnityEngine;
-    #if UNITY_EDITOR
     using System.Linq;
     using UnityEditor;
     using UnityEditorInternal;
-    #endif
+    using UnityEngine;
 
-    [AttributeUsage(AttributeTargets.Field)]
-    public sealed class TagAttribute : PropertyAttribute
-    {
-    }
-
-    #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(TagAttribute))]
     internal sealed class TagAttributeDrawer : PropertyDrawer
     {
@@ -28,5 +19,4 @@ namespace UniT.Extensions
             property.stringValue = EditorGUI.TagField(position, label, property.stringValue);
         }
     }
-    #endif
 }

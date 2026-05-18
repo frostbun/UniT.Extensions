@@ -1,25 +1,11 @@
 {
   "name": "UniT.Extensions",
   "rootNamespace": "UniT.Extensions",
-  "references": [
-    "ZString",
-    "UniTask"
-  ],
   "versionDefines": [
-    {
-      "name": "com.cysharp.unitask",
-      "expression": "",
-      "define": "UNIT_UNITASK"
-    },
     {
       "name": "org.nuget.zlinq",
       "expression": "",
       "define": "UNIT_ZLINQ"
-    },
-    {
-      "name": "com.cysharp.zstring",
-      "expression": "",
-      "define": "UNIT_ZSTRING"
     },
     {
       "name": "org.nuget.zstring",

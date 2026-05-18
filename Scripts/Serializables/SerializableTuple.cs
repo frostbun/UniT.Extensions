@@ -2,17 +2,8 @@
 namespace UniT.Extensions
 {
     using System;
-    using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using UnityEngine;
-    #if UNITY_EDITOR
-    using UnityEditor;
-    #if ODIN_INSPECTOR
-    using System.Linq;
-    using Sirenix.Utilities.Editor;
-    using Sirenix.OdinInspector.Editor;
-    #endif
-    #endif
 
     [Serializable]
     public class SerializableTuple<T1, T2> : ITuple
@@ -113,86 +104,4 @@ namespace UniT.Extensions
             _ => throw new IndexOutOfRangeException(),
         };
     }
-
-    [AttributeUsage(AttributeTargets.Field)]
-    public sealed class TupleDisplayNamesAttribute : PropertyAttribute
-    {
-        public IReadOnlyList<string> Names { get; }
-
-        public TupleDisplayNamesAttribute(params string[] names)
-        {
-            this.Names = names;
-        }
-    }
-
-    #if UNITY_EDITOR
-    #if ODIN_INSPECTOR
-    internal sealed class TupleDrawer : OdinValueDrawer<ITuple>
-    {
-        protected override void DrawPropertyLayout(GUIContent? label)
-        {
-            var displayNames = this.Property.GetAttribute<TupleDisplayNamesAttribute>();
-            SirenixEditorGUI.BeginHorizontalPropertyLayout(label);
-            foreach (var (property, name) in IterTools.ZipLongest(this.Property.Children, displayNames?.Names ?? Enumerable.Empty<string>()))
-            {
-                if (property is null) break;
-                var childLabel = new GUIContent(name ?? property.NiceName);
-                GUIHelper.PushLabelWidth(EditorStyles.label.CalcWidth(childLabel));
-                property.Draw(childLabel);
-                GUIHelper.PopLabelWidth();
-            }
-            SirenixEditorGUI.EndHorizontalPropertyLayout();
-        }
-    }
-    #else
-    [CustomPropertyDrawer(typeof(SerializableTuple<,>), useForChildren: true)]
-    [CustomPropertyDrawer(typeof(TupleDisplayNamesAttribute), useForChildren: true)]
-    internal sealed class SerializableTupleCustomDisplayNameDrawer : PropertyDrawer
-    {
-        private const float SPACING = 5;
-
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent? label)
-        {
-            var tuple        = (ITuple)property.boxedValue;
-            var displayNames = this.attribute as TupleDisplayNamesAttribute;
-
-            var originalLabelWidth = EditorGUIUtility.labelWidth;
-            var fullWidth          = position.width;
-            GUILayout.BeginHorizontal();
-
-            position.width = label is { } && !label.text.IsNullOrWhiteSpace() ? EditorGUIUtility.labelWidth : 0;
-            EditorGUI.LabelField(position, label);
-            position.x += position.width;
-
-            position.width = (fullWidth - position.width - (tuple.Length - 1) * SPACING) / tuple.Length;
-            for (var index = 0; index < tuple.Length; ++index)
-            {
-                var name = $"Item{index + 1}";
-                var childLabel = new GUIContent(
-                    displayNames is { } && displayNames.Names.Count > index
-                        ? displayNames.Names[index]
-                        : name
-                );
-                EditorStyles.label.CalcMinMaxWidth(childLabel, out var width, out _);
-                EditorGUIUtility.labelWidth = width;
-                EditorGUI.PropertyField(
-                    position,
-                    property.FindPropertyRelative(name.ToBackingFieldName()),
-                    childLabel,
-                    includeChildren: true
-                );
-                position.x += position.width + SPACING;
-            }
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-            GUILayout.EndHorizontal();
-        }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent? label)
-        {
-            return EditorGUIUtility.singleLineHeight;
-        }
-    }
-    #endif
-    #endif
 }

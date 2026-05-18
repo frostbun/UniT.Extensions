@@ -17,6 +17,6 @@ namespace UniT.Extensions
 
         public static bool IsNull<T>([NotNullWhen(false)] T? item) => item is null;
 
-        public static bool IsNotNull<T>([NotNullWhen(true)] T? item) => item is { };
+        public static bool IsNotNull<T>([NotNullWhen(true)] T? item) => item is not null;
     }
 }

@@ -1,6 +1,5 @@
-#if UNIT_UNITASK
 #nullable enable
-namespace UniT.Extensions
+namespace UniT.Extensions.UniTask
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -37,11 +36,7 @@ namespace UniT.Extensions
                 {
                     if (await taskFactory(state, this.cts.Token)) return;
                 }
-                catch (OperationCanceledException)
-                {
-                    throw;
-                }
-                catch (Exception)
+                catch (Exception e) when (e is not OperationCanceledException)
                 {
                     if (attempt == this.retryCount) throw;
                 }
@@ -86,4 +81,3 @@ namespace UniT.Extensions
         }
     }
 }
-#endif
