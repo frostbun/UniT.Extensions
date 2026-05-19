@@ -1,6 +1,6 @@
 {
   "name": "UniT.Extensions.Editor",
-  "rootNamespace": "UniT.Extensions",
+  "rootNamespace": "UniT.Extensions.Editor",
   "references": [
     "UniT.Extensions"
   ],

@@ -1,5 +1,5 @@
 #nullable enable
-namespace UniT.Extensions.UniTask
+namespace UniT.Extensions
 {
     using System;
     using System.Collections.Generic;
