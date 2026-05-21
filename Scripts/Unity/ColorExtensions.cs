@@ -4,7 +4,6 @@ namespace UniT.Extensions
     using System.Diagnostics.Contracts;
     using System.Runtime.CompilerServices;
     using UnityEngine;
-    using UnityEngine.UI;
 
     public static class ColorExtensions
     {
@@ -30,18 +29,6 @@ namespace UniT.Extensions
         public static void SetAlpha(this Material material, float a)
         {
             material.color = material.color.WithAlpha(a);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetColor(this Graphic graphic, Color color)
-        {
-            graphic.color = color;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetAlpha(this Graphic graphic, float a)
-        {
-            graphic.color = graphic.color.WithAlpha(a);
         }
 
         [Pure]

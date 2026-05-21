@@ -1,0 +1,17 @@
+{
+  "name": "UniT.Extensions.Physics2D",
+  "rootNamespace": "UniT.Extensions",
+  "references": [
+    "UniT.Extensions"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.unity.modules.physics2d",
+      "expression": "",
+      "define": "UNIT_PHYSICS2D"
+    }
+  ],
+  "defineConstraints": [
+    "UNIT_PHYSICS2D"
+  ]
+}

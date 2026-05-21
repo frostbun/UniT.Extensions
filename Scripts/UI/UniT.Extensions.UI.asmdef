@@ -1,0 +1,17 @@
+{
+  "name": "UniT.Extensions.UI",
+  "rootNamespace": "UniT.Extensions",
+  "references": [
+    "UniT.Extensions"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.unity.ugui",
+      "expression": "",
+      "define": "UNIT_UI"
+    }
+  ],
+  "defineConstraints": [
+    "UNIT_UI"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "UniT.Extensions.Director",
+  "rootNamespace": "UniT.Extensions",
+  "references": [
+    "UniTask"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.unity.modules.director",
+      "expression": "",
+      "define": "UNIT_DIRECTOR"
+    },
+    {
+      "name": "com.cysharp.unitask",
+      "expression": "",
+      "define": "UNIT_UNITASK"
+    }
+  ],
+  "defineConstraints": [
+    "UNIT_DIRECTOR",
+    "UNIT_UNITASK"
+  ]
+}

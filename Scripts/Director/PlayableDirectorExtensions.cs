@@ -6,7 +6,7 @@ namespace UniT.Extensions
     using Cysharp.Threading.Tasks;
     using UnityEngine.Playables;
 
-    public static class UniTaskExtensions
+    public static class PlayableDirectorExtensions
     {
         public static async UniTask PlayAsync(this PlayableDirector playableDirector, IProgress<float>? progress = null, CancellationToken cancellationToken = default)
         {
