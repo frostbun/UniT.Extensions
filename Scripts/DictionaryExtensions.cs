@@ -2,16 +2,12 @@
 namespace UniT.Extensions
 {
     using System;
+    using System.Buffers;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    #if UNIT_ZLINQ
-    using ZLinq;
-    #else
-    using System.Buffers;
-    #endif
 
     public static class DictionaryExtensions
     {
@@ -27,15 +23,6 @@ namespace UniT.Extensions
         public static int RemoveWhere<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Func<TKey, TValue, bool> predicate)
         {
             var count = 0;
-            #if UNIT_ZLINQ
-            using var array = dictionary.AsValueEnumerable().ToArrayPool();
-            foreach (var (key, value) in array.Span)
-            {
-                if (!predicate(key, value)) continue;
-                dictionary.Remove(key);
-                ++count;
-            }
-            #else
             var array = ArrayPool<KeyValuePair<TKey, TValue>>.Shared.Rent(dictionary.Count);
             try
             {
@@ -51,7 +38,6 @@ namespace UniT.Extensions
             {
                 ArrayPool<KeyValuePair<TKey, TValue>>.Shared.Return(array, RuntimeHelpers.IsReferenceOrContainsReferences<KeyValuePair<TKey, TValue>>());
             }
-            #endif
             return count;
         }
 
@@ -464,10 +450,6 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SafeForEach<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TKey, TValue> action)
         {
-            #if UNIT_ZLINQ
-            using var array = dictionary.AsValueEnumerable().ToArrayPool();
-            foreach (var (key, value) in array.Span) action(key, value);
-            #else
             if (dictionary is ICollection<KeyValuePair<TKey, TValue>> collection)
             {
                 var array = ArrayPool<KeyValuePair<TKey, TValue>>.Shared.Rent(collection.Count);
@@ -485,16 +467,11 @@ namespace UniT.Extensions
             {
                 foreach (var (key, value) in dictionary.ToArray().AsSpan()) action(key, value);
             }
-            #endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SafeForEach<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TKey, TValue, TState> action, TState state)
         {
-            #if UNIT_ZLINQ
-            using var array = dictionary.AsValueEnumerable().ToArrayPool();
-            foreach (var (key, value) in array.Span) action(key, value, state);
-            #else
             if (dictionary is ICollection<KeyValuePair<TKey, TValue>> collection)
             {
                 var array = ArrayPool<KeyValuePair<TKey, TValue>>.Shared.Rent(collection.Count);
@@ -512,16 +489,11 @@ namespace UniT.Extensions
             {
                 foreach (var (key, value) in dictionary.ToArray().AsSpan()) action(key, value, state);
             }
-            #endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SafeForEach<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TValue> action)
         {
-            #if UNIT_ZLINQ
-            using var array = dictionary.AsValueEnumerable().ToArrayPool();
-            foreach (var (_, value) in array.Span) action(value);
-            #else
             if (dictionary is ICollection<KeyValuePair<TKey, TValue>> collection)
             {
                 var array = ArrayPool<KeyValuePair<TKey, TValue>>.Shared.Rent(collection.Count);
@@ -539,16 +511,11 @@ namespace UniT.Extensions
             {
                 foreach (var (_, value) in dictionary.ToArray().AsSpan()) action(value);
             }
-            #endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SafeForEach<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TValue, TState> action, TState state)
         {
-            #if UNIT_ZLINQ
-            using var array = dictionary.AsValueEnumerable().ToArrayPool();
-            foreach (var (_, value) in array.Span) action(value, state);
-            #else
             if (dictionary is ICollection<KeyValuePair<TKey, TValue>> collection)
             {
                 var array = ArrayPool<KeyValuePair<TKey, TValue>>.Shared.Rent(collection.Count);
@@ -566,7 +533,6 @@ namespace UniT.Extensions
             {
                 foreach (var (_, value) in dictionary.ToArray().AsSpan()) action(value, state);
             }
-            #endif
         }
 
         [Pure]

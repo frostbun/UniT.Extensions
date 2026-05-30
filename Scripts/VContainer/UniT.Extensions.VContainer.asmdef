@@ -1,0 +1,17 @@
+{
+  "name": "UniT.Extensions.VContainer",
+  "references": [
+    "UniT.Extensions",
+    "VContainer"
+  ],
+  "versionDefines": [
+    {
+      "name": "jp.hadashikick.vcontainer",
+      "expression": "",
+      "define": "UNIT_VCONTAINER"
+    }
+  ],
+  "defineConstraints": [
+    "UNIT_VCONTAINER"
+  ]
+}

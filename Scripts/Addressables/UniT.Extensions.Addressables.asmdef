@@ -1,6 +1,5 @@
 {
   "name": "UniT.Extensions.Addressables",
-  "rootNamespace": "UniT.Extensions",
   "references": [
     "Unity.ResourceManager",
     "UniTask"

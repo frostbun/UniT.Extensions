@@ -2,15 +2,11 @@
 namespace UniT.Extensions
 {
     using System;
+    using System.Buffers;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    #if UNIT_ZLINQ
-    using ZLinq;
-    #else
-    using System.Buffers;
-    #endif
 
     public static class TupleExtensions
     {
@@ -588,10 +584,6 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SafeForEach<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Action<TFirst, TSecond> action)
         {
-            #if UNIT_ZLINQ
-            using var array = tuples.AsValueEnumerable().ToArrayPool();
-            foreach (var tuple in array.Span) action(tuple.Item1, tuple.Item2);
-            #else
             if (tuples is ICollection<(TFirst, TSecond)> collection)
             {
                 var array = ArrayPool<(TFirst, TSecond)>.Shared.Rent(collection.Count);
@@ -609,16 +601,11 @@ namespace UniT.Extensions
             {
                 foreach (var tuple in tuples.ToArray().AsSpan()) action(tuple.Item1, tuple.Item2);
             }
-            #endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SafeForEach<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Action<TFirst, TSecond, TState> action, TState state)
         {
-            #if UNIT_ZLINQ
-            using var array = tuples.AsValueEnumerable().ToArrayPool();
-            foreach (var tuple in array.Span) action(tuple.Item1, tuple.Item2, state);
-            #else
             if (tuples is ICollection<(TFirst, TSecond)> collection)
             {
                 var array = ArrayPool<(TFirst, TSecond)>.Shared.Rent(collection.Count);
@@ -636,16 +623,11 @@ namespace UniT.Extensions
             {
                 foreach (var tuple in tuples.ToArray().AsSpan()) action(tuple.Item1, tuple.Item2, state);
             }
-            #endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SafeForEach<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Action<TFirst, TSecond, TThird> action)
         {
-            #if UNIT_ZLINQ
-            using var array = tuples.AsValueEnumerable().ToArrayPool();
-            foreach (var tuple in array.Span) action(tuple.Item1, tuple.Item2, tuple.Item3);
-            #else
             if (tuples is ICollection<(TFirst, TSecond, TThird)> collection)
             {
                 var array = ArrayPool<(TFirst, TSecond, TThird)>.Shared.Rent(collection.Count);
@@ -663,16 +645,11 @@ namespace UniT.Extensions
             {
                 foreach (var tuple in tuples.ToArray().AsSpan()) action(tuple.Item1, tuple.Item2, tuple.Item3);
             }
-            #endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SafeForEach<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Action<TFirst, TSecond, TThird, TState> action, TState state)
         {
-            #if UNIT_ZLINQ
-            using var array = tuples.AsValueEnumerable().ToArrayPool();
-            foreach (var tuple in array.Span) action(tuple.Item1, tuple.Item2, tuple.Item3, state);
-            #else
             if (tuples is ICollection<(TFirst, TSecond, TThird)> collection)
             {
                 var array = ArrayPool<(TFirst, TSecond, TThird)>.Shared.Rent(collection.Count);
@@ -690,7 +667,6 @@ namespace UniT.Extensions
             {
                 foreach (var tuple in tuples.ToArray().AsSpan()) action(tuple.Item1, tuple.Item2, tuple.Item3, state);
             }
-            #endif
         }
 
         [Pure]

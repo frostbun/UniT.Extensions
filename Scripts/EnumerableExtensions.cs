@@ -2,15 +2,11 @@
 namespace UniT.Extensions
 {
     using System;
+    using System.Buffers;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    #if UNIT_ZLINQ
-    using ZLinq;
-    #else
-    using System.Buffers;
-    #endif
 
     public static class EnumerableExtensions
     {
@@ -234,10 +230,6 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SafeForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
-            #if UNIT_ZLINQ
-            using var array = enumerable.AsValueEnumerable().ToArrayPool();
-            foreach (var item in array.Span) action(item);
-            #else
             if (enumerable is ICollection<T> collection)
             {
                 var array = ArrayPool<T>.Shared.Rent(collection.Count);
@@ -255,16 +247,11 @@ namespace UniT.Extensions
             {
                 foreach (var item in enumerable.ToArray().AsSpan()) action(item);
             }
-            #endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SafeForEach<T, TState>(this IEnumerable<T> enumerable, Action<T, TState> action, TState state)
         {
-            #if UNIT_ZLINQ
-            using var array = enumerable.AsValueEnumerable().ToArrayPool();
-            foreach (var item in array.Span) action(item, state);
-            #else
             if (enumerable is ICollection<T> collection)
             {
                 var array = ArrayPool<T>.Shared.Rent(collection.Count);
@@ -282,7 +269,6 @@ namespace UniT.Extensions
             {
                 foreach (var item in enumerable.ToArray().AsSpan()) action(item, state);
             }
-            #endif
         }
 
         [Pure]
@@ -482,15 +468,6 @@ namespace UniT.Extensions
         [Pure]
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable)
         {
-            #if UNIT_ZLINQ
-            using var array = enumerable.AsValueEnumerable().ToArrayPool();
-            for (var i = 0; i < array.Size; ++i)
-            {
-                var j = UnityEngine.Random.Range(i, array.Size);
-                yield return array.Array[j];
-                array.Array[j] = array.Array[i];
-            }
-            #else
             if (enumerable is ICollection<T> collection)
             {
                 var array = ArrayPool<T>.Shared.Rent(collection.Count);
@@ -519,7 +496,6 @@ namespace UniT.Extensions
                     array[j] = array[i];
                 }
             }
-            #endif
         }
 
         [Pure]
@@ -584,13 +560,8 @@ namespace UniT.Extensions
             {
                 return collection.Count > 0 ? collection.ElementAt(UnityEngine.Random.Range(0, collection.Count)) : defaultValueFactory();
             }
-            #if UNIT_ZLINQ
-            using var array = enumerable.AsValueEnumerable().ToArrayPool();
-            return array.Size > 0 ? array.Array[UnityEngine.Random.Range(0, array.Size)] : defaultValueFactory();
-            #else
             var array = enumerable.ToArray();
             return array.Length > 0 ? array[UnityEngine.Random.Range(0, array.Length)] : defaultValueFactory();
-            #endif
         }
 
         [Pure]
@@ -688,20 +659,17 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<IEnumerable<T>> ChunkBy<T>(this IEnumerable<T> enumerable, int chunkSize)
+        public static IEnumerable<IEnumerable<T>> ChunkBy<T>(this IEnumerable<T> enumerable, int chunkSize, bool useSharedBuffer = false)
         {
-            var chunk = new List<T>(chunkSize);
+            var buffer = new List<T>(chunkSize);
             foreach (var item in enumerable)
             {
-                chunk.Add(item);
-                if (chunk.Count == chunkSize)
-                {
-                    yield return chunk;
-                    chunk = new(chunkSize);
-                }
+                buffer.Add(item);
+                if (buffer.Count < chunkSize) continue;
+                yield return useSharedBuffer ? buffer : buffer.ToArray();
+                buffer.Clear();
             }
-            if (chunk.Count > 0) yield return chunk;
+            if (buffer.Count > 0) yield return buffer;
         }
 
         [Pure]
@@ -713,7 +681,8 @@ namespace UniT.Extensions
                 yield return item;
                 cache.Add(item);
             }
-            while (cache.Count > 0)
+            if (cache.Count is 0) yield break;
+            while (true)
             {
                 foreach (var item in cache)
                 {
@@ -723,6 +692,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (List<T> Matches, List<T> Mismatches) Split<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
         {
             return enumerable.Aggregate((Matches: new List<T>(), Mismatches: new List<T>()), (lists, item) =>

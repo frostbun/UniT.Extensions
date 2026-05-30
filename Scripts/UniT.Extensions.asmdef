@@ -1,21 +1,3 @@
 {
-  "name": "UniT.Extensions",
-  "rootNamespace": "UniT.Extensions",
-  "versionDefines": [
-    {
-      "name": "org.nuget.zlinq",
-      "expression": "",
-      "define": "UNIT_ZLINQ"
-    },
-    {
-      "name": "org.nuget.zstring",
-      "expression": "",
-      "define": "UNIT_ZSTRING"
-    },
-    {
-      "name": "com.unity.nuget.newtonsoft-json",
-      "expression": "",
-      "define": "UNIT_JSON"
-    }
-  ]
+  "name": "UniT.Extensions"
 }

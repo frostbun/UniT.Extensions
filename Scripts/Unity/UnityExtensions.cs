@@ -7,9 +7,6 @@ namespace UniT.Extensions
     using System.Runtime.CompilerServices;
     using UnityEngine;
     using Object = UnityEngine.Object;
-    #if UNIT_ZSTRING
-    using Cysharp.Text;
-    #endif
 
     public static class UnityExtensions
     {
@@ -263,11 +260,7 @@ namespace UniT.Extensions
                 stack.Push(transform.name);
                 transform = transform.parent;
             }
-            #if UNIT_ZSTRING
-            return ZString.Join("/", stack);
-            #else
             return string.Join("/", stack);
-            #endif
         }
 
         [Pure]

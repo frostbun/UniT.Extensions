@@ -1,6 +1,5 @@
 {
   "name": "UniT.Extensions.MessagePipe",
-  "rootNamespace": "UniT.Extensions",
   "references": [
     "MessagePipe",
     "UniTask"

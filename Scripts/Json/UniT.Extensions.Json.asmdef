@@ -1,16 +1,16 @@
 {
-  "name": "UniT.Extensions.Physics2D",
+  "name": "UniT.Extensions.Json",
   "references": [
     "UniT.Extensions"
   ],
   "versionDefines": [
     {
-      "name": "com.unity.modules.physics2d",
+      "name": "com.unity.nuget.newtonsoft-json",
       "expression": "",
-      "define": "UNIT_PHYSICS2D"
+      "define": "UNIT_JSON"
     }
   ],
   "defineConstraints": [
-    "UNIT_PHYSICS2D"
+    "UNIT_JSON"
   ]
 }

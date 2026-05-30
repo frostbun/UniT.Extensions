@@ -1,6 +1,5 @@
 {
   "name": "UniT.Extensions.Physics",
-  "rootNamespace": "UniT.Extensions",
   "references": [
     "UniT.Extensions"
   ],

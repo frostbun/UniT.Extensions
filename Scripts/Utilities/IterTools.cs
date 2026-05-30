@@ -203,9 +203,9 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<IReadOnlyList<T>> Permutations<T>(IEnumerable<T> enumerables, int count, bool useSharedBuffer = false)
+        public static IEnumerable<IReadOnlyList<T>> Permutations<T>(IEnumerable<T> enumerable, int count, bool useSharedBuffer = false)
         {
-            var items  = enumerables as IList<T> ?? enumerables.ToArray();
+            var items  = enumerable as IList<T> ?? enumerable.ToArray();
             var buffer = new List<T>(count);
             var used   = new bool[items.Count];
             return PermutationsRecursive(items, count, buffer, used, useSharedBuffer);
@@ -237,16 +237,16 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<IReadOnlyList<T>> Permutations<T>(IEnumerable<T> enumerables, bool useSharedBuffer = false)
+        public static IEnumerable<IReadOnlyList<T>> Permutations<T>(IEnumerable<T> enumerable, bool useSharedBuffer = false)
         {
-            var items = enumerables as IList<T> ?? enumerables.ToArray();
+            var items = enumerable as IList<T> ?? enumerable.ToArray();
             return Permutations(items, items.Count, useSharedBuffer);
         }
 
         [Pure]
-        public static IEnumerable<IReadOnlyList<T>> Combinations<T>(IEnumerable<T> enumerables, int count, bool useSharedBuffer = false)
+        public static IEnumerable<IReadOnlyList<T>> Combinations<T>(IEnumerable<T> enumerable, int count, bool useSharedBuffer = false)
         {
-            var items  = enumerables as IList<T> ?? enumerables.ToArray();
+            var items  = enumerable as IList<T> ?? enumerable.ToArray();
             var buffer = new List<T>(count);
             return CombinationsRecursive(items, count, 0, buffer, useSharedBuffer);
 
@@ -273,9 +273,9 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<IReadOnlyList<T>> CombinationsWithReplacement<T>(IEnumerable<T> enumerables, int count, bool useSharedBuffer = false)
+        public static IEnumerable<IReadOnlyList<T>> CombinationsWithReplacement<T>(IEnumerable<T> enumerable, int count, bool useSharedBuffer = false)
         {
-            var items  = enumerables as IList<T> ?? enumerables.ToArray();
+            var items  = enumerable as IList<T> ?? enumerable.ToArray();
             var buffer = new List<T>(count);
             return CombinationsWithReplacementRecursive(items, count, 0, buffer, useSharedBuffer);
 

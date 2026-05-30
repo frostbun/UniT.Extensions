@@ -62,7 +62,7 @@ namespace UniT.Extensions
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         [Serializable]
-        private struct Column
+        public struct Column
         {
             [field: SerializeReference] public TItem[] Cells { get; private set; }
 

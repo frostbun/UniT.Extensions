@@ -7,9 +7,6 @@ namespace UniT.Extensions
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
-    #if UNIT_ZSTRING
-    using Cysharp.Text;
-    #endif
 
     public static class ReflectionExtensions
     {
@@ -20,7 +17,7 @@ namespace UniT.Extensions
             {
                 { Length: 0 }    => throw new InvalidOperationException($"No constructor found for {type.Name}"),
                 { Length: > 1 }  => throw new InvalidOperationException($"Multiple constructors found for {type.Name}"),
-                { } constructors => constructors[0],
+                var constructors => constructors[0],
             };
         }
 
@@ -31,7 +28,7 @@ namespace UniT.Extensions
             {
                 { Length: 0 }   => throw new InvalidOperationException($"No derived type found for {type.Name}"),
                 { Length: > 1 } => throw new InvalidOperationException($"Multiple derived types found for {type.Name}"),
-                { } types       => types[0],
+                var types       => types[0],
             };
         }
 
@@ -100,11 +97,7 @@ namespace UniT.Extensions
         [Pure]
         public static string ToBackingFieldName(this string str)
         {
-            #if UNIT_ZSTRING
-            return str.IsBackingFieldName() ? str : ZString.Concat("<", str, ">k__BackingField");
-            #else
             return str.IsBackingFieldName() ? str : string.Concat("<", str, ">k__BackingField");
-            #endif
         }
 
         [Pure]

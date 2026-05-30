@@ -1,6 +1,5 @@
 {
   "name": "UniT.Extensions.UI",
-  "rootNamespace": "UniT.Extensions",
   "references": [
     "UniT.Extensions"
   ],
