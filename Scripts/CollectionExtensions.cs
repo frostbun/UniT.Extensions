@@ -403,7 +403,7 @@ namespace UniT.Extensions
                 }
                 return result;
             }
-            catch (InvalidOperationException)
+            catch (IndexOutOfRangeException)
             {
                 throw new InvalidOperationException("The given jagged array is not rectangular");
             }
