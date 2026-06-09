@@ -44,6 +44,10 @@ namespace UniT.Extensions
         [field: SerializeReference] public T2 Item2 { get; private set; }
         [field: SerializeReference] public T3 Item3 { get; private set; }
 
+        public SerializableTuple() : this(default!, default!, default!)
+        {
+        }
+
         public SerializableTuple(T1 item1, T2 item2, T3 item3)
         {
             this.Item1 = item1;
@@ -76,6 +80,10 @@ namespace UniT.Extensions
         [field: SerializeReference] public T2 Item2 { get; private set; }
         [field: SerializeReference] public T3 Item3 { get; private set; }
         [field: SerializeReference] public T4 Item4 { get; private set; }
+
+        public SerializableTuple() : this(default!, default!, default!, default!)
+        {
+        }
 
         public SerializableTuple(T1 item1, T2 item2, T3 item3, T4 item4)
         {
