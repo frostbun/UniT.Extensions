@@ -6,7 +6,7 @@ namespace UniT.Extensions
     using UnityEngine;
 
     [Serializable]
-    public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
+    public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver where TKey : notnull
     {
         [SerializeField] private List<KeyValuePair> values = new();
 

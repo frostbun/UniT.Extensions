@@ -26,7 +26,7 @@ namespace UniT.Extensions
 
         private CancellationTokenSource? cts;
 
-        public async UniTask RunAsync<TState>(Func<TState, CancellationToken, UniTask<bool>> taskFactory, TState state)
+        public async UniTask RunAsync<TState>(Func<TState, CancellationToken, UniTask<bool>> taskFactory, TState state) where TState : notnull
         {
             this.cts ??= new();
             var attempt = 0;
@@ -58,7 +58,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public UniTask RunAsync<TState>(Func<TState, CancellationToken, UniTask> taskFactory, TState state)
+        public UniTask RunAsync<TState>(Func<TState, CancellationToken, UniTask> taskFactory, TState state) where TState : notnull
         {
             return this.RunAsync(async (state, ct) =>
             {

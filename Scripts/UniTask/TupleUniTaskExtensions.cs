@@ -15,7 +15,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async UniTask ForEachAwaitAsync<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TState, UniTask> action, TState state)
+        public static async UniTask ForEachAwaitAsync<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TState, UniTask> action, TState state) where TState : notnull
         {
             foreach (var tuple in tuples) await action(tuple.Item1, tuple.Item2, state);
         }
@@ -27,7 +27,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async UniTask ForEachAwaitAsync<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TState, UniTask> action, TState state)
+        public static async UniTask ForEachAwaitAsync<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TState, UniTask> action, TState state) where TState : notnull
         {
             foreach (var tuple in tuples) await action(tuple.Item1, tuple.Item2, tuple.Item3, state);
         }
@@ -39,7 +39,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async UniTask ForEachAsync<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TState, UniTask> action, TState state)
+        public static async UniTask ForEachAsync<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TState, UniTask> action, TState state) where TState : notnull
         {
             await tuples.Select(action, state);
         }
@@ -51,7 +51,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async UniTask ForEachAsync<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TState, UniTask> action, TState state)
+        public static async UniTask ForEachAsync<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TState, UniTask> action, TState state) where TState : notnull
         {
             await tuples.Select(action, state);
         }

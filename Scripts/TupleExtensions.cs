@@ -105,7 +105,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<(TFirst, TSecond)> Where<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TState, bool> predicate, TState state)
+        public static IEnumerable<(TFirst, TSecond)> Where<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var tuple in tuples)
             {
@@ -125,7 +125,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<(TFirst, TSecond, TThird)> Where<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TState, bool> predicate, TState state)
+        public static IEnumerable<(TFirst, TSecond, TThird)> Where<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var tuple in tuples)
             {
@@ -145,7 +145,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<(TFirst, TSecond)> WhereFirst<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TState, bool> predicate, TState state)
+        public static IEnumerable<(TFirst, TSecond)> WhereFirst<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var tuple in tuples)
             {
@@ -165,7 +165,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<(TFirst, TSecond, TThird)> WhereFirst<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TState, bool> predicate, TState state)
+        public static IEnumerable<(TFirst, TSecond, TThird)> WhereFirst<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var tuple in tuples)
             {
@@ -185,7 +185,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<(TFirst, TSecond)> WhereSecond<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TState, bool> predicate, TState state)
+        public static IEnumerable<(TFirst, TSecond)> WhereSecond<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var tuple in tuples)
             {
@@ -205,7 +205,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<(TFirst, TSecond, TThird)> WhereSecond<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TState, bool> predicate, TState state)
+        public static IEnumerable<(TFirst, TSecond, TThird)> WhereSecond<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var tuple in tuples)
             {
@@ -225,7 +225,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<(TFirst, TSecond, TThird)> WhereThird<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TState, bool> predicate, TState state)
+        public static IEnumerable<(TFirst, TSecond, TThird)> WhereThird<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var tuple in tuples)
             {
@@ -244,7 +244,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<TResult> Select<TFirst, TSecond, TResult, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TState, TResult> selector, TState state)
+        public static IEnumerable<TResult> Select<TFirst, TSecond, TResult, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TState, TResult> selector, TState state) where TState : notnull
         {
             foreach (var tuple in tuples)
             {
@@ -262,7 +262,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<TResult> Select<TFirst, TSecond, TThird, TResult, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TState, TResult> selector, TState state)
+        public static IEnumerable<TResult> Select<TFirst, TSecond, TThird, TResult, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TState, TResult> selector, TState state) where TState : notnull
         {
             foreach (var tuple in tuples)
             {
@@ -564,7 +564,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Action<TFirst, TSecond, TState> action, TState state)
+        public static void ForEach<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Action<TFirst, TSecond, TState> action, TState state) where TState : notnull
         {
             foreach (var tuple in tuples) action(tuple.Item1, tuple.Item2, state);
         }
@@ -576,7 +576,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Action<TFirst, TSecond, TThird, TState> action, TState state)
+        public static void ForEach<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Action<TFirst, TSecond, TThird, TState> action, TState state) where TState : notnull
         {
             foreach (var tuple in tuples) action(tuple.Item1, tuple.Item2, tuple.Item3, state);
         }
@@ -604,7 +604,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SafeForEach<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Action<TFirst, TSecond, TState> action, TState state)
+        public static void SafeForEach<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Action<TFirst, TSecond, TState> action, TState state) where TState : notnull
         {
             if (tuples is ICollection<(TFirst, TSecond)> collection)
             {
@@ -648,7 +648,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SafeForEach<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Action<TFirst, TSecond, TThird, TState> action, TState state)
+        public static void SafeForEach<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Action<TFirst, TSecond, TThird, TState> action, TState state) where TState : notnull
         {
             if (tuples is ICollection<(TFirst, TSecond, TThird)> collection)
             {

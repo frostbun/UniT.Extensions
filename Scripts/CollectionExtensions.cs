@@ -136,7 +136,7 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T PeekOrDefault<T, TState>(this Stack<T> stack, Func<TState, T> valueFactory, TState state)
+        public static T PeekOrDefault<T, TState>(this Stack<T> stack, Func<TState, T> valueFactory, TState state) where TState : notnull
         {
             return stack.TryPeek(out var result) ? result : valueFactory(state);
         }
@@ -164,7 +164,7 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T PopOrDefault<T, TState>(this Stack<T> stack, Func<TState, T> valueFactory, TState state)
+        public static T PopOrDefault<T, TState>(this Stack<T> stack, Func<TState, T> valueFactory, TState state) where TState : notnull
         {
             return stack.TryPop(out var result) ? result : valueFactory(state);
         }
@@ -206,7 +206,7 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T PeekOrDefault<T, TState>(this Queue<T> queue, Func<TState, T> valueFactory, TState state)
+        public static T PeekOrDefault<T, TState>(this Queue<T> queue, Func<TState, T> valueFactory, TState state) where TState : notnull
         {
             return queue.TryPeek(out var result) ? result : valueFactory(state);
         }
@@ -234,7 +234,7 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T DequeueOrDefault<T, TState>(this Queue<T> queue, Func<TState, T> valueFactory, TState state)
+        public static T DequeueOrDefault<T, TState>(this Queue<T> queue, Func<TState, T> valueFactory, TState state) where TState : notnull
         {
             return queue.TryDequeue(out var result) ? result : valueFactory(state);
         }
@@ -276,7 +276,7 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T PeekFrontOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state)
+        public static T PeekFrontOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state) where TState : notnull
         {
             return deque.TryPeekFront(out var result) ? result : valueFactory(state);
         }
@@ -304,7 +304,7 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T PeekBackOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state)
+        public static T PeekBackOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state) where TState : notnull
         {
             return deque.TryPeekBack(out var result) ? result : valueFactory(state);
         }
@@ -332,7 +332,7 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T PopFrontOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state)
+        public static T PopFrontOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state) where TState : notnull
         {
             return deque.TryPopFront(out var result) ? result : valueFactory(state);
         }
@@ -360,7 +360,7 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T PopBackOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state)
+        public static T PopBackOrDefault<T, TState>(this Deque<T> deque, Func<TState, T> valueFactory, TState state) where TState : notnull
         {
             return deque.TryPopBack(out var result) ? result : valueFactory(state);
         }

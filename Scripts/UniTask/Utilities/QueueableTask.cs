@@ -14,7 +14,7 @@ namespace UniT.Extensions
         private CancellationTokenSource? cts;
         private bool                     isRunning;
 
-        public async UniTask RunAsync<TState>(Func<TState, CancellationToken, UniTask> taskFactory, TState state)
+        public async UniTask RunAsync<TState>(Func<TState, CancellationToken, UniTask> taskFactory, TState state) where TState : notnull
         {
             this.cts ??= new();
             if (this.isRunning)

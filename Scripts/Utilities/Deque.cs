@@ -175,6 +175,7 @@ namespace UniT.Extensions
 
         public bool Contains(T item)
         {
+            if (this.count is 0) return false;
             if (this.head < this.tail)
             {
                 for (var i = this.head; i < this.tail; ++i)
@@ -198,6 +199,7 @@ namespace UniT.Extensions
 
         public IEnumerator<T> GetEnumerator()
         {
+            if (this.count is 0) yield break;
             if (this.head < this.tail)
             {
                 for (var i = this.head; i < this.tail; ++i) yield return this.items[i];
@@ -219,6 +221,7 @@ namespace UniT.Extensions
             if (arrayIndex < 0) throw new ArgumentOutOfRangeException(nameof(arrayIndex), "`arrayIndex` must be >= 0");
             if (this.count > array.Length - arrayIndex) throw new ArgumentException("Destination array is not long enough");
 
+            if (this.count is 0) return;
             if (this.head < this.tail)
             {
                 Array.Copy(this.items, this.head, array, arrayIndex, this.count);

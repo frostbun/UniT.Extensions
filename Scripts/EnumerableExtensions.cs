@@ -197,7 +197,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<T> Where<T, TState>(this IEnumerable<T> enumerable, Func<T, TState, bool> predicate, TState state)
+        public static IEnumerable<T> Where<T, TState>(this IEnumerable<T> enumerable, Func<T, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var item in enumerable)
             {
@@ -207,7 +207,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<TResult> Select<T, TResult, TState>(this IEnumerable<T> enumerable, Func<T, TState, TResult> selector, TState state)
+        public static IEnumerable<TResult> Select<T, TResult, TState>(this IEnumerable<T> enumerable, Func<T, TState, TResult> selector, TState state) where TState : notnull
         {
             foreach (var item in enumerable)
             {
@@ -222,7 +222,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<T, TState>(this IEnumerable<T> enumerable, Action<T, TState> action, TState state)
+        public static void ForEach<T, TState>(this IEnumerable<T> enumerable, Action<T, TState> action, TState state) where TState : notnull
         {
             foreach (var item in enumerable) action(item, state);
         }
@@ -250,7 +250,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SafeForEach<T, TState>(this IEnumerable<T> enumerable, Action<T, TState> action, TState state)
+        public static void SafeForEach<T, TState>(this IEnumerable<T> enumerable, Action<T, TState> action, TState state) where TState : notnull
         {
             if (enumerable is ICollection<T> collection)
             {

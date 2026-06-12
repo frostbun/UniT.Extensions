@@ -7,7 +7,7 @@ namespace UniT.Extensions
     using UnityEngine;
 
     [Serializable]
-    public class SerializableReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
+    public class SerializableReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue> where TKey : notnull
     {
         [SerializeField] private SerializableDictionary<TKey, TValue> values;
 

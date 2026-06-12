@@ -17,7 +17,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async UniTask ForEachAwaitAsync<T, TState>(this IEnumerable<T> enumerable, Func<T, TState, UniTask> action, TState state)
+        public static async UniTask ForEachAwaitAsync<T, TState>(this IEnumerable<T> enumerable, Func<T, TState, UniTask> action, TState state) where TState : notnull
         {
             foreach (var item in enumerable) await action(item, state);
         }
@@ -29,7 +29,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async UniTask ForEachAsync<T, TState>(this IEnumerable<T> enumerable, Func<T, TState, UniTask> action, TState state)
+        public static async UniTask ForEachAsync<T, TState>(this IEnumerable<T> enumerable, Func<T, TState, UniTask> action, TState state) where TState : notnull
         {
             await enumerable.Select(action, state);
         }
@@ -41,7 +41,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UniTask SafeForEachAwaitAsync<T, TState>(this IEnumerable<T> enumerable, Func<T, TState, UniTask> action, TState state)
+        public static UniTask SafeForEachAwaitAsync<T, TState>(this IEnumerable<T> enumerable, Func<T, TState, UniTask> action, TState state) where TState : notnull
         {
             return enumerable.ToArray().ForEachAwaitAsync(action, state);
         }
@@ -53,7 +53,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UniTask SafeForEachAsync<T, TState>(this IEnumerable<T> enumerable, Func<T, TState, UniTask> action, TState state)
+        public static UniTask SafeForEachAsync<T, TState>(this IEnumerable<T> enumerable, Func<T, TState, UniTask> action, TState state) where TState : notnull
         {
             return enumerable.ToArray().ForEachAsync(action, state);
         }

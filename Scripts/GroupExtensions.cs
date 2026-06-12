@@ -76,7 +76,7 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IOrderedEnumerable<IGrouping<TKey, TItem>> ThenByKey<TItem, TKey, TOrderKey>(this IOrderedEnumerable<IGrouping<TKey, TItem>> enumerable, Func<TKey, TOrderKey> keySelector, IComparer<TOrderKey>? comparer = null)
         {
-            return enumerable.ThenByDescending(group => keySelector(group.Key), comparer);
+            return enumerable.ThenBy(group => keySelector(group.Key), comparer);
         }
 
         [Pure]

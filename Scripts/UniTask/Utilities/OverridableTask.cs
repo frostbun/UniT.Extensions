@@ -10,7 +10,7 @@ namespace UniT.Extensions
     {
         private CancellationTokenSource? cts;
 
-        public async UniTask RunAsync<TState>(Func<TState, CancellationToken, UniTask> taskFactory, TState state)
+        public async UniTask RunAsync<TState>(Func<TState, CancellationToken, UniTask> taskFactory, TState state) where TState : notnull
         {
             this.Cancel();
             this.cts = new();

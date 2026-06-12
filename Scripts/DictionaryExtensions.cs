@@ -12,7 +12,7 @@ namespace UniT.Extensions
     public static class DictionaryExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemoveRange<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IEnumerable<TKey> keys)
+        public static void RemoveRange<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IEnumerable<TKey> keys) where TKey : notnull
         {
             foreach (var key in keys)
             {
@@ -20,7 +20,7 @@ namespace UniT.Extensions
             }
         }
 
-        public static int RemoveWhere<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Func<TKey, TValue, bool> predicate)
+        public static int RemoveWhere<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Func<TKey, TValue, bool> predicate) where TKey : notnull
         {
             var count = 0;
             var array = ArrayPool<KeyValuePair<TKey, TValue>>.Shared.Rent(dictionary.Count);
@@ -42,14 +42,14 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Clear<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TKey, TValue> action)
+        public static void Clear<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TKey, TValue> action) where TKey : notnull
         {
             dictionary.ForEach(action);
             dictionary.Clear();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Clear<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TValue> action)
+        public static void Clear<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Action<TValue> action) where TKey : notnull
         {
             dictionary.ForEach(action);
             dictionary.Clear();
@@ -57,98 +57,98 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue? GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        public static TValue? GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TKey : notnull
         {
             return dictionary.TryGetValue(key, out var value) ? value : default;
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue) where TKey : notnull
         {
             return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory) where TKey : notnull
         {
             return dictionary.TryGetValue(key, out var value) ? value : valueFactory();
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory)
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory) where TKey : notnull
         {
             return dictionary.TryGetValue(key, out var value) ? value : valueFactory(key);
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue GetOrDefault<TKey, TValue, TState>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TState, TValue> valueFactory, TState state)
+        public static TValue GetOrDefault<TKey, TValue, TState>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TState, TValue> valueFactory, TState state) where TKey : notnull where TState : notnull
         {
             return dictionary.TryGetValue(key, out var value) ? value : valueFactory(state);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue? RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        public static TValue? RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TKey : notnull
         {
             return dictionary.Remove(key, out var value) ? value : default;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+        public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue) where TKey : notnull
         {
             return dictionary.Remove(key, out var value) ? value : defaultValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
+        public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory) where TKey : notnull
         {
             return dictionary.Remove(key, out var value) ? value : valueFactory();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory)
+        public static TValue RemoveOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory) where TKey : notnull
         {
             return dictionary.Remove(key, out var value) ? value : valueFactory(key);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue RemoveOrDefault<TKey, TValue, TState>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TState, TValue> valueFactory, TState state)
+        public static TValue RemoveOrDefault<TKey, TValue, TState>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TState, TValue> valueFactory, TState state) where TKey : notnull where TState : notnull
         {
             return dictionary.Remove(key, out var value) ? value : valueFactory(state);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
+        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory) where TKey : notnull
         {
             dictionary.TryAdd(key, valueFactory);
             return dictionary[key];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory)
+        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory) where TKey : notnull
         {
             dictionary.TryAdd(key, valueFactory);
             return dictionary[key];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue GetOrAdd<TKey, TValue, TState>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TState, TValue> valueFactory, TState state)
+        public static TValue GetOrAdd<TKey, TValue, TState>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TState, TValue> valueFactory, TState state) where TKey : notnull where TState : notnull
         {
             dictionary.TryAdd(key, valueFactory, state);
             return dictionary[key];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TValue : new()
+        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TKey : notnull where TValue : new()
         {
             return dictionary.GetOrAdd(key, static () => new());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
+        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory) where TKey : notnull
         {
             if (dictionary.ContainsKey(key)) return false;
             dictionary.Add(key, valueFactory());
@@ -156,7 +156,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory)
+        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory) where TKey : notnull
         {
             if (dictionary.ContainsKey(key)) return false;
             dictionary.Add(key, valueFactory(key));
@@ -164,7 +164,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryAdd<TKey, TValue, TState>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TState, TValue> valueFactory, TState state)
+        public static bool TryAdd<TKey, TValue, TState>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TState, TValue> valueFactory, TState state) where TKey : notnull where TState : notnull
         {
             if (dictionary.ContainsKey(key)) return false;
             dictionary.Add(key, valueFactory(state));
@@ -172,7 +172,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TValue : new()
+        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) where TKey : notnull where TValue : new()
         {
             return dictionary.TryAdd(key, static () => new());
         }
@@ -230,7 +230,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<KeyValuePair<TKey, TValue>> Where<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TState, bool> predicate, TState state)
+        public static IEnumerable<KeyValuePair<TKey, TValue>> Where<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var kv in dictionary)
             {
@@ -250,7 +250,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<KeyValuePair<TKey, TValue>> WhereKey<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TState, bool> predicate, TState state)
+        public static IEnumerable<KeyValuePair<TKey, TValue>> WhereKey<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var kv in dictionary)
             {
@@ -270,7 +270,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<KeyValuePair<TKey, TValue>> WhereValue<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TValue, TState, bool> predicate, TState state)
+        public static IEnumerable<KeyValuePair<TKey, TValue>> WhereValue<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TValue, TState, bool> predicate, TState state) where TState : notnull
         {
             foreach (var kv in dictionary)
             {
@@ -289,7 +289,7 @@ namespace UniT.Extensions
         }
 
         [Pure]
-        public static IEnumerable<TResult> Select<TKey, TValue, TResult, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TState, TResult> selector, TState state)
+        public static IEnumerable<TResult> Select<TKey, TValue, TResult, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Func<TKey, TValue, TState, TResult> selector, TState state) where TState : notnull
         {
             foreach (var kv in dictionary)
             {
@@ -430,7 +430,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TKey, TValue, TState> action, TState state)
+        public static void ForEach<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TKey, TValue, TState> action, TState state) where TState : notnull
         {
             foreach (var (key, value) in dictionary) action(key, value, state);
         }
@@ -442,7 +442,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TValue, TState> action, TState state)
+        public static void ForEach<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TValue, TState> action, TState state) where TState : notnull
         {
             foreach (var (_, value) in dictionary) action(value, state);
         }
@@ -470,7 +470,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SafeForEach<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TKey, TValue, TState> action, TState state)
+        public static void SafeForEach<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TKey, TValue, TState> action, TState state) where TState : notnull
         {
             if (dictionary is ICollection<KeyValuePair<TKey, TValue>> collection)
             {
@@ -514,7 +514,7 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SafeForEach<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TValue, TState> action, TState state)
+        public static void SafeForEach<TKey, TValue, TState>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary, Action<TValue, TState> action, TState state) where TState : notnull
         {
             if (dictionary is ICollection<KeyValuePair<TKey, TValue>> collection)
             {
@@ -719,7 +719,7 @@ namespace UniT.Extensions
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
+        public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> dictionary) where TKey : notnull
         {
             return new(dictionary);
         }

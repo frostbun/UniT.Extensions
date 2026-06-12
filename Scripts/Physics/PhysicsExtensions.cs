@@ -7,7 +7,7 @@ namespace UniT.Extensions
     public static class PhysicsExtensions
     {
         [Pure]
-        public static T? Raycast<T>(this Camera camera, Vector3 screenPosition, float maxDistance = Mathf.Infinity, LayerMask? layerMask = null)
+        public static T? Raycast<T>(this Camera camera, Vector3 screenPosition, float maxDistance = Mathf.Infinity, LayerMask? layerMask = null) where T : notnull
         {
             if (!Physics.Raycast(camera.ScreenPointToRay(screenPosition), out var hit, maxDistance, layerMask ?? Physics.DefaultRaycastLayers)) return default;
             if (hit.rigidbody) return hit.rigidbody.GetComponentOrDefault<T>();

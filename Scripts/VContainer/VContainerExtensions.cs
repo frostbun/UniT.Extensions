@@ -39,7 +39,7 @@ namespace VContainer
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AutoResolve<T>(this IContainerBuilder builder)
+        public static void AutoResolve<T>(this IContainerBuilder builder) where T : notnull
         {
             builder.AutoResolve(typeof(T));
         }
@@ -53,7 +53,7 @@ namespace VContainer
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Instantiate<T>(this IObjectResolver container, IReadOnlyList<IInjectParameter> parameters)
+        public static T Instantiate<T>(this IObjectResolver container, IReadOnlyList<IInjectParameter> parameters) where T : notnull
         {
             return (T)container.Instantiate(typeof(T), parameters);
         }
@@ -67,7 +67,7 @@ namespace VContainer
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Instantiate<T>(this IObjectResolver container, params object?[] @params)
+        public static T Instantiate<T>(this IObjectResolver container, params object?[] @params) where T : notnull
         {
             return (T)container.Instantiate(typeof(T), @params);
         }
