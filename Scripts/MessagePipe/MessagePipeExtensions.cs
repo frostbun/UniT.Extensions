@@ -8,7 +8,7 @@ namespace UniT.Extensions
 
     public static class MessagePipeExtensions
     {
-        public static async UniTask WaitForSignalAsync<T>(this ISubscriber<T> subscriber, Func<T, bool>? filter = null, CancellationToken cancellationToken = default)
+        public static async UniTask WaitForSignalAsync<T>(this ISubscriber<T> subscriber, Func<T, bool>? filter = null, CancellationToken cancellationToken = default) where T : notnull
         {
             filter ??= static _ => true;
             var tcs = new UniTaskCompletionSource();
