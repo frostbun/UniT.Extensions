@@ -1,6 +1,7 @@
 #nullable enable
 namespace UniT.Extensions
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -21,6 +22,18 @@ namespace UniT.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static object? GetNextOrDefault(this IEnumerator enumerator)
+        {
+            return enumerator.MoveNext() ? enumerator.Current : null;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static object? GetNext(this IEnumerator enumerator)
+        {
+            return enumerator.MoveNext() ? enumerator.Current : throw new InvalidOperationException("Enumerator contains no more elements");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryGetNext<T>(this IEnumerator<T> enumerator, [MaybeNullWhen(false)] out T value)
         {
             if (!enumerator.MoveNext())
@@ -30,6 +43,18 @@ namespace UniT.Extensions
             }
             value = enumerator.Current;
             return true;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T? GetNextOrDefault<T>(this IEnumerator<T> enumerator)
+        {
+            return enumerator.MoveNext() ? enumerator.Current : default;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T GetNext<T>(this IEnumerator<T> enumerator)
+        {
+            return enumerator.MoveNext() ? enumerator.Current : throw new InvalidOperationException("Enumerator contains no more elements");
         }
     }
 }

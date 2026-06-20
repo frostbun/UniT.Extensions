@@ -33,7 +33,7 @@ namespace UniT.Extensions
         {
             0 => this.Item1,
             1 => this.Item2,
-            _ => throw new IndexOutOfRangeException(),
+            _ => throw new IndexOutOfRangeException($"Index {index} is out of range for a 2-tuple"),
         };
     }
 
@@ -69,7 +69,7 @@ namespace UniT.Extensions
             0 => this.Item1,
             1 => this.Item2,
             2 => this.Item3,
-            _ => throw new IndexOutOfRangeException(),
+            _ => throw new IndexOutOfRangeException($"Index {index} is out of range for a 3-tuple"),
         };
     }
 
@@ -109,7 +109,7 @@ namespace UniT.Extensions
             1 => this.Item2,
             2 => this.Item3,
             3 => this.Item4,
-            _ => throw new IndexOutOfRangeException(),
+            _ => throw new IndexOutOfRangeException($"Index {index} is out of range for a 4-tuple"),
         };
     }
 }
