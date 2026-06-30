@@ -95,214 +95,234 @@ namespace UniT.Extensions
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> Where<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, bool> predicate)
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item1, tuple.Item2)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, predicate) => predicate(tuple.Item1, tuple.Item2), predicate);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> Where<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TState, bool> predicate, TState state) where TState : notnull
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item1, tuple.Item2, state)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, state) => state.predicate(tuple.Item1, tuple.Item2, state.state), (predicate, state));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> Where<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, bool> predicate)
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item1, tuple.Item2, tuple.Item3)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, predicate) => predicate(tuple.Item1, tuple.Item2, tuple.Item3), predicate);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> Where<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TState, bool> predicate, TState state) where TState : notnull
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item1, tuple.Item2, tuple.Item3, state)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, state) => state.predicate(tuple.Item1, tuple.Item2, tuple.Item3, state.state), (predicate, state));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> WhereFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, bool> predicate)
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item1)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, predicate) => predicate(tuple.Item1), predicate);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> WhereFirst<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TState, bool> predicate, TState state) where TState : notnull
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item1, state)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, state) => state.predicate(tuple.Item1, state.state), (predicate, state));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> WhereFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, bool> predicate)
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item1)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, predicate) => predicate(tuple.Item1), predicate);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> WhereFirst<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TState, bool> predicate, TState state) where TState : notnull
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item1, state)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, state) => state.predicate(tuple.Item1, state.state), (predicate, state));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> WhereSecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, bool> predicate)
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item2)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, predicate) => predicate(tuple.Item2), predicate);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond)> WhereSecond<TFirst, TSecond, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TState, bool> predicate, TState state) where TState : notnull
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item2, state)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, state) => state.predicate(tuple.Item2, state.state), (predicate, state));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> WhereSecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, bool> predicate)
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item2)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, predicate) => predicate(tuple.Item2), predicate);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> WhereSecond<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TState, bool> predicate, TState state) where TState : notnull
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item2, state)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, state) => state.predicate(tuple.Item2, state.state), (predicate, state));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> WhereThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, bool> predicate)
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item3)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, predicate) => predicate(tuple.Item3), predicate);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<(TFirst, TSecond, TThird)> WhereThird<TFirst, TSecond, TThird, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TState, bool> predicate, TState state) where TState : notnull
         {
-            foreach (var tuple in tuples)
-            {
-                if (!predicate(tuple.Item3, state)) continue;
-                yield return tuple;
-            }
+            return tuples.Where(static (tuple, state) => state.predicate(tuple.Item3, state.state), (predicate, state));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<TResult> Select<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TResult> selector)
         {
-            foreach (var tuple in tuples)
-            {
-                yield return selector(tuple.Item1, tuple.Item2);
-            }
+            return tuples.Select(static (tuple, selector) => selector(tuple.Item1, tuple.Item2), selector);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<TResult> Select<TFirst, TSecond, TResult, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TSecond, TState, TResult> selector, TState state) where TState : notnull
         {
-            foreach (var tuple in tuples)
-            {
-                yield return selector(tuple.Item1, tuple.Item2, state);
-            }
+            return tuples.Select(static (tuple, state) => state.selector(tuple.Item1, tuple.Item2, state.state), (selector, state));
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<TResult> Select<TFirst, TSecond, TThird, TResult>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TResult> selector)
         {
-            foreach (var tuple in tuples)
-            {
-                yield return selector(tuple.Item1, tuple.Item2, tuple.Item3);
-            }
+            return tuples.Select(static (tuple, selector) => selector(tuple.Item1, tuple.Item2, tuple.Item3), selector);
         }
 
         [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<TResult> Select<TFirst, TSecond, TThird, TResult, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TSecond, TThird, TState, TResult> selector, TState state) where TState : notnull
         {
-            foreach (var tuple in tuples)
-            {
-                yield return selector(tuple.Item1, tuple.Item2, tuple.Item3, state);
-            }
+            return tuples.Select(static (tuple, state) => state.selector(tuple.Item1, tuple.Item2, tuple.Item3, state.state), (selector, state));
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<TFirst> SelectFirsts<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
         {
-            return tuples.Select(tuple => tuple.Item1);
+            return tuples.Select(static tuple => tuple.Item1);
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<TFirst> SelectFirsts<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
         {
-            return tuples.Select(tuple => tuple.Item1);
+            return tuples.Select(static tuple => tuple.Item1);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TResult> SelectFirsts<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TResult> selector)
+        {
+            return tuples.Select(static (tuple, selector) => selector(tuple.Item1), selector);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TResult> SelectFirsts<TFirst, TSecond, TThird, TResult>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TResult> selector)
+        {
+            return tuples.Select(static (tuple, selector) => selector(tuple.Item1), selector);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TResult> SelectFirsts<TFirst, TSecond, TResult, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TFirst, TState, TResult> selector, TState state)
+        {
+            return tuples.Select(static (tuple, state) => state.selector(tuple.Item1, state.state), (selector, state));
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TResult> SelectFirsts<TFirst, TSecond, TThird, TResult, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TFirst, TState, TResult> selector, TState state)
+        {
+            return tuples.Select(static (tuple, state) => state.selector(tuple.Item1, state.state), (selector, state));
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<TSecond> SelectSeconds<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples)
         {
-            return tuples.Select(tuple => tuple.Item2);
+            return tuples.Select(static tuple => tuple.Item2);
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<TSecond> SelectSeconds<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
         {
-            return tuples.Select(tuple => tuple.Item2);
+            return tuples.Select(static tuple => tuple.Item2);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TResult> SelectSeconds<TFirst, TSecond, TResult>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TResult> selector)
+        {
+            return tuples.Select(static (tuple, selector) => selector(tuple.Item2), selector);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TResult> SelectSeconds<TFirst, TSecond, TThird, TResult>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TResult> selector)
+        {
+            return tuples.Select(static (tuple, selector) => selector(tuple.Item2), selector);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TResult> SelectSeconds<TFirst, TSecond, TResult, TState>(this IEnumerable<(TFirst, TSecond)> tuples, Func<TSecond, TState, TResult> selector, TState state)
+        {
+            return tuples.Select(static (tuple, state) => state.selector(tuple.Item2, state.state), (selector, state));
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TResult> SelectSeconds<TFirst, TSecond, TThird, TResult, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TSecond, TState, TResult> selector, TState state)
+        {
+            return tuples.Select(static (tuple, state) => state.selector(tuple.Item2, state.state), (selector, state));
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<TThird> SelectThirds<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples)
         {
-            return tuples.Select(tuple => tuple.Item3);
+            return tuples.Select(static tuple => tuple.Item3);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TResult> SelectThirds<TFirst, TSecond, TThird, TResult>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TResult> selector)
+        {
+            return tuples.Select(static (tuple, selector) => selector(tuple.Item3), selector);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<TResult> SelectThirds<TFirst, TSecond, TThird, TResult, TState>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, Func<TThird, TState, TResult> selector, TState state)
+        {
+            return tuples.Select(static (tuple, state) => state.selector(tuple.Item3, state.state), (selector, state));
         }
 
         [Pure]
@@ -379,14 +399,14 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TFirst, TSecond) MinByFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.MinBy(tuple => tuple.Item1, comparer);
+            return tuples.MinBy(static tuple => tuple.Item1, comparer);
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TFirst, TSecond, TThird) MinByFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.MinBy(tuple => tuple.Item1, comparer);
+            return tuples.MinBy(static tuple => tuple.Item1, comparer);
         }
 
         [Pure]
@@ -407,14 +427,14 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TFirst, TSecond) MinBySecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.MinBy(tuple => tuple.Item2, comparer);
+            return tuples.MinBy(static tuple => tuple.Item2, comparer);
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TFirst, TSecond, TThird) MinBySecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.MinBy(tuple => tuple.Item2, comparer);
+            return tuples.MinBy(static tuple => tuple.Item2, comparer);
         }
 
         [Pure]
@@ -435,7 +455,7 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TFirst, TSecond, TThird) MinByThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TThird>? comparer = null)
         {
-            return tuples.MinBy(tuple => tuple.Item3, comparer);
+            return tuples.MinBy(static tuple => tuple.Item3, comparer);
         }
 
         [Pure]
@@ -463,14 +483,14 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TFirst, TSecond) MaxByFirst<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.MaxBy(tuple => tuple.Item1, comparer);
+            return tuples.MaxBy(static tuple => tuple.Item1, comparer);
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TFirst, TSecond, TThird) MaxByFirst<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TFirst>? comparer = null)
         {
-            return tuples.MaxBy(tuple => tuple.Item1, comparer);
+            return tuples.MaxBy(static tuple => tuple.Item1, comparer);
         }
 
         [Pure]
@@ -491,14 +511,14 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TFirst, TSecond) MaxBySecond<TFirst, TSecond>(this IEnumerable<(TFirst, TSecond)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.MaxBy(tuple => tuple.Item2, comparer);
+            return tuples.MaxBy(static tuple => tuple.Item2, comparer);
         }
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TFirst, TSecond, TThird) MaxBySecond<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TSecond>? comparer = null)
         {
-            return tuples.MaxBy(tuple => tuple.Item2, comparer);
+            return tuples.MaxBy(static tuple => tuple.Item2, comparer);
         }
 
         [Pure]
@@ -519,7 +539,7 @@ namespace UniT.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TFirst, TSecond, TThird) MaxByThird<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> tuples, IComparer<TThird>? comparer = null)
         {
-            return tuples.MaxBy(tuple => tuple.Item3, comparer);
+            return tuples.MaxBy(static tuple => tuple.Item3, comparer);
         }
 
         [Pure]

@@ -74,6 +74,7 @@ namespace UniT.Extensions
             return baseType.IsAssignableFrom(type);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CopyTo(this object from, object to)
         {
             foreach (var field in from.GetType().GetAllFields().Intersect(to.GetType().GetAllFields()))

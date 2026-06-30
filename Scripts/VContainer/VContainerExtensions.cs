@@ -76,7 +76,7 @@ namespace VContainer
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static T LoadResource<T>(string path) where T : Object
         {
-            return Resources.Load<T>(path).NullIfDestroyed() ?? throw new ArgumentOutOfRangeException(nameof(path), path, $"{path} not found in resources");
+            return Resources.Load<T>(path).NullIfDestroyed() ?? throw new KeyNotFoundException($"{path} not found in Resources");
         }
 
         private sealed class Parameter : IInjectParameter

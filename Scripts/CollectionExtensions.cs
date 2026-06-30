@@ -33,6 +33,7 @@ namespace UniT.Extensions
             list.RemoveAt(list.GetRealIndex(index));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void RemoveAtSwapBack<T>(this IList<T> list, Index index)
         {
             var realIndex = list.GetRealIndex(index);
@@ -64,6 +65,7 @@ namespace UniT.Extensions
             return list.GetRange(range.Start, range.End);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void RemoveRange<T>(this IList<T> list, int start, int stop)
         {
             while (stop-- > start) list.RemoveAt(stop);

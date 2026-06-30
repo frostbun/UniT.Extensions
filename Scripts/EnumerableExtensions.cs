@@ -511,18 +511,18 @@ namespace UniT.Extensions
             var collection        = enumerable as ICollection<T> ?? enumerable.ToArray();
             var weightsCollection = weights as ICollection<int> ?? weights.ToArray();
             var sumWeight         = weightsCollection.Sum();
-            var chosenIndices     = new HashSet<int>();
+            var isItemUsed        = new bool[collection.Count];
             while (count-- > 0)
             {
                 if (sumWeight <= 0) break;
                 var randomWeight = UnityEngine.Random.Range(0, sumWeight);
                 foreach (var (index, (item, weight)) in IterTools.Zip(collection, weightsCollection).Enumerate())
                 {
-                    if (chosenIndices.Contains(index)) continue;
+                    if (isItemUsed[index]) continue;
                     if ((randomWeight -= weight) >= 0) continue;
                     yield return item;
-                    sumWeight -= weight;
-                    chosenIndices.Add(index);
+                    sumWeight         -= weight;
+                    isItemUsed[index] =  true;
                     break;
                 }
             }
@@ -534,18 +534,18 @@ namespace UniT.Extensions
             var collection        = enumerable as ICollection<T> ?? enumerable.ToArray();
             var weightsCollection = weights as ICollection<float> ?? weights.ToArray();
             var sumWeight         = weightsCollection.Sum();
-            var chosenIndices     = new HashSet<int>();
+            var isItemUsed        = new bool[collection.Count];
             while (count-- > 0)
             {
                 if (sumWeight <= 0) break;
                 var randomWeight = UnityEngine.Random.Range(0, sumWeight);
                 foreach (var (index, (item, weight)) in IterTools.Zip(collection, weightsCollection).Enumerate())
                 {
-                    if (chosenIndices.Contains(index)) continue;
+                    if (isItemUsed[index]) continue;
                     if ((randomWeight -= weight) >= 0) continue;
                     yield return item;
-                    sumWeight -= weight;
-                    chosenIndices.Add(index);
+                    sumWeight         -= weight;
+                    isItemUsed[index] =  true;
                     break;
                 }
             }
